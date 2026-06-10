@@ -42,7 +42,7 @@ body{
 #socials{
     position:absolute;
 
-    top:28%;
+    top:170px;
 
     width:100%;
 
@@ -52,9 +52,7 @@ body{
 
     opacity:0;
 
-    pointer-events:none;
-
-    transition:.7s ease;
+    transition:.6s;
 }
 
 #socials.show{
