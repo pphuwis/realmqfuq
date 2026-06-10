@@ -1,26 +1,37 @@
+ไฟล์ index.html
+
+<!DOCTYPE html>
+<html>
 <head>
-
-    <meta charset="UTF-8">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link rel="stylesheet" href="style.css">
-<div id="bg"></div>
-
-
-
-    <img src="5da9c2f8f15d3fc773dd98a23e4ae54b.png" class="profile">
-
-    <div class="title">
-        [ REALMAFUQ ]
-    </div>
-
-    <div class="desc">
-        nothing about me &lt;3
-    </div>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>REALMAFUQ</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="loading-screen">
+    <div id="loading-text">Loading 0%</div>
 </div>
-
-
+<div id="overlay">
+    <div>Tap to Continue</div>
+</div>
+<div id="particles"></div>
+<div id="bg"></div>
+<div id="profile-section">
+    <img
+        class="profile"
+        src="https://raw.githubusercontent.com/pphuwis/realmqfuq/refs/heads/index/5da9c2f8f15d3fc773dd98a23e4ae54b.png"
+    >
+    <h1 class="title">
+        <span id="typing"></span>
+    </h1>
+    <p class="desc">
+        nothing about me &lt;3
+    </p>
+</div>
+<audio id="music" loop>
+    <source src="music.mp3" type="audio/mpeg">
+</audio>
 <script src="script.js"></script>
 </body>
+</html>
