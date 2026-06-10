@@ -1,6 +1,7 @@
 console.log("script loaded");
 const arrow = document.getElementById("arrow");
 
+profileSection.style.top = "10%";
 arrow.onclick = ()=>{
 
     document
@@ -57,5 +58,6 @@ fetch(
 "https://upload.wikimedia.org/wikipedia/commons/7/7e/Roblox_Logo_2022.jpg";
     
 data.data[0].imageUrl;
+
 
 });
