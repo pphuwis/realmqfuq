@@ -47,3 +47,16 @@ fetch(
     data.data.discord_status;
 
 });
+fetch(
+`https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${ROBLOX_ID}&size=150x150&format=Png`
+)
+.then(res => res.json())
+.then(data => {
+
+    document.getElementById("roblox-status")
+.innerText =
+"View Profile";
+    .src =
+    data.data[0].imageUrl;
+
+});
