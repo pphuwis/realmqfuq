@@ -4,29 +4,13 @@ const arrow = document.getElementById("arrow");
 profileSection.style.top = "10%";
 arrow.onclick = ()=>{
 
-    document
-    .getElementById("profile-section")
-    .style.top = "14%";
+    profileSection.style.top = "12%";
 
-    document
-    .querySelector(".profile")
-    .style.transform =
-    "scale(.8)";
-
-    document
-    .querySelector(".title")
-    .style.opacity = "0";
-
-    document
-    .querySelector(".desc")
-    .style.opacity = "0";
+    document.querySelector(".title").style.opacity = "0";
+    document.querySelector(".desc").style.opacity = "0";
 
     setTimeout(()=>{
-
-        document
-        .getElementById("socials")
-        .classList.add("show");
-
+        socials.classList.add("show");
     },300);
 
 }
