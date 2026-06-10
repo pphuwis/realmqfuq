@@ -108,3 +108,11 @@ body{
 
     text-align:center;
 }
+html,
+body{
+    overflow:hidden;
+}
+
+*{
+    box-sizing:border-box;
+}
