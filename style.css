@@ -40,10 +40,6 @@ body{
 
 /* Profile */
 
-#profile-section{
-    transition:.6s ease;
-}
-
 #profile-section.move-up{
     top:18%;
 }
@@ -51,16 +47,19 @@ body{
 #profile-section{
     position:absolute;
 
-    left:50%;
     top:38%;
+    left:50%;
 
     transform:translate(-50%,-50%);
 
-    width:100%;
+    width:90%;
 
     display:flex;
     flex-direction:column;
     align-items:center;
+    justify-content:center;
+
+    text-align:center;
 }
 
 /* Avatar */
