@@ -56,6 +56,6 @@ fetch(
     document.getElementById("roblox-avatar").src =
 "https://upload.wikimedia.org/wikipedia/commons/7/7e/Roblox_Logo_2022.jpg";
     
-
+data.data[0].imageUrl;
 
 });
