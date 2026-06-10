@@ -1,3 +1,4 @@
+console.log("script loaded");
 const arrow = document.getElementById("arrow");
 const socials = document.getElementById("socials");
 const profile = document.getElementById("profile-section");
