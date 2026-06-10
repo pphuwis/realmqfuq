@@ -1,17 +1,11 @@
-document.getElementById("arrow").onclick = ()=>{
+const arrow = document.getElementById("arrow");
+const socials = document.getElementById("socials");
+const profile = document.getElementById("profile-section");
 
-    document.querySelector(".profile").style.transform =
-    "scale(.85)";
+arrow.addEventListener("click", () => {
 
-    document.getElementById("profile-section")
-    .style.top = "18%";
+    profile.classList.add("move-up");
 
-    document.querySelector(".title")
-    .style.opacity = "0";
+    socials.classList.add("show");
 
-    document.querySelector(".desc")
-    .style.opacity = "0";
-
-    document.getElementById("socials")
-    .classList.add("show");
-};
+});
