@@ -40,19 +40,80 @@ body{
 
 /* Profile */
 #socials{
-    opacity:0;
-    transform:translateY(50px);
+    position:absolute;
 
-    transition:.6s ease;
+    top:28%;
+
+    width:100%;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+
+    opacity:0;
 
     pointer-events:none;
+
+    transition:.7s ease;
 }
 
 #socials.show{
     opacity:1;
-    transform:translateY(0);
-
     pointer-events:auto;
+}
+
+.social-card{
+
+    width:88vw;
+    max-width:500px;
+
+    height:85px;
+
+    margin:10px;
+
+    border-radius:18px;
+
+    background:
+    rgba(255,255,255,.05);
+
+    backdrop-filter:blur(12px);
+
+    display:flex;
+    align-items:center;
+
+    padding:0 18px;
+
+    text-decoration:none;
+    color:white;
+
+    transition:.25s;
+}
+
+.social-card:hover{
+    transform:scale(1.02);
+}
+
+.social-card img{
+    width:48px;
+    height:48px;
+
+    border-radius:12px;
+}
+
+.social-info{
+    margin-left:15px;
+
+    display:flex;
+    flex-direction:column;
+}
+
+.social-info span{
+    font-size:18px;
+    font-weight:700;
+}
+
+.social-info small{
+    color:#aaa;
 }
 
 #profile-section{
