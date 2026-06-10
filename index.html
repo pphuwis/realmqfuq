@@ -521,18 +521,18 @@ textarea.finput{resize:vertical;min-height:70px;line-height:1.5;}
 const STORE_KEY = 'bio_v2';
 
 const DEFAULT_CFG = {
-  name: 'USERNAME',
-  desc: 'description text here',
-  avatar: '',
-  bg: '',
+  name: '[ REALMAFUQ ]',
+  desc: '',
+  avatar: 'https://raw.githubusercontent.com/pphuwis/realmqfuq/refs/heads/index/5da9c2f8f15d3fc773dd98a23e4ae54b.png',
+  bg: 'https://raw.githubusercontent.com/pphuwis/realmqfuq/refs/heads/index/IMG_1690.jpeg',
   musicUrl: '',
   musicTitle: 'No music',
-  glowColor: '#a78bfa',
-  typeSpeed: 80,
-  password: '',
+  glowColor: '#ffffff',
+  typeSpeed: 200,
+  password: '11111111',
   socials: [
-    { id: 1, icon: '💬', name: 'Discord', url: '#', color: '#5865f2', statusType: 'discord', statusId: '' },
-    { id: 2, icon: '🎮', name: 'Roblox', url: '#', color: '#e2373b', statusType: 'roblox', statusId: '' }
+    { id: 1, icon: '💬', name: 'Discord', url: 'https://discord.com/users/999990259829981205', color: '#5865f2', statusType: 'discord', statusId: '999990259829981205' },
+    { id: 2, icon: '🎮', name: 'Roblox',  url: 'https://www.roblox.com/users/1726185250/profile', color: '#e2373b', statusType: 'roblox',  statusId: '1726185250' }
   ]
 };
 
@@ -543,9 +543,16 @@ let typingTimer = null;
 let adminUnlocked = false;
 
 function load() {
-  try { cfg = { ...DEFAULT_CFG, ...JSON.parse(localStorage.getItem(STORE_KEY) || '{}') }; }
-  catch(e) { cfg = { ...DEFAULT_CFG }; }
-  if (!Array.isArray(cfg.socials)) cfg.socials = DEFAULT_CFG.socials;
+  // Always start from DEFAULT_CFG so every browser shows the same content.
+  // localStorage is only used to persist admin edits on the same browser.
+  try {
+    const saved = JSON.parse(localStorage.getItem(STORE_KEY) || '{}');
+    // Only carry over fields that were explicitly saved via admin panel
+    cfg = { ...DEFAULT_CFG };
+    const fields = ['name','desc','avatar','bg','musicUrl','musicTitle','glowColor','typeSpeed','password','socials'];
+    fields.forEach(k => { if (saved[k] !== undefined) cfg[k] = saved[k]; });
+  } catch(e) { cfg = { ...DEFAULT_CFG }; }
+  if (!Array.isArray(cfg.socials) || cfg.socials.length === 0) cfg.socials = DEFAULT_CFG.socials;
 }
 function save() { localStorage.setItem(STORE_KEY, JSON.stringify(cfg)); }
 
