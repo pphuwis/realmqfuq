@@ -39,6 +39,30 @@ body{
 }
 
 /* Profile */
+#socials{
+    opacity:0;
+    transform:translateY(50px);
+
+    transition:.6s ease;
+
+    pointer-events:none;
+}
+
+#socials.show{
+    opacity:1;
+    transform:translateY(0);
+
+    pointer-events:auto;
+}
+
+#profile-section{
+    transition:.6s ease;
+}
+
+#profile-section.move-up{
+    top:18%;
+}
+
 #profile-section{
     position:absolute;
 
