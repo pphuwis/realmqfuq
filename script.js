@@ -53,8 +53,9 @@ fetch(
 .then(res => res.json())
 .then(data => {
 
-    document.getElementById("roblox-status")
-    .src =
-    data.data[0].imageUrl;
+    document.getElementById("roblox-avatar").src =
+"https://upload.wikimedia.org/wikipedia/commons/7/7e/Roblox_Logo_2022.jpg";
+    
+
 
 });
