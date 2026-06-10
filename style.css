@@ -4,114 +4,127 @@ html,body{
     width:100%;
     height:100%;
     overflow:hidden;
-    font-family:sans-serif;
+    font-family:'Inter',sans-serif;
 }
 
 body{
     background:#000;
 }
 
-/* พื้นหลัง */
+/* Background */
 #bg{
     position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
+    inset:0;
 
     background:url("IMG_1690.jpeg");
     background-size:cover;
     background-position:center;
 
-    filter:blur(6px);
-    transform:scale(1.08);
+    filter:blur(2px);
+    transform:scale(1.05);
 
     z-index:-2;
 }
 
 #bg::after{
     content:"";
-
     position:absolute;
     inset:0;
 
-    background:rgba(0,0,0,.45);
-
-    z-index:-1;
+    background:
+    linear-gradient(
+        rgba(0,0,0,.55),
+        rgba(0,0,0,.70)
+    );
 }
 
-/* กลางจอ */
+/* Profile */
 #profile-section{
     position:absolute;
 
-    top:42%;
     left:50%;
+    top:38%;
 
     transform:translate(-50%,-50%);
+
+    width:100%;
 
     display:flex;
     flex-direction:column;
     align-items:center;
-
-    width:100%;
 }
 
-/* โปรไฟล์ */
+/* Avatar */
 .profile{
-    width:150px;
-    height:150px;
+    width:190px;
+    height:190px;
 
     border-radius:50%;
     object-fit:cover;
 
     box-shadow:
-    0 0 25px rgba(255,255,255,.15);
+    0 0 25px rgba(255,255,255,.08),
+    0 0 60px rgba(255,255,255,.05);
+
+    transition:.4s;
 }
 
-/* ชื่อ */
+.profile:hover{
+    transform:scale(1.03);
+}
+
+/* Name */
 .title{
+    margin-top:22px;
+
     color:white;
 
-    font-size:34px;
-    font-weight:800;
+    font-size:42px;
+    font-weight:900;
 
-    margin-top:20px;
+    letter-spacing:1px;
+
+    text-shadow:
+    0 0 20px rgba(255,255,255,.15);
 }
 
-/* คำอธิบาย */
+/* Bio */
 .desc{
-    color:#c7c7c7;
+    margin-top:12px;
 
-    font-size:17px;
+    color:#bdbdbd;
 
-    margin-top:10px;
+    font-size:18px;
 }
 
-/* ลูกศร */
+/* Arrow */
 #arrow{
     position:fixed;
 
-    bottom:50px;
-
+    bottom:35px;
     left:50%;
 
     transform:translateX(-50%);
 
     color:white;
 
-    font-size:28px;
+    font-size:34px;
 
     cursor:pointer;
 
-    animation:bounce 1.5s infinite;
+    animation:bounce 1.6s infinite;
 }
 
 @keyframes bounce{
     0%,100%{
-        transform:translateX(-50%);
+        transform:
+        translateX(-50%)
+        translateY(0);
     }
 
     50%{
-        transform:translateX(-50%) translateY(8px);
+        transform:
+        translateX(-50%)
+        translateY(8px);
     }
 }
