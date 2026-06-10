@@ -54,8 +54,6 @@ fetch(
 .then(data => {
 
     document.getElementById("roblox-status")
-.innerText =
-"View Profile";
     .src =
     data.data[0].imageUrl;
 
