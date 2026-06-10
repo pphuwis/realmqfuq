@@ -29,3 +29,21 @@ arrow.onclick = ()=>{
     },300);
 
 }
+
+const DISCORD_ID = "999990259829981205";
+const ROBLOX_ID = "1726185250";
+
+document.getElementById("discord-icon").src =
+"https://cdn-icons-png.flaticon.com/512/2111/2111370.png";
+
+fetch(
+`https://api.lanyard.rest/v1/users/${DISCORD_ID}`
+)
+.then(res => res.json())
+.then(data => {
+
+    document.getElementById("discord-status")
+    .innerText =
+    data.data.discord_status;
+
+});
