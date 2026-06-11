@@ -183,8 +183,8 @@ const DEFAULT_CFG={
   socials:[
     {id:1,preset:'discord',name:'Discord',url:'https://discord.com/users/999990259829981205',color:'#5865f2',statusType:'discord',statusId:'999990259829981205'},
     {id:2,preset:'roblox',name:'Roblox',url:'https://www.roblox.com/users/1726185250/profile',color:'#e2373b',statusType:'roblox',statusId:'1726185250'},
-    {id:3,preset:'instagram',name:'Instagram',url:'https://www.instagram.com/sswalnn',color:'#C13584',statusType:'',statusId:''},
-    {id:4,preset:'facebook',name:'Facebook',url:'https://www.facebook.com/share/1KjhqamEyf/?mibextid=wwXIfr',color:'#0b3df9',statusType:'',statusId:''}
+    {id:3,preset:'instagram',name:'Instagram',subtitle:'sswalnn',url:'https://www.instagram.com/sswalnn',color:'#C13584',statusType:'',statusId:''},
+    {id:4,preset:'facebook',name:'Facebook',subtitle:'Amfia Eiei',url:'https://www.facebook.com/share/1KjhqamEyf/?mibextid=wwXIfr',color:'#0b3df9',statusType:'',statusId:''}
   ]
 };
 let cfg={}, musicPlaying=false, socialRevealed=false, typingTimer=null;
@@ -572,7 +572,7 @@ function buildSocialCards(){
 
 function buildPlaceholder(soc){
   const hasStatus=soc.statusType&&soc.statusId;
-  return `<a class="scard" href="${escHtml(soc.url||'#')}" target="_blank" rel="noopener">${socIconHtml(soc)}<div class="scard-info"><div class="scard-name">${escHtml(soc.name)}</div><div class="scard-sub">${hasStatus?'<span class="dot dot-load"></span><span>กำลังโหลด...</span>':`<span>${escHtml(soc.url||'')}</span>`}</div></div><div class="scard-arr">›</div></a>`;
+  return `<a class="scard" href="${escHtml(soc.url||'#')}" target="_blank" rel="noopener">${socIconHtml(soc)}<div class="scard-info"><div class="scard-name">${escHtml(soc.name)}</div><div class="scard-sub">${hasStatus?'<span class="dot dot-load"></span><span>กำลังโหลด...</span>':`<span>${escHtml(soc.subtitle || soc.url || '')}</span>`}</div></div><div class="scard-arr">›</div></a>`;
 }
 
 function buildRobloxCard(soc,d){
