@@ -520,38 +520,28 @@ const controller = new AbortController();
 
 
 async function fetchRobloxRich(soc){
-  const uid=soc.statusId; if(!uid)return null;
-  if(rblxCache[uid]&&rblxCache[uid]._ts&&Date.now()-rblxCache[uid]._ts<28000)return rblxCache[uid];
+  const uid = soc.statusId;
+  if(!uid) return null;
+
   try{
-    // parallel fetch user info + thumbnail
-    const [uRes,tRes]=await Promise.all([
-      safeGet(`https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${uid}&size=150x150&format=Png&isCircular=false`)
-    ]);
-    const r = await fetch(`/api/roblox?id=${uid}`);
-    const d = await r.json();
-    if(!uRes)return rblxCache[uid]||null;
-    const uData=await uRes.json();
-    const tData=tRes?await tRes.json():{};
-    const thumb=tData.data?.[0]?.imageUrl||'';
-    let friends=0,followers=0,presType=0,lastLocation='',placeName='';
-    // friends count
-    try{const r=await safeGet(`https://friends.roblox.com/v1/users/${uid}/friends/count`);if(r){const d=await r.json();friends=d.count||0;}}catch{}
-    // followers count
-    try{const r=await safeGet(`https://friends.roblox.com/v1/users/${uid}/followers/count`);if(r){const d=await r.json();followers=d.count||0;}}catch{}
-    // presence
-    try{
-      const r=await safeGet(`https://presence.roblox.com/v1/presence/users`);
-      // presence requires POST — use proxy only
-      const presRes=await fetch(CORS+encodeURIComponent('https://presence.roblox.com/v1/presence/users'),{
-        method:'POST',headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({userIds:[parseInt(uid)]}),
-        signal:AbortSignal.timeout(6000)
-      });
-      if(presRes.ok){const d=await presRes.json();const p=d.userPresences?.[0];presType=p?.userPresenceType??0;lastLocation=p?.lastLocation||'';}
-    }catch{}
-    const result={displayName:uData.displayName||uData.name||'Unknown',username:uData.name||'',thumb,friends,followers,presType,lastLocation,_ts:Date.now()};
-    rblxCache[uid]=result; return result;
-  }catch(e){console.warn('Roblox fetch err',e);return rblxCache[uid]||null;}
+    const res = await fetch(`/api/roblox?id=${uid}`);
+    if(!res.ok) return null;
+
+    const d = await res.json();
+
+    return {
+      displayName: d.displayName,
+      username: d.username,
+      thumb: d.avatar,
+      friends: d.friends,
+      followers: d.followers,
+      presType: 0,
+      lastLocation: ''
+    };
+  }catch(err){
+    console.error(err);
+    return null;
+  }
 }
 
 async function fetchDiscordRich(soc){
