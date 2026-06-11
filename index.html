@@ -516,22 +516,8 @@ function socIconHtml(soc){
 // ROBLOX RICH — slat.cc style with CORS proxy
 // ══════════════════════════════════════════════
 // Use corsproxy.io to bypass CORS issues from browser
-const CORS='https://corsproxy.io/?url=';
 const controller = new AbortController();
 
-async function safeGet(url){
-  // try direct first, fallback to proxy
-  try{
-      setTimeout(() => {controller.abort();},5000);
-      fetch(url,{signal:controller.signal});
-    if(r.ok)return r;
-  }catch{}
-  try{
-    const r=await fetch(CORS+encodeURIComponent(url),{signal:AbortSignal.timeout(7000)});
-    if(r.ok)return r;
-  }catch{}
-  return null;
-}
 
 async function fetchRobloxRich(soc){
   const uid=soc.statusId; if(!uid)return null;
