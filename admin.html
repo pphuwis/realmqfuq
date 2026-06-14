@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Admin — Bio</title>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--bg:#0a0a0a;--card:rgba(255,255,255,.05);--border:rgba(255,255,255,.09);--accent:#a78bfa;--danger:#ef4444;--success:#22c55e;}
+html,body{min-height:100%;font-family:'Kanit',sans-serif;background:var(--bg);color:#e5e5e5;-webkit-tap-highlight-color:transparent;}
+
+/* LOGIN */
+#login-wrap{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:var(--bg);z-index:100;}
+#login-box{width:min(360px,90vw);padding:40px 32px;background:var(--card);border:1px solid var(--border);border-radius:20px;display:flex;flex-direction:column;align-items:center;gap:20px;}
+.login-title{font-size:20px;font-weight:700;letter-spacing:.05em;}
+.login-sub{font-size:12px;color:rgba(255,255,255,.35);letter-spacing:.1em;}
+
+/* APP */
+#app{display:none;max-width:520px;margin:0 auto;padding:24px 16px 80px;}
+.top-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;}
+.top-bar h1{font-size:18px;font-weight:700;letter-spacing:.04em;}
+.btn-logout{font-size:11px;letter-spacing:.1em;color:rgba(255,255,255,.35);background:none;border:1px solid var(--border);border-radius:20px;padding:5px 14px;cursor:pointer;font-family:'Kanit',sans-serif;}
+.btn-logout:active{color:#fff;}
+
+/* SECTIONS */
+.section{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:14px;}
+.section-title{font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:16px;}
+
+/* FORM ELEMENTS */
+.field{margin-bottom:12px;}
+.field label{display:block;font-size:11px;letter-spacing:.1em;color:rgba(255,255,255,.4);margin-bottom:5px;text-transform:uppercase;}
+.field input,.field select,.field textarea{width:100%;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:10px;padding:10px 12px;color:#fff;font-family:'Kanit',sans-serif;font-size:13px;outline:none;transition:border .2s;}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent);}
+.field textarea{min-height:70px;resize:vertical;}
+.field select option{background:#1a1a1a;}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+
+/* COLOR ROW */
+.color-row{display:flex;align-items:center;gap:10px;}
+.color-row input[type=color]{width:44px;height:36px;border:1px solid var(--border);border-radius:8px;background:none;cursor:pointer;padding:2px;}
+.color-row input[type=text]{flex:1;}
+
+/* BUTTONS */
+.btn{width:100%;padding:13px;border-radius:12px;border:none;font-family:'Kanit',sans-serif;font-size:14px;font-weight:600;cursor:pointer;letter-spacing:.04em;transition:opacity .2s,transform .1s;}
+.btn:active{transform:scale(.97);}
+.btn-primary{background:var(--accent);color:#fff;}
+.btn-primary:disabled{opacity:.45;cursor:not-allowed;}
+.btn-danger{background:var(--danger);color:#fff;margin-top:6px;}
+.btn-sm{width:auto;padding:7px 14px;font-size:12px;border-radius:9px;}
+.btn-add{background:rgba(255,255,255,.07);color:rgba(255,255,255,.7);border:1px dashed var(--border);margin-top:8px;}
+
+/* SOCIAL CARDS IN ADMIN */
+.social-item{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px;}
+.social-item-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.social-item-title{font-size:13px;font-weight:600;}
+.btn-del{background:var(--danger);color:#fff;border:none;border-radius:7px;padding:4px 11px;font-size:11px;cursor:pointer;font-family:'Kanit',sans-serif;}
+
+/* STATUS */
+#save-status{text-align:center;font-size:12px;letter-spacing:.08em;margin-top:12px;height:18px;transition:opacity .3s;}
+.st-ok{color:var(--success);}
+.st-err{color:var(--danger);}
+
+/* INPUT FIELD */
+input[type=range]{width:100%;accent-color:var(--accent);}
+.range-val{font-size:12px;color:var(--accent);text-align:right;margin-top:2px;}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-wrap">
+  <div id="login-box">
+    <div class="login-title">🔐 Admin</div>
+    <div class="login-sub">Enter Password</div>
+    <div class="field" style="width:100%;margin:0">
+      <input type="password" id="pw-input" placeholder="Password..." style="width:100%">
+    </div>
+    <button class="btn btn-primary" style="width:100%" onclick="doLogin()">เข้าสู่ระบบ</button>
+    <div id="login-err" style="font-size:12px;color:#ef4444;height:16px;"></div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <div class="top-bar">
+    <h1>⚙️ Bio Admin</h1>
+    <button class="btn-logout" onclick="doLogout()">ออกจากระบบ</button>
+  </div>
+
+  <!-- PROFILE -->
+  <div class="section">
+    <div class="section-title">👤 Profile</div>
+    <div class="field"><label>ชื่อ</label><input type="text" id="f-name"></div>
+    <div class="field"><label>คำอธิบาย</label><textarea id="f-description"></textarea></div>
+    <div class="field"><label>รูปโปรไฟล์ (URL)</label><input type="text" id="f-avatar" placeholder="https://..."></div>
+    <div class="field"><label>รูปพื้นหลัง (URL)</label><input type="text" id="f-bg" placeholder="https://..."></div>
+  </div>
+
+  <!-- APPEARANCE -->
+  <div class="section">
+    <div class="section-title">🎨 ดีไซน์</div>
+    <div class="field">
+      <label>สี Glow</label>
+      <div class="color-row">
+        <input type="color" id="f-glow-picker" oninput="document.getElementById('f-glow').value=this.value">
+        <input type="text" id="f-glow" placeholder="#686766" oninput="this.previousElementSibling.value=this.value">
+      </div>
+    </div>
+    <div class="row2">
+      <div class="field">
+        <label>ความเบลอพื้นหลัง (px)</label>
+        <input type="range" id="f-blur" min="0" max="20" step="1" oninput="document.getElementById('blur-val').textContent=this.value+'px'">
+        <div class="range-val" id="blur-val">7px</div>
+      </div>
+      <div class="field">
+        <label>ความมืดพื้นหลัง (%)</label>
+        <input type="range" id="f-bright" min="5" max="80" step="5" oninput="document.getElementById('bright-val').textContent=this.value+'%'">
+        <div class="range-val" id="bright-val">30%</div>
+      </div>
+    </div>
+    <div class="row2">
+      <div class="field">
+        <label>Overlay Effect</label>
+        <select id="f-overlay">
+          <option value="none">None</option>
+          <option value="meteors">☄️ Meteors</option>
+          <option value="snow">❄️ Snow</option>
+          <option value="bubbles">🫧 Bubbles</option>
+          <option value="matrix">🟩 Matrix</option>
+          <option value="fireflies">✨ Fireflies</option>
+          <option value="aurora">🌌 Aurora</option>
+          <option value="sakura">🌸 Sakura</option>
+          <option value="glitch">⚡ Glitch</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>ความเร็วพิมพ์ชื่อ (ms)</label>
+        <input type="number" id="f-typespeed" min="50" max="500" step="10">
+      </div>
+    </div>
+    <div class="field">
+      <label>เวลา Loading (วินาที)</label>
+      <input type="number" id="f-loaddur" min="1" max="10" step="1">
+    </div>
+  </div>
+
+  <!-- MUSIC -->
+  <div class="section">
+    <div class="section-title">🎵 เพลง</div>
+    <div class="field"><label>URL เพลง (mp3)</label><input type="text" id="f-music-url" placeholder="https://..."></div>
+    <div class="field"><label>ชื่อเพลง</label><input type="text" id="f-music-title" placeholder="Song - Artist"></div>
+  </div>
+
+  <!-- SOCIAL CARDS -->
+  <div class="section">
+    <div class="section-title">🔗 Social Cards</div>
+    <div id="socials-editor"></div>
+    <button class="btn btn-add" onclick="addSocial()">+ เพิ่ม Card</button>
+  </div>
+
+  <button class="btn btn-primary" id="save-btn" onclick="saveAll()">💾 บันทึกทั้งหมด</button>
+  <div id="save-status"></div>
+</div>
+
+<script>
+const SB_URL = 'https://qzjlbyjlkeqnknkeqdom.supabase.co';
+const SB_KEY = 'sb_publishable_wLXHjAzQjH5h-yK0gpzmyA_0GC5Sdwi';
+
+// ── Supabase helpers ──
+async function sbGet(table, q='') {
+  const r = await fetch(`${SB_URL}/rest/v1/${table}${q}`, { headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}` } });
+  return r.ok ? r.json() : null;
+}
+async function sbUpsert(table, data) {
+  const r = await fetch(`${SB_URL}/rest/v1/${table}`, {
+    method: 'POST',
+    headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}`, 'Content-Type': 'application/json', Prefer: 'resolution=merge-duplicates' },
+    body: JSON.stringify(data)
+  });
+  return r.ok;
+}
+async function sbDelete(table, q) {
+  const r = await fetch(`${SB_URL}/rest/v1/${table}${q}`, {
+    method: 'DELETE',
+    headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}` }
+  });
+  return r.ok;
+}
+async function sbUpdate(table, q, data) {
+  const r = await fetch(`${SB_URL}/rest/v1/${table}${q}`, {
+    method: 'PATCH',
+    headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  });
+  return r.ok;
+}
+
+// ── Login ──
+let adminPass = '';
+async function doLogin() {
+  const pw = document.getElementById('pw-input').value.trim();
+  const cfg = await sbGet('bio_config', '?id=eq.main&select=admin_password&limit=1');
+  if (!cfg || !cfg[0]) { document.getElementById('login-err').textContent = 'ไม่สามารถเชื่อมต่อ Supabase ได้'; return; }
+  if (pw !== cfg[0].admin_password) { document.getElementById('login-err').textContent = 'รหัสผ่านไม่ถูกต้อง'; return; }
+  adminPass = pw;
+  sessionStorage.setItem('admin_ok', '1');
+  document.getElementById('login-wrap').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  await loadData();
+}
+document.getElementById('pw-input').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+
+function doLogout() { sessionStorage.removeItem('admin_ok'); location.reload(); }
+
+// ── Load data ──
+let socData = [];
+async function loadData() {
+  const [cfg, socs] = await Promise.all([
+    sbGet('bio_config', '?id=eq.main&limit=1'),
+    sbGet('bio_socials', '?order=sort_order.asc')
+  ]);
+  if (cfg && cfg[0]) fillForm(cfg[0]);
+  if (socs) { socData = socs; renderSocials(); }
+}
+
+function fillForm(c) {
+  document.getElementById('f-name').value = c.name || '';
+  document.getElementById('f-description').value = c.description || '';
+  document.getElementById('f-avatar').value = c.avatar || '';
+  document.getElementById('f-bg').value = c.bg || '';
+  document.getElementById('f-glow').value = c.glow_color || '#686766';
+  document.getElementById('f-glow-picker').value = c.glow_color || '#686766';
+  document.getElementById('f-blur').value = c.bg_blur ?? 7;
+  document.getElementById('blur-val').textContent = (c.bg_blur ?? 7) + 'px';
+  document.getElementById('f-bright').value = c.bg_brightness ?? 30;
+  document.getElementById('bright-val').textContent = (c.bg_brightness ?? 30) + '%';
+  document.getElementById('f-overlay').value = c.overlay || 'snow';
+  document.getElementById('f-typespeed').value = c.type_speed ?? 200;
+  document.getElementById('f-loaddur').value = c.load_duration ?? 3;
+  document.getElementById('f-music-url').value = c.music_url || '';
+  document.getElementById('f-music-title').value = c.music_title || '';
+}
+
+// ── Social Editor ──
+const PRESETS = ['discord','roblox','instagram','facebook','twitter','tiktok','youtube','github','spotify','line','twitch'];
+
+function renderSocials() {
+  const el = document.getElementById('socials-editor');
+  el.innerHTML = '';
+  socData.forEach((s, i) => {
+    const div = document.createElement('div');
+    div.className = 'social-item';
+    div.innerHTML = `
+      <div class="social-item-header">
+        <div class="social-item-title">#${i+1} ${s.name||'Card'}</div>
+        <button class="btn-del" onclick="deleteSocial(${s.id})">ลบ</button>
+      </div>
+      <div class="row2">
+        <div class="field"><label>Platform</label>
+          <select onchange="socData[${i}].preset=this.value;socData[${i}].name=this.value.charAt(0).toUpperCase()+this.value.slice(1);renderSocials();">
+            ${PRESETS.map(p=>`<option value="${p}"${s.preset===p?' selected':''}>${p.charAt(0).toUpperCase()+p.slice(1)}</option>`).join('')}
+          </select>
+        </div>
+        <div class="field"><label>ชื่อที่แสดง</label><input type="text" value="${esc(s.name||'')}" oninput="socData[${i}].name=this.value"></div>
+      </div>
+      <div class="field"><label>URL</label><input type="text" value="${esc(s.url||'')}" oninput="socData[${i}].url=this.value" placeholder="https://..."></div>
+      <div class="field"><label>Subtitle (ถ้าไม่มี status)</label><input type="text" value="${esc(s.subtitle||'')}" oninput="socData[${i}].subtitle=this.value" placeholder="@username หรือ URL..."></div>
+      <div class="row2">
+        <div class="field"><label>Status Type</label>
+          <select onchange="socData[${i}].status_type=this.value">
+            <option value=""${!s.status_type?' selected':''}>ไม่มี</option>
+            <option value="discord"${s.status_type==='discord'?' selected':''}>Discord</option>
+            <option value="roblox"${s.status_type==='roblox'?' selected':''}>Roblox</option>
+          </select>
+        </div>
+        <div class="field"><label>Status ID</label><input type="text" value="${esc(s.status_id||'')}" oninput="socData[${i}].status_id=this.value" placeholder="User ID..."></div>
+      </div>
+      <div class="row2">
+        <div class="field"><label>สี</label>
+          <div class="color-row">
+            <input type="color" value="${esc(s.color||'#888')}" oninput="socData[${i}].color=this.value;this.nextElementSibling.value=this.value">
+            <input type="text" value="${esc(s.color||'#888')}" oninput="socData[${i}].color=this.value;this.previousElementSibling.value=this.value">
+          </div>
+        </div>
+        <div class="field"><label>ลำดับ</label><input type="number" value="${s.sort_order||0}" oninput="socData[${i}].sort_order=parseInt(this.value)||0"></div>
+      </div>
+    `;
+    el.appendChild(div);
+  });
+}
+
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);}
+
+function addSocial() {
+  socData.push({ id: null, preset:'instagram', name:'Instagram', url:'', subtitle:'', color:'#C13584', status_type:'', status_id:'', sort_order: socData.length, active: true });
+  renderSocials();
+  setTimeout(() => document.getElementById('socials-editor').lastElementChild?.scrollIntoView({ behavior:'smooth' }), 100);
+}
+
+async function deleteSocial(id) {
+  if (!id) { socData = socData.filter(s => s.id !== null || s.id !== id); renderSocials(); return; }
+  if (!confirm('ลบ card นี้?')) return;
+  await sbDelete('bio_socials', `?id=eq.${id}`);
+  socData = socData.filter(s => s.id !== id);
+  renderSocials();
+}
+
+// ── Save ──
+async function saveAll() {
+  const btn = document.getElementById('save-btn');
+  const st = document.getElementById('save-status');
+  btn.disabled = true; btn.textContent = 'กำลังบันทึก...';
+  st.textContent = ''; st.className = '';
+  try {
+    const cfgPayload = {
+      id: 'main',
+      name: document.getElementById('f-name').value,
+      description: document.getElementById('f-description').value,
+      avatar: document.getElementById('f-avatar').value,
+      bg: document.getElementById('f-bg').value,
+      glow_color: document.getElementById('f-glow').value,
+      bg_blur: parseInt(document.getElementById('f-blur').value),
+      bg_brightness: parseInt(document.getElementById('f-bright').value),
+      overlay: document.getElementById('f-overlay').value,
+      type_speed: parseInt(document.getElementById('f-typespeed').value),
+      load_duration: parseInt(document.getElementById('f-loaddur').value),
+      music_url: document.getElementById('f-music-url').value,
+      music_title: document.getElementById('f-music-title').value,
+      updated_at: new Date().toISOString()
+    };
+    const ok1 = await sbUpsert('bio_config', cfgPayload);
+    let ok2 = true;
+    for (const s of socData) {
+      const payload = { preset:s.preset, name:s.name, subtitle:s.subtitle||'', url:s.url, color:s.color, status_type:s.status_type||'', status_id:s.status_id||'', sort_order:s.sort_order||0, active:true };
+      if (s.id) { await sbUpdate('bio_socials', `?id=eq.${s.id}`, payload); }
+      else { await sbUpsert('bio_socials', payload); }
+    }
+    if (ok1) { st.textContent = '✅ บันทึกสำเร็จ!'; st.className = 'st-ok'; }
+    else throw new Error('save failed');
+  } catch(e) {
+    st.textContent = '❌ บันทึกไม่สำเร็จ กรุณาลองใหม่'; st.className = 'st-err';
+  }
+  btn.disabled = false; btn.textContent = '💾 บันทึกทั้งหมด';
+  setTimeout(() => st.textContent = '', 4000);
+}
+
+// ── Auto login check ──
+if (sessionStorage.getItem('admin_ok')) {
+  // still check pw from db
+  (async () => {
+    const cfg = await sbGet('bio_config', '?id=eq.main&limit=1');
+    if (cfg && cfg[0]) {
+      document.getElementById('login-wrap').style.display = 'none';
+      document.getElementById('app').style.display = 'block';
+      await loadData();
+    }
+  })();
+}
+</script>
+</body>
+</html>
