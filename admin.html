@@ -7,27 +7,27 @@
 <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-:root{--bg:#0a0a0a;--card:rgba(255,255,255,.05);--border:rgba(255,255,255,.09);--accent:#a78bfa;--danger:#ef4444;--success:#22c55e;}
+:root{--bg:#0a0a0a;--card:rgba(255,255,255,.05);--border:rgba(255,255,255,.09);--accent:#a78bfa;--danger:#ef4444;--success:#22c55e;--warning:#f59e0b;}
 html,body{min-height:100%;font-family:'Kanit',sans-serif;background:var(--bg);color:#e5e5e5;-webkit-tap-highlight-color:transparent;}
 
-/* LOGIN */
+/* ── LOGIN ── */
 #login-wrap{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:var(--bg);z-index:100;}
 #login-box{width:min(360px,90vw);padding:40px 32px;background:var(--card);border:1px solid var(--border);border-radius:20px;display:flex;flex-direction:column;align-items:center;gap:20px;}
 .login-title{font-size:20px;font-weight:700;letter-spacing:.05em;}
 .login-sub{font-size:12px;color:rgba(255,255,255,.35);letter-spacing:.1em;}
 
-/* APP */
+/* ── APP ── */
 #app{display:none;max-width:520px;margin:0 auto;padding:24px 16px 80px;}
 .top-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;}
 .top-bar h1{font-size:18px;font-weight:700;letter-spacing:.04em;}
-.btn-logout{font-size:11px;letter-spacing:.1em;color:rgba(255,255,255,.35);background:none;border:1px solid var(--border);border-radius:20px;padding:5px 14px;cursor:pointer;font-family:'Kanit',sans-serif;}
+.btn-logout{font-size:11px;letter-spacing:.1em;color:rgba(255,255,255,.35);background:none;border:1px solid var(--border);border-radius:20px;padding:5px 14px;cursor:pointer;font-family:'Kanit',sans-serif;transition:color .2s;}
 .btn-logout:active{color:#fff;}
 
-/* SECTIONS */
+/* ── SECTIONS ── */
 .section{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:14px;}
 .section-title{font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:16px;}
 
-/* FORM ELEMENTS */
+/* ── FORM ELEMENTS ── */
 .field{margin-bottom:12px;}
 .field label{display:block;font-size:11px;letter-spacing:.1em;color:rgba(255,255,255,.4);margin-bottom:5px;text-transform:uppercase;}
 .field input,.field select,.field textarea{width:100%;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:10px;padding:10px 12px;color:#fff;font-family:'Kanit',sans-serif;font-size:13px;outline:none;transition:border .2s;}
@@ -36,12 +36,16 @@ html,body{min-height:100%;font-family:'Kanit',sans-serif;background:var(--bg);co
 .field select option{background:#1a1a1a;}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 
-/* COLOR ROW */
+/* ── COLOR ROW ── */
 .color-row{display:flex;align-items:center;gap:10px;}
 .color-row input[type=color]{width:44px;height:36px;border:1px solid var(--border);border-radius:8px;background:none;cursor:pointer;padding:2px;}
 .color-row input[type=text]{flex:1;}
 
-/* BUTTONS */
+/* ── RANGE ── */
+input[type=range]{width:100%;accent-color:var(--accent);}
+.range-val{font-size:12px;color:var(--accent);text-align:right;margin-top:2px;}
+
+/* ── BUTTONS ── */
 .btn{width:100%;padding:13px;border-radius:12px;border:none;font-family:'Kanit',sans-serif;font-size:14px;font-weight:600;cursor:pointer;letter-spacing:.04em;transition:opacity .2s,transform .1s;}
 .btn:active{transform:scale(.97);}
 .btn-primary{background:var(--accent);color:#fff;}
@@ -50,25 +54,34 @@ html,body{min-height:100%;font-family:'Kanit',sans-serif;background:var(--bg);co
 .btn-sm{width:auto;padding:7px 14px;font-size:12px;border-radius:9px;}
 .btn-add{background:rgba(255,255,255,.07);color:rgba(255,255,255,.7);border:1px dashed var(--border);margin-top:8px;}
 
-/* SOCIAL CARDS IN ADMIN */
+/* ── SOCIAL CARDS IN ADMIN ── */
 .social-item{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px;}
 .social-item-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
 .social-item-title{font-size:13px;font-weight:600;}
 .btn-del{background:var(--danger);color:#fff;border:none;border-radius:7px;padding:4px 11px;font-size:11px;cursor:pointer;font-family:'Kanit',sans-serif;}
 
-/* STATUS */
+/* ── STATUS ── */
 #save-status{text-align:center;font-size:12px;letter-spacing:.08em;margin-top:12px;height:18px;transition:opacity .3s;}
 .st-ok{color:var(--success);}
 .st-err{color:var(--danger);}
 
-/* INPUT FIELD */
-input[type=range]{width:100%;accent-color:var(--accent);}
-.range-val{font-size:12px;color:var(--accent);text-align:right;margin-top:2px;}
+/* ── WEBHOOK SECTION ── */
+.wh-msg{font-size:11px;margin-top:6px;min-height:15px;}
+.wh-row{display:flex;gap:8px;margin-top:6px;}
+.wh-row button{flex:1;padding:9px;border-radius:9px;border:none;font-family:'Kanit',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:opacity .2s;}
+.wh-save{background:var(--accent);color:#fff;}
+.wh-test{background:rgba(255,255,255,.08);color:rgba(255,255,255,.7);border:1px solid var(--border) !important;border:none;}
+
+/* ── ALERT BADGE ── */
+.alert-info{background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.2);color:#38bdf8;padding:10px 12px;border-radius:10px;font-size:11px;margin-bottom:12px;display:flex;gap:6px;align-items:center;}
+
+/* ── LOGIN ERR ── */
+#login-err{font-size:12px;color:#ef4444;min-height:16px;text-align:center;}
 </style>
 </head>
 <body>
 
-<!-- LOGIN -->
+<!-- ── LOGIN ── -->
 <div id="login-wrap">
   <div id="login-box">
     <div class="login-title">🔐 Admin</div>
@@ -76,12 +89,12 @@ input[type=range]{width:100%;accent-color:var(--accent);}
     <div class="field" style="width:100%;margin:0">
       <input type="password" id="pw-input" placeholder="Password..." style="width:100%">
     </div>
-    <button class="btn btn-primary" style="width:100%" onclick="doLogin()">เข้าสู่ระบบ</button>
-    <div id="login-err" style="font-size:12px;color:#ef4444;height:16px;"></div>
+    <button class="btn btn-primary" style="width:100%" id="login-btn" onclick="doLogin()">เข้าสู่ระบบ</button>
+    <div id="login-err"></div>
   </div>
 </div>
 
-<!-- APP -->
+<!-- ── APP ── -->
 <div id="app">
   <div class="top-bar">
     <h1>⚙️ Bio Admin</h1>
@@ -159,23 +172,53 @@ input[type=range]{width:100%;accent-color:var(--accent);}
     <button class="btn btn-add" onclick="addSocial()">+ เพิ่ม Card</button>
   </div>
 
+  <!-- WEBHOOK SETTINGS -->
+  <div class="section">
+    <div class="section-title">🔔 Discord Webhook (Admin)</div>
+    <div class="alert-info">ℹ️ Webhook นี้ใช้สำหรับ Admin Panel เท่านั้น — แจ้งเมื่อ: เปิดหน้า Admin, Login สำเร็จ/ล้มเหลว, บันทึกข้อมูล</div>
+    <div class="field">
+      <label>Discord Webhook URL</label>
+      <input type="text" id="admin-webhook-url" placeholder="https://discord.com/api/webhooks/...">
+    </div>
+    <div class="wh-row">
+      <button class="wh-save" onclick="saveAdminWebhook()">💾 บันทึก Webhook</button>
+      <button class="wh-test" onclick="testAdminWebhook()">🧪 ทดสอบ</button>
+    </div>
+    <div class="wh-msg" id="wh-msg"></div>
+  </div>
+
   <button class="btn btn-primary" id="save-btn" onclick="saveAll()">💾 บันทึกทั้งหมด</button>
   <div id="save-status"></div>
 </div>
 
 <script>
+// ══════════════════════════════════════════════════
+// CONFIG
+// ══════════════════════════════════════════════════
 const SB_URL = 'https://qzjlbyjlkeqnknkeqdom.supabase.co';
 const SB_KEY = 'sb_publishable_wLXHjAzQjH5h-yK0gpzmyA_0GC5Sdwi';
 
-// ── Supabase helpers ──
-async function sbGet(table, q='') {
-  const r = await fetch(`${SB_URL}/rest/v1/${table}${q}`, { headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}` } });
+// ══════════════════════════════════════════════════
+// SUPABASE HELPERS
+// ══════════════════════════════════════════════════
+async function sbGet(table, q = '') {
+  const r = await fetch(`${SB_URL}/rest/v1/${table}${q}`, {
+    headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}` }
+  });
   return r.ok ? r.json() : null;
 }
 async function sbUpsert(table, data) {
   const r = await fetch(`${SB_URL}/rest/v1/${table}`, {
     method: 'POST',
     headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}`, 'Content-Type': 'application/json', Prefer: 'resolution=merge-duplicates' },
+    body: JSON.stringify(data)
+  });
+  return r.ok;
+}
+async function sbPatch(table, q, data) {
+  const r = await fetch(`${SB_URL}/rest/v1/${table}${q}`, {
+    method: 'PATCH',
+    headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}`, 'Content-Type': 'application/json' },
     body: JSON.stringify(data)
   });
   return r.ok;
@@ -187,62 +230,144 @@ async function sbDelete(table, q) {
   });
   return r.ok;
 }
-async function sbUpdate(table, q, data) {
-  const r = await fetch(`${SB_URL}/rest/v1/${table}${q}`, {
-    method: 'PATCH',
-    headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify(data)
-  });
-  return r.ok;
+
+// ══════════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════════
+let adminWebhook = '';
+let socData = [];
+
+// ══════════════════════════════════════════════════
+// IP
+// ══════════════════════════════════════════════════
+async function getIP() {
+  try {
+    const r = await fetch('https://api.ipify.org?format=json');
+    return (await r.json()).ip || 'unknown';
+  } catch { return 'unknown'; }
 }
 
-// ── Login ──
-let adminPass = '';
-async function doLogin() {
-  const pw = document.getElementById('pw-input').value.trim();
-  const cfg = await sbGet('bio_config', '?id=eq.main&select=admin_password&limit=1');
-  if (!cfg || !cfg[0]) { document.getElementById('login-err').textContent = 'ไม่สามารถเชื่อมต่อ Supabase ได้'; return; }
-  if (pw !== cfg[0].admin_password) { document.getElementById('login-err').textContent = 'รหัสผ่านไม่ถูกต้อง'; return; }
-  adminPass = pw;
-  sessionStorage.setItem('admin_ok', '1');
-  document.getElementById('login-wrap').style.display = 'none';
-  document.getElementById('app').style.display = 'block';
-  await loadData();
+// ══════════════════════════════════════════════════
+// DISCORD ALERT
+// ══════════════════════════════════════════════════
+async function sendAlert(title, desc, color = 0xa78bfa, extraFields = []) {
+  const wh = adminWebhook;
+  if (!wh) return;
+  const ip = await getIP();
+  const embed = {
+    title,
+    description: desc,
+    color,
+    fields: [
+      { name: '🌐 IP', value: `\`${ip}\``, inline: true },
+      { name: '📅 Time', value: `\`${new Date().toLocaleString('th-TH')}\``, inline: true },
+      { name: '📄 Page', value: '`Bio Admin Panel`', inline: true },
+      ...extraFields
+    ],
+    footer: { text: 'Bio Admin Guard' },
+    timestamp: new Date().toISOString()
+  };
+  try {
+    await fetch(wh, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username: '🔐 Admin Guard', embeds: [embed] })
+    });
+  } catch {}
 }
+
+// ══════════════════════════════════════════════════
+// LOGIN — checks Supabase
+// ══════════════════════════════════════════════════
 document.getElementById('pw-input').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
 
-function doLogout() { sessionStorage.removeItem('admin_ok'); location.reload(); }
+async function doLogin() {
+  const pw  = document.getElementById('pw-input').value.trim();
+  const btn = document.getElementById('login-btn');
+  const err = document.getElementById('login-err');
+  err.textContent = '';
+  if (!pw) { err.textContent = 'กรุณากรอกรหัสผ่าน'; return; }
+  btn.disabled = true; btn.textContent = 'กำลังตรวจสอบ...';
 
-// ── Load data ──
-let socData = [];
+  try {
+    const cfg = await sbGet('bio_config', '?id=eq.main&select=admin_password,admin_webhook&limit=1');
+    if (!cfg || !cfg[0]) {
+      err.textContent = 'ไม่สามารถเชื่อมต่อ Supabase ได้';
+      btn.disabled = false; btn.textContent = 'เข้าสู่ระบบ';
+      return;
+    }
+
+    // Load admin webhook immediately
+    adminWebhook = cfg[0].admin_webhook || '';
+    document.getElementById('admin-webhook-url').value = adminWebhook;
+
+    if (pw !== cfg[0].admin_password) {
+      err.textContent = 'รหัสผ่านไม่ถูกต้อง';
+      // Alert: failed login
+      sendAlert('🚨 Failed Login — Bio Admin', 'มีการพยายาม login ที่ล้มเหลว', 0xef4444);
+      btn.disabled = false; btn.textContent = 'เข้าสู่ระบบ';
+      return;
+    }
+
+    sessionStorage.setItem('admin_ok', '1');
+    btn.disabled = false; btn.textContent = 'เข้าสู่ระบบ';
+
+    // Alert: successful login
+    sendAlert('🔐 Admin Login — Bio Admin', 'เข้าสู่ระบบ Bio Admin Panel สำเร็จ', 0x22c55e);
+
+    document.getElementById('login-wrap').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    await loadData();
+
+  } catch(e) {
+    err.textContent = 'เกิดข้อผิดพลาด: ' + e.message;
+    btn.disabled = false; btn.textContent = 'เข้าสู่ระบบ';
+  }
+}
+
+function doLogout() {
+  sessionStorage.removeItem('admin_ok');
+  location.reload();
+}
+
+// ══════════════════════════════════════════════════
+// LOAD DATA
+// ══════════════════════════════════════════════════
 async function loadData() {
-  const [cfg, socs] = await Promise.all([
+  const [cfgData, socsData] = await Promise.all([
     sbGet('bio_config', '?id=eq.main&limit=1'),
     sbGet('bio_socials', '?order=sort_order.asc')
   ]);
-  if (cfg && cfg[0]) fillForm(cfg[0]);
-  if (socs) { socData = socs; renderSocials(); }
+  if (cfgData?.[0]) fillForm(cfgData[0]);
+  if (socsData) { socData = socsData; renderSocials(); }
 }
 
 function fillForm(c) {
-  document.getElementById('f-name').value = c.name || '';
-  document.getElementById('f-description').value = c.description || '';
-  document.getElementById('f-avatar').value = c.avatar || '';
-  document.getElementById('f-bg').value = c.bg || '';
-  document.getElementById('f-glow').value = c.glow_color || '#686766';
-  document.getElementById('f-glow-picker').value = c.glow_color || '#686766';
-  document.getElementById('f-blur').value = c.bg_blur ?? 7;
-  document.getElementById('blur-val').textContent = (c.bg_blur ?? 7) + 'px';
-  document.getElementById('f-bright').value = c.bg_brightness ?? 30;
+  document.getElementById('f-name').value           = c.name || '';
+  document.getElementById('f-description').value    = c.description || '';
+  document.getElementById('f-avatar').value         = c.avatar || '';
+  document.getElementById('f-bg').value             = c.bg || '';
+  document.getElementById('f-glow').value           = c.glow_color || '#686766';
+  document.getElementById('f-glow-picker').value    = c.glow_color || '#686766';
+  document.getElementById('f-blur').value           = c.bg_blur ?? 7;
+  document.getElementById('blur-val').textContent   = (c.bg_blur ?? 7) + 'px';
+  document.getElementById('f-bright').value         = c.bg_brightness ?? 30;
   document.getElementById('bright-val').textContent = (c.bg_brightness ?? 30) + '%';
-  document.getElementById('f-overlay').value = c.overlay || 'snow';
-  document.getElementById('f-typespeed').value = c.type_speed ?? 200;
-  document.getElementById('f-loaddur').value = c.load_duration ?? 3;
-  document.getElementById('f-music-url').value = c.music_url || '';
-  document.getElementById('f-music-title').value = c.music_title || '';
+  document.getElementById('f-overlay').value        = c.overlay || 'snow';
+  document.getElementById('f-typespeed').value      = c.type_speed ?? 200;
+  document.getElementById('f-loaddur').value        = c.load_duration ?? 3;
+  document.getElementById('f-music-url').value      = c.music_url || '';
+  document.getElementById('f-music-title').value    = c.music_title || '';
+  // webhook
+  if (c.admin_webhook) {
+    adminWebhook = c.admin_webhook;
+    document.getElementById('admin-webhook-url').value = c.admin_webhook;
+  }
 }
 
-// ── Social Editor ──
+// ══════════════════════════════════════════════════
+// SOCIAL EDITOR
+// ══════════════════════════════════════════════════
 const PRESETS = ['discord','roblox','instagram','facebook','twitter','tiktok','youtube','github','spotify','line','twitch'];
 
 function renderSocials() {
@@ -253,19 +378,25 @@ function renderSocials() {
     div.className = 'social-item';
     div.innerHTML = `
       <div class="social-item-header">
-        <div class="social-item-title">#${i+1} ${s.name||'Card'}</div>
-        <button class="btn-del" onclick="deleteSocial(${s.id})">ลบ</button>
+        <div class="social-item-title">#${i+1} ${s.name || 'Card'}</div>
+        <button class="btn-del" onclick="deleteSocial(${s.id}, ${i})">ลบ</button>
       </div>
       <div class="row2">
         <div class="field"><label>Platform</label>
-          <select onchange="socData[${i}].preset=this.value;socData[${i}].name=this.value.charAt(0).toUpperCase()+this.value.slice(1);renderSocials();">
-            ${PRESETS.map(p=>`<option value="${p}"${s.preset===p?' selected':''}>${p.charAt(0).toUpperCase()+p.slice(1)}</option>`).join('')}
+          <select onchange="socData[${i}].preset=this.value;socData[${i}].name=this.value[0].toUpperCase()+this.value.slice(1);renderSocials();">
+            ${PRESETS.map(p => `<option value="${p}"${s.preset===p?' selected':''}>${p[0].toUpperCase()+p.slice(1)}</option>`).join('')}
           </select>
         </div>
-        <div class="field"><label>ชื่อที่แสดง</label><input type="text" value="${esc(s.name||'')}" oninput="socData[${i}].name=this.value"></div>
+        <div class="field"><label>ชื่อที่แสดง</label>
+          <input type="text" value="${esc(s.name||'')}" oninput="socData[${i}].name=this.value">
+        </div>
       </div>
-      <div class="field"><label>URL</label><input type="text" value="${esc(s.url||'')}" oninput="socData[${i}].url=this.value" placeholder="https://..."></div>
-      <div class="field"><label>Subtitle (ถ้าไม่มี status)</label><input type="text" value="${esc(s.subtitle||'')}" oninput="socData[${i}].subtitle=this.value" placeholder="@username หรือ URL..."></div>
+      <div class="field"><label>URL</label>
+        <input type="text" value="${esc(s.url||'')}" oninput="socData[${i}].url=this.value" placeholder="https://...">
+      </div>
+      <div class="field"><label>Subtitle</label>
+        <input type="text" value="${esc(s.subtitle||'')}" oninput="socData[${i}].subtitle=this.value" placeholder="@username...">
+      </div>
       <div class="row2">
         <div class="field"><label>Status Type</label>
           <select onchange="socData[${i}].status_type=this.value">
@@ -274,23 +405,29 @@ function renderSocials() {
             <option value="roblox"${s.status_type==='roblox'?' selected':''}>Roblox</option>
           </select>
         </div>
-        <div class="field"><label>Status ID</label><input type="text" value="${esc(s.status_id||'')}" oninput="socData[${i}].status_id=this.value" placeholder="User ID..."></div>
+        <div class="field"><label>Status ID</label>
+          <input type="text" value="${esc(s.status_id||'')}" oninput="socData[${i}].status_id=this.value" placeholder="User ID...">
+        </div>
       </div>
       <div class="row2">
         <div class="field"><label>สี</label>
           <div class="color-row">
-            <input type="color" value="${esc(s.color||'#888')}" oninput="socData[${i}].color=this.value;this.nextElementSibling.value=this.value">
-            <input type="text" value="${esc(s.color||'#888')}" oninput="socData[${i}].color=this.value;this.previousElementSibling.value=this.value">
+            <input type="color" value="${esc(s.color||'#888888')}" oninput="socData[${i}].color=this.value;this.nextElementSibling.value=this.value">
+            <input type="text" value="${esc(s.color||'#888888')}" oninput="socData[${i}].color=this.value;this.previousElementSibling.value=this.value">
           </div>
         </div>
-        <div class="field"><label>ลำดับ</label><input type="number" value="${s.sort_order||0}" oninput="socData[${i}].sort_order=parseInt(this.value)||0"></div>
+        <div class="field"><label>ลำดับ</label>
+          <input type="number" value="${s.sort_order||0}" oninput="socData[${i}].sort_order=parseInt(this.value)||0">
+        </div>
       </div>
     `;
     el.appendChild(div);
   });
 }
 
-function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);}
+function esc(s) {
+  return String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' })[c]);
+}
 
 function addSocial() {
   socData.push({ id: null, preset:'instagram', name:'Instagram', url:'', subtitle:'', color:'#C13584', status_type:'', status_id:'', sort_order: socData.length, active: true });
@@ -298,65 +435,128 @@ function addSocial() {
   setTimeout(() => document.getElementById('socials-editor').lastElementChild?.scrollIntoView({ behavior:'smooth' }), 100);
 }
 
-async function deleteSocial(id) {
-  if (!id) { socData = socData.filter(s => s.id !== null || s.id !== id); renderSocials(); return; }
+async function deleteSocial(id, idx) {
   if (!confirm('ลบ card นี้?')) return;
-  await sbDelete('bio_socials', `?id=eq.${id}`);
-  socData = socData.filter(s => s.id !== id);
+  if (id) await sbDelete('bio_socials', `?id=eq.${id}`);
+  socData.splice(idx, 1);
   renderSocials();
 }
 
-// ── Save ──
+// ══════════════════════════════════════════════════
+// WEBHOOK MANAGEMENT (Admin)
+// ══════════════════════════════════════════════════
+async function saveAdminWebhook() {
+  const url = document.getElementById('admin-webhook-url').value.trim();
+  const msg = document.getElementById('wh-msg');
+  msg.textContent = 'กำลังบันทึก...'; msg.style.color = 'rgba(255,255,255,.4)';
+  const ok = await sbPatch('bio_config', '?id=eq.main', { admin_webhook: url });
+  if (ok) {
+    adminWebhook = url;
+    msg.textContent = '✅ บันทึก Webhook แล้ว!'; msg.style.color = 'var(--success)';
+  } else {
+    msg.textContent = '❌ บันทึกไม่สำเร็จ'; msg.style.color = 'var(--danger)';
+  }
+  setTimeout(() => msg.textContent = '', 3000);
+}
+
+async function testAdminWebhook() {
+  const msg = document.getElementById('wh-msg');
+  const url = document.getElementById('admin-webhook-url').value.trim();
+  if (!url) { msg.textContent = '⚠️ กรุณากรอก Webhook URL ก่อน'; msg.style.color = 'var(--warning)'; return; }
+  adminWebhook = url;
+  msg.textContent = 'กำลังส่ง...'; msg.style.color = 'rgba(255,255,255,.4)';
+  await sendAlert('🧪 Test Alert — Bio Admin', 'Webhook connection test — working correctly!', 0x22c55e);
+  msg.textContent = '✅ ส่งแล้ว! เช็ค Discord ได้เลย'; msg.style.color = 'var(--success)';
+  setTimeout(() => msg.textContent = '', 4000);
+}
+
+// ══════════════════════════════════════════════════
+// SAVE ALL
+// ══════════════════════════════════════════════════
 async function saveAll() {
   const btn = document.getElementById('save-btn');
-  const st = document.getElementById('save-status');
+  const st  = document.getElementById('save-status');
   btn.disabled = true; btn.textContent = 'กำลังบันทึก...';
   st.textContent = ''; st.className = '';
+
   try {
     const cfgPayload = {
-      id: 'main',
-      name: document.getElementById('f-name').value,
-      description: document.getElementById('f-description').value,
-      avatar: document.getElementById('f-avatar').value,
-      bg: document.getElementById('f-bg').value,
-      glow_color: document.getElementById('f-glow').value,
-      bg_blur: parseInt(document.getElementById('f-blur').value),
-      bg_brightness: parseInt(document.getElementById('f-bright').value),
-      overlay: document.getElementById('f-overlay').value,
-      type_speed: parseInt(document.getElementById('f-typespeed').value),
-      load_duration: parseInt(document.getElementById('f-loaddur').value),
-      music_url: document.getElementById('f-music-url').value,
-      music_title: document.getElementById('f-music-title').value,
-      updated_at: new Date().toISOString()
+      id:           'main',
+      name:         document.getElementById('f-name').value,
+      description:  document.getElementById('f-description').value,
+      avatar:       document.getElementById('f-avatar').value,
+      bg:           document.getElementById('f-bg').value,
+      glow_color:   document.getElementById('f-glow').value,
+      bg_blur:      parseInt(document.getElementById('f-blur').value),
+      bg_brightness:parseInt(document.getElementById('f-bright').value),
+      overlay:      document.getElementById('f-overlay').value,
+      type_speed:   parseInt(document.getElementById('f-typespeed').value),
+      load_duration:parseInt(document.getElementById('f-loaddur').value),
+      music_url:    document.getElementById('f-music-url').value,
+      music_title:  document.getElementById('f-music-title').value,
+      updated_at:   new Date().toISOString()
     };
+
     const ok1 = await sbUpsert('bio_config', cfgPayload);
-    let ok2 = true;
+
     for (const s of socData) {
-      const payload = { preset:s.preset, name:s.name, subtitle:s.subtitle||'', url:s.url, color:s.color, status_type:s.status_type||'', status_id:s.status_id||'', sort_order:s.sort_order||0, active:true };
-      if (s.id) { await sbUpdate('bio_socials', `?id=eq.${s.id}`, payload); }
-      else { await sbUpsert('bio_socials', payload); }
+      const payload = {
+        preset: s.preset, name: s.name, subtitle: s.subtitle || '',
+        url: s.url, color: s.color, status_type: s.status_type || '',
+        status_id: s.status_id || '', sort_order: s.sort_order || 0, active: true
+      };
+      if (s.id) await sbPatch('bio_socials', `?id=eq.${s.id}`, payload);
+      else      await sbUpsert('bio_socials', payload);
     }
-    if (ok1) { st.textContent = '✅ บันทึกสำเร็จ!'; st.className = 'st-ok'; }
-    else throw new Error('save failed');
+
+    if (ok1) {
+      st.textContent = '✅ บันทึกสำเร็จ!'; st.className = 'st-ok';
+      // Alert: data saved
+      sendAlert(
+        '💾 Content Updated — Bio Admin',
+        `มีการบันทึกข้อมูลหน้า Bio\nName: **${cfgPayload.name}**`,
+        0xa78bfa,
+        [{ name: '📝 Updated At', value: new Date().toLocaleString('th-TH'), inline: true }]
+      );
+    } else {
+      throw new Error('upsert failed');
+    }
   } catch(e) {
     st.textContent = '❌ บันทึกไม่สำเร็จ กรุณาลองใหม่'; st.className = 'st-err';
   }
+
   btn.disabled = false; btn.textContent = '💾 บันทึกทั้งหมด';
-  setTimeout(() => st.textContent = '', 4000);
+  setTimeout(() => st.textContent = '', 5000);
 }
 
-// ── Auto login check ──
-if (sessionStorage.getItem('admin_ok')) {
-  // still check pw from db
-  (async () => {
-    const cfg = await sbGet('bio_config', '?id=eq.main&limit=1');
-    if (cfg && cfg[0]) {
-      document.getElementById('login-wrap').style.display = 'none';
-      document.getElementById('app').style.display = 'block';
-      await loadData();
-    }
-  })();
-}
+// ══════════════════════════════════════════════════
+// AUTO-LOGIN check (session)
+// ══════════════════════════════════════════════════
+(async () => {
+  if (sessionStorage.getItem('admin_ok') === '1') {
+    try {
+      const cfg = await sbGet('bio_config', '?id=eq.main&select=admin_password,admin_webhook&limit=1');
+      if (cfg?.[0]) {
+        adminWebhook = cfg[0].admin_webhook || '';
+        document.getElementById('admin-webhook-url').value = adminWebhook;
+        document.getElementById('login-wrap').style.display = 'none';
+        document.getElementById('app').style.display = 'block';
+        await loadData();
+        // Alert: page opened (session resumed)
+        sendAlert('👁️ Admin Page Opened', 'มีการเปิดหน้า Bio Admin (session resumed)', 0x38bdf8);
+      }
+    } catch {}
+  } else {
+    // Alert: page opened (not yet logged in)
+    try {
+      const cfg = await sbGet('bio_config', '?id=eq.main&select=admin_webhook&limit=1');
+      if (cfg?.[0]?.admin_webhook) {
+        adminWebhook = cfg[0].admin_webhook;
+        sendAlert('👁️ Admin Page Opened', 'มีคนเปิดหน้า Bio Admin (ยังไม่ได้ login)', 0xf59e0b);
+      }
+    } catch {}
+  }
+})();
 </script>
 </body>
 </html>
