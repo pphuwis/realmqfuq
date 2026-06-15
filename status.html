@@ -117,25 +117,6 @@ body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(
 .pill-grey{background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--sub);}
 .pill-orange{background:rgba(251,146,60,.1);border:1px solid rgba(251,146,60,.22);color:var(--orange);}
 
-/* ── ACCOUNT CARD ── */
-.account-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:16px;display:flex;align-items:center;gap:16px;}
-.account-avatar{width:56px;height:56px;border-radius:12px;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;flex-shrink:0;overflow:hidden;}
-.account-avatar img{width:100%;height:100%;object-fit:cover;}
-.account-name{font-size:18px;font-weight:700;letter-spacing:-.01em;}
-.account-handle{font-size:12px;color:var(--sub);margin-top:2px;}
-
-/* ── ENV / TABLE ROWS ── */
-.env-item{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid var(--border);}
-.env-item:last-child{border-bottom:none;}
-.env-key{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;color:var(--sub);}
-.env-val{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text);max-width:55%;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-
-/* ── DOMAIN TABLE ── */
-.domain-row{display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;padding:12px 16px;border-bottom:1px solid var(--border);}
-.domain-row:last-child{border-bottom:none;}
-.domain-name{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;}
-.domain-project{font-size:10px;color:var(--sub);margin-top:2px;}
-
 /* ── SETTINGS ── */
 .settings-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:14px;}
 .settings-title{font-size:12px;font-weight:600;margin-bottom:14px;color:var(--text);}
@@ -167,20 +148,75 @@ body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(
 .alert-success{background:rgba(34,211,160,.08);border:1px solid rgba(34,211,160,.2);color:var(--green);}
 .alert-error{background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.2);color:var(--red);}
 
-/* ── USAGE BARS ── */
-.usage-item{margin-bottom:12px;}
-.usage-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;}
-.usage-name{font-size:11px;font-weight:500;}
-.usage-vals{font-size:10px;color:var(--sub);}
-.usage-bar-bg{height:5px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden;}
-.usage-bar-fill{height:100%;border-radius:3px;transition:width .5s;}
-
-/* ── CODE BLOCK ── */
-.code-block{background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--sub);overflow-x:auto;margin-top:6px;}
-
 /* ── SECTION DIVIDER ── */
 .sec-divider{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--sub);padding:14px 0 8px;display:flex;align-items:center;gap:8px;}
 .sec-divider::after{content:'';flex:1;height:1px;background:var(--border);}
+
+/* ── STATUS PAGE STYLES ── */
+.status-hero{display:flex;align-items:center;gap:12px;padding:16px 20px;background:var(--card);border:1px solid var(--border);border-radius:14px;margin-bottom:14px;}
+.status-hero-badge{display:inline-flex;align-items:center;gap:7px;padding:6px 14px;border-radius:30px;font-size:12px;font-weight:500;flex-shrink:0;}
+.badge-green{background:rgba(34,211,160,.1);border:1px solid rgba(34,211,160,.22);color:var(--green);}
+.badge-red{background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.22);color:var(--red);}
+.badge-yellow{background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.22);color:var(--yellow);}
+.b-dot{width:7px;height:7px;border-radius:50%;}
+.b-dot-g{background:var(--green);box-shadow:0 0 6px var(--green);animation:blink 2s ease infinite;}
+.b-dot-r{background:var(--red);box-shadow:0 0 6px var(--red);}
+.b-dot-y{background:var(--yellow);}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.4}}
+.status-hero-info{flex:1;min-width:0;}
+.status-hero-title{font-size:13px;font-weight:600;}
+.status-hero-sub{font-size:11px;color:var(--sub);margin-top:2px;}
+.status-hero-time{font-size:10px;color:rgba(255,255,255,.2);margin-top:2px;}
+
+/* ── UPTIME SEGMENTS ── */
+.seg-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:14px;}
+.seg-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.seg-card-label{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--sub);}
+.seg-pct{font-size:18px;font-weight:700;}
+.seg-wrap{display:flex;gap:3px;align-items:flex-end;margin-bottom:6px;}
+.seg{height:28px;border-radius:4px;flex:1;transition:opacity .15s,transform .15s;cursor:default;position:relative;}
+.seg:hover{opacity:.75;transform:scaleY(1.06);}
+.seg.up{background:var(--green);}
+.seg.down{background:var(--red);}
+.seg.partial{background:var(--yellow);}
+.seg.empty{background:rgba(255,255,255,.07);}
+.seg-labels{display:flex;justify-content:space-between;margin-bottom:10px;}
+.seg-lbl{font-size:10px;color:var(--sub);}
+.seg-tooltip{position:absolute;bottom:34px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.9);border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:3px 7px;font-size:10px;white-space:nowrap;pointer-events:none;display:none;z-index:10;font-family:'JetBrains Mono',monospace;}
+.seg:hover .seg-tooltip{display:block;}
+.seg-legend{display:flex;gap:12px;}
+.seg-legend-item{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--sub);}
+.seg-legend-dot{width:9px;height:9px;border-radius:2px;}
+
+.seg-stats{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--border);margin-top:12px;}
+.seg-stat{display:flex;flex-direction:column;align-items:center;padding:12px 8px;}
+.seg-stat+.seg-stat{border-left:1px solid var(--border);}
+.seg-stat-val{font-size:15px;font-weight:700;}
+.seg-stat-lbl{font-size:10px;color:var(--sub);margin-top:2px;}
+
+/* ── RESPONSE CHART ── */
+.resp-chart-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:14px;}
+.resp-chart-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.resp-chart-label{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--sub);}
+.chart-canvas-wrap{position:relative;height:72px;}
+canvas{width:100%;height:100%;display:block;}
+.chart-xlabels{display:flex;justify-content:space-between;margin-top:4px;}
+.chart-xlbl{font-size:10px;color:var(--sub);}
+
+/* ── SYSTEM STATUS ITEMS ── */
+.sys-items{display:flex;flex-direction:column;gap:6px;padding-top:4px;}
+.sys-item{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:10px;}
+.sys-item-left{display:flex;flex-direction:column;gap:1px;}
+.sys-item-name{font-size:12px;font-weight:500;}
+.sys-item-desc{font-size:10px;color:var(--sub);}
+
+/* ── INCIDENT LOG ── */
+.inc-items{display:flex;flex-direction:column;gap:6px;padding-top:4px;}
+.inc-item{display:flex;align-items:flex-start;gap:10px;padding:10px 13px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:10px;}
+.inc-content{flex:1;min-width:0;}
+.inc-title{font-size:11px;font-weight:500;}
+.inc-time{font-size:10px;color:var(--sub);margin-top:2px;}
+.no-incidents{padding:12px 0;font-size:11px;color:var(--sub);}
 
 /* ── MOBILE ── */
 @media(max-width:600px){
@@ -188,7 +224,7 @@ body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(
   .nav-tabs{padding:8px 14px;}
   .content{padding:14px;}
   .stats-grid{grid-template-columns:1fr 1fr;}
-  .account-card{flex-direction:column;text-align:center;}
+  .seg-stats{grid-template-columns:repeat(2,1fr);}
   .settings-row{flex-direction:column;}
 }
 </style>
@@ -261,26 +297,21 @@ body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(
     <div class="tab active" data-pane="pane-overview" onclick="switchTab(this)">📊 Overview</div>
     <div class="tab" data-pane="pane-deployments" onclick="switchTab(this)">🚀 Deployments <span class="tab-badge" id="badge-deploys">—</span></div>
     <div class="tab" data-pane="pane-projects" onclick="switchTab(this)">📁 Projects <span class="tab-badge" id="badge-projects">—</span></div>
-    <div class="tab" data-pane="pane-domains" onclick="switchTab(this)">🌐 Domains <span class="tab-badge" id="badge-domains">—</span></div>
-    <div class="tab" data-pane="pane-envvars" onclick="switchTab(this)">🔑 Env Vars</div>
-    <div class="tab" data-pane="pane-teams" onclick="switchTab(this)">👥 Teams</div>
-    <div class="tab" data-pane="pane-webhooks" onclick="switchTab(this)">🪝 Webhooks</div>
-    <div class="tab" data-pane="pane-usage" onclick="switchTab(this)">📈 Usage</div>
-    <div class="tab" data-pane="pane-account" onclick="switchTab(this)">👤 Account</div>
+    <div class="tab" data-pane="pane-status" onclick="switchTab(this,true)">📡 Status</div>
     <div class="tab" data-pane="pane-settings" onclick="switchTab(this)">⚙️ Settings</div>
   </div>
 
   <div class="content">
 
-    <!-- OVERVIEW -->
+    <!-- ── OVERVIEW ── -->
     <div class="pane active" id="pane-overview">
       <div class="stats-grid">
         <div class="stat-card"><div class="stat-icon">🚀</div><div class="stat-label">Deployments</div><div class="stat-value c-blue" id="ov-deploys">—</div><div class="stat-sub" id="ov-deploys-sub">Loading...</div></div>
         <div class="stat-card"><div class="stat-icon">📁</div><div class="stat-label">Projects</div><div class="stat-value c-purple" id="ov-projects">—</div><div class="stat-sub" id="ov-projects-sub">Loading...</div></div>
-        <div class="stat-card"><div class="stat-icon">🌐</div><div class="stat-label">Domains</div><div class="stat-value c-green" id="ov-domains">—</div><div class="stat-sub" id="ov-domains-sub">Loading...</div></div>
         <div class="stat-card"><div class="stat-icon">✅</div><div class="stat-label">Success Rate</div><div class="stat-value c-green" id="ov-success">—</div><div class="stat-sub" id="ov-success-sub">Loading...</div></div>
-        <div class="stat-card"><div class="stat-icon">❌</div><div class="stat-label">Failed Deploys</div><div class="stat-value c-red" id="ov-errors">—</div><div class="stat-sub" id="ov-errors-sub">Loading...</div></div>
-        <div class="stat-card"><div class="stat-icon">🔨</div><div class="stat-label">Building Now</div><div class="stat-value c-yellow" id="ov-building">—</div><div class="stat-sub">Active builds</div></div>
+        <div class="stat-card"><div class="stat-icon">❌</div><div class="stat-label">Failed</div><div class="stat-value c-red" id="ov-errors">—</div><div class="stat-sub" id="ov-errors-sub">Loading...</div></div>
+        <div class="stat-card"><div class="stat-icon">🔨</div><div class="stat-label">Building</div><div class="stat-value c-yellow" id="ov-building">—</div><div class="stat-sub">Active builds</div></div>
+        <div class="stat-card"><div class="stat-icon">📡</div><div class="stat-label">Site Status</div><div class="stat-value" id="ov-status-val" style="font-size:16px;margin-top:4px;">—</div><div class="stat-sub" id="ov-status-sub">Checking...</div></div>
       </div>
       <div class="sec-header"><div class="sec-title">🕐 Recent Deployments</div></div>
       <div class="list-card" id="overview-activity">
@@ -288,7 +319,7 @@ body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(
       </div>
     </div>
 
-    <!-- DEPLOYMENTS -->
+    <!-- ── DEPLOYMENTS ── -->
     <div class="pane" id="pane-deployments">
       <div class="sec-header"><div class="sec-title">All Deployments</div><div class="sec-count" id="deploys-count">—</div></div>
       <div id="deploy-filter" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;">
@@ -303,7 +334,7 @@ body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(
       </div>
     </div>
 
-    <!-- PROJECTS -->
+    <!-- ── PROJECTS ── -->
     <div class="pane" id="pane-projects">
       <div class="sec-header"><div class="sec-title">Projects</div><div class="sec-count" id="projects-count">—</div></div>
       <div id="projects-list">
@@ -311,59 +342,102 @@ body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(
       </div>
     </div>
 
-    <!-- DOMAINS -->
-    <div class="pane" id="pane-domains">
-      <div class="sec-header"><div class="sec-title">Domains</div><div class="sec-count" id="domains-count">—</div></div>
-      <div class="list-card" id="domains-list">
-        <div class="loading-wrap"><div class="loading-spinner"></div><div class="loading-text">Loading domains...</div></div>
+    <!-- ── STATUS ── -->
+    <div class="pane" id="pane-status">
+
+      <!-- Hero badge -->
+      <div class="status-hero">
+        <div class="status-hero-badge badge-green" id="st-hero-badge">
+          <span class="b-dot b-dot-g" id="st-hero-dot"></span>
+          <span id="st-hero-text">Checking...</span>
+        </div>
+        <div class="status-hero-info">
+          <div class="status-hero-title" id="st-hero-title">All Systems</div>
+          <div class="status-hero-sub" id="st-hero-sub">Fetching status data...</div>
+          <div class="status-hero-time" id="st-hero-time">—</div>
+        </div>
       </div>
+
+      <!-- Uptime segments -->
+      <div class="seg-card">
+        <div class="seg-card-header">
+          <div class="seg-card-label">🟢 Uptime — Last 24 Checks</div>
+          <div class="seg-pct c-green" id="st-pct">—</div>
+        </div>
+        <div class="seg-wrap" id="st-seg-wrap"></div>
+        <div class="seg-labels"><span class="seg-lbl">24 checks ago</span><span class="seg-lbl">Now</span></div>
+        <div class="seg-legend">
+          <div class="seg-legend-item"><div class="seg-legend-dot" style="background:var(--green);"></div>Up</div>
+          <div class="seg-legend-item"><div class="seg-legend-dot" style="background:var(--yellow);"></div>Slow</div>
+          <div class="seg-legend-item"><div class="seg-legend-dot" style="background:var(--red);"></div>Down</div>
+          <div class="seg-legend-item"><div class="seg-legend-dot" style="background:rgba(255,255,255,.07);"></div>No data</div>
+        </div>
+        <div class="seg-stats">
+          <div class="seg-stat"><div class="seg-stat-val c-green" id="st-stat-uptime">—</div><div class="seg-stat-lbl">Uptime</div></div>
+          <div class="seg-stat"><div class="seg-stat-val" id="st-stat-down">—</div><div class="seg-stat-lbl">Incidents</div></div>
+          <div class="seg-stat"><div class="seg-stat-val" id="st-stat-avg">—</div><div class="seg-stat-lbl">Avg Response</div></div>
+          <div class="seg-stat"><div class="seg-stat-val" id="st-stat-last">—</div><div class="seg-stat-lbl">Last Check</div></div>
+        </div>
+      </div>
+
+      <!-- Response time chart -->
+      <div class="resp-chart-card">
+        <div class="resp-chart-header">
+          <div class="resp-chart-label">⚡ Response Time</div>
+          <span class="pill pill-grey" id="st-resp-pill">Loading</span>
+        </div>
+        <div class="chart-canvas-wrap"><canvas id="st-resp-chart"></canvas></div>
+        <div class="chart-xlabels">
+          <span class="chart-xlbl">Oldest</span>
+          <span class="chart-xlbl" id="st-resp-range">—</span>
+          <span class="chart-xlbl">Latest</span>
+        </div>
+      </div>
+
+      <!-- System status -->
+      <div class="list-card" style="padding:16px;margin-bottom:14px;">
+        <div class="sec-header" style="margin-bottom:10px;"><div class="sec-title">🔍 System Status</div><span class="pill pill-grey" id="st-sys-pill">Checking</span></div>
+        <div class="sys-items">
+          <div class="sys-item">
+            <div class="sys-item-left">
+              <div class="sys-item-name">Bio Website</div>
+              <div class="sys-item-desc">Main page response</div>
+            </div>
+            <span class="pill pill-grey" id="st-sys-site">Checking</span>
+          </div>
+          <div class="sys-item">
+            <div class="sys-item-left">
+              <div class="sys-item-name">Vercel Edge Network</div>
+              <div class="sys-item-desc">CDN / Static assets</div>
+            </div>
+            <span class="pill pill-grey" id="st-sys-edge">Checking</span>
+          </div>
+          <div class="sys-item">
+            <div class="sys-item-left">
+              <div class="sys-item-name">Vercel Platform</div>
+              <div class="sys-item-desc">Deployment infrastructure</div>
+            </div>
+            <span class="pill pill-grey" id="st-sys-vc">Checking</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Incident log -->
+      <div class="list-card" style="padding:16px;margin-bottom:14px;">
+        <div class="sec-header" style="margin-bottom:10px;"><div class="sec-title">📋 Incident Log</div><span class="pill pill-grey" id="st-inc-pill">—</span></div>
+        <div id="st-inc-list" class="inc-items">
+          <div class="no-incidents">กำลังโหลด...</div>
+        </div>
+      </div>
+
+      <button class="save-btn" style="width:100%;background:rgba(255,255,255,.06);border:1px solid var(--border);color:var(--sub);font-family:Inter,sans-serif;" id="st-refresh-btn" onclick="fetchStatus()">↻ Refresh Status</button>
     </div>
 
-    <!-- ENV VARS -->
-    <div class="pane" id="pane-envvars">
-      <div class="sec-header"><div class="sec-title">Environment Variables (per project)</div></div>
-      <div id="envvars-list">
-        <div class="loading-wrap"><div class="loading-spinner"></div><div class="loading-text">Loading env vars...</div></div>
-      </div>
-    </div>
-
-    <!-- TEAMS -->
-    <div class="pane" id="pane-teams">
-      <div class="sec-header"><div class="sec-title">Teams</div></div>
-      <div id="teams-list">
-        <div class="loading-wrap"><div class="loading-spinner"></div><div class="loading-text">Loading teams...</div></div>
-      </div>
-    </div>
-
-    <!-- WEBHOOKS -->
-    <div class="pane" id="pane-webhooks">
-      <div class="sec-header"><div class="sec-title">Vercel Webhooks</div></div>
-      <div id="webhooks-list">
-        <div class="loading-wrap"><div class="loading-spinner"></div><div class="loading-text">Loading webhooks...</div></div>
-      </div>
-    </div>
-
-    <!-- USAGE -->
-    <div class="pane" id="pane-usage">
-      <div class="sec-header"><div class="sec-title">Usage & Limits</div></div>
-      <div id="usage-content">
-        <div class="loading-wrap"><div class="loading-spinner"></div><div class="loading-text">Loading usage...</div></div>
-      </div>
-    </div>
-
-    <!-- ACCOUNT -->
-    <div class="pane" id="pane-account">
-      <div id="account-info">
-        <div class="loading-wrap"><div class="loading-spinner"></div><div class="loading-text">Loading account...</div></div>
-      </div>
-    </div>
-
-    <!-- SETTINGS -->
+    <!-- ── SETTINGS ── -->
     <div class="pane" id="pane-settings">
-
       <div class="settings-card">
-        <div class="settings-title">🔔 Discord Webhook (Vercel Dashboard)</div>
-        <div class="alert-info" style="margin-bottom:12px;"><span>ℹ️</span> Webhook นี้ใช้สำหรับ Vercel Dashboard เท่านั้น — แจ้งเมื่อ: Login, New deploy, Page visit</div>
+        <div class="settings-title">🔔 Discord Webhook</div>
+        <div class="alert-banner alert-info"><span>ℹ️</span> แจ้งเมื่อ: Login, New deploy, Page visit</div>
         <div class="settings-field">
           <label>Discord Webhook URL</label>
           <div class="settings-row">
@@ -396,7 +470,6 @@ body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(
           <button class="save-btn" onclick="clearAll()" style="background:#dc2626;">Clear All Local Data</button>
         </div>
       </div>
-
     </div>
 
   </div><!-- /content -->
@@ -410,6 +483,10 @@ const SB_URL = 'https://qzjlbyjlkeqnknkeqdom.supabase.co';
 const SB_KEY = 'sb_publishable_wLXHjAzQjH5h-yK0gpzmyA_0GC5Sdwi';
 const VERCEL_API = 'https://api.vercel.com';
 const LS_TOKEN   = 'vd_token';
+const HIST_KEY   = 'bio_status_v2';
+const GOOD_MS    = 500;
+const SLOW_MS    = 1500;
+const SEGS       = 24;
 
 // ══════════════════════════════════════════════════
 // SUPABASE
@@ -434,8 +511,9 @@ async function sbPatch(table, q, data) {
 // ══════════════════════════════════════════════════
 let vcToken = '';
 let vercelWebhook = '';
-let cachedData = { deployments: [], projects: [], domains: [], account: null, teams: [], usage: null };
-let currentDeployFilter = '';
+let cachedData = { deployments: [], projects: [], account: null };
+let statusHistory = [];
+let statusFetching = false;
 
 // ══════════════════════════════════════════════════
 // HELPERS
@@ -447,10 +525,6 @@ function timeAgo(ts) {
   if (s < 3600)  return `${Math.floor(s/60)}m ago`;
   if (s < 86400) return `${Math.floor(s/3600)}h ago`;
   return `${Math.floor(s/86400)}d ago`;
-}
-function fmtDate(ts) {
-  if (!ts) return '—';
-  return new Date(ts).toLocaleString('th-TH', { day:'2-digit', month:'short', year:'2-digit', hour:'2-digit', minute:'2-digit' });
 }
 function deployStatePill(state) {
   const m = {
@@ -465,7 +539,7 @@ function deployStatePill(state) {
 }
 
 // ══════════════════════════════════════════════════
-// IP FETCH
+// IP
 // ══════════════════════════════════════════════════
 async function getIP() {
   try {
@@ -483,9 +557,7 @@ async function sendAlert(title, desc, color = 0x5c6bc0, extraFields = []) {
   if (!wh) return;
   const ip = await getIP();
   const embed = {
-    title,
-    description: desc,
-    color,
+    title, description: desc, color,
     fields: [
       { name: '🌐 IP', value: `\`${ip}\``, inline: true },
       { name: '📅 Time', value: `\`${new Date().toLocaleString('th-TH')}\``, inline: true },
@@ -505,7 +577,7 @@ async function sendAlert(title, desc, color = 0x5c6bc0, extraFields = []) {
 }
 
 // ══════════════════════════════════════════════════
-// AUTH — PASSWORD (Supabase)
+// AUTH — PASSWORD
 // ══════════════════════════════════════════════════
 document.getElementById('pw-input').addEventListener('keydown', e => { if (e.key === 'Enter') doPasswordLogin(); });
 document.getElementById('token-input').addEventListener('keydown', e => { if (e.key === 'Enter') doTokenLogin(); });
@@ -519,38 +591,25 @@ async function doPasswordLogin() {
   err.textContent = '';
   if (!pw) { err.textContent = 'กรุณากรอกรหัสผ่าน'; return; }
   btn.disabled = true; btn.textContent = 'Checking...';
-
   try {
     const data = await sbGet('bio_config', '?id=eq.main&select=admin_password,vercel_webhook&limit=1');
     if (!data || !data[0]) throw new Error('Cannot connect to Supabase');
-
     const cfg = data[0];
-    // Load webhook
     vercelWebhook = cfg.vercel_webhook || '';
     localStorage.setItem('vd_webhook', vercelWebhook);
     document.getElementById('webhook-url').value = vercelWebhook;
-
     if (pw !== cfg.admin_password) {
       err.textContent = 'รหัสผ่านไม่ถูกต้อง';
       sendAlert('🚨 Failed Login — Vercel Dashboard', 'มีการพยายาม login ที่ล้มเหลว', 0xf87171);
-      btn.disabled = false; btn.textContent = 'Continue →';
-      return;
+      btn.disabled = false; btn.textContent = 'Continue →'; return;
     }
-
     sessionStorage.setItem('vd_auth', '1');
     sendAlert('🔐 Admin Login — Vercel Dashboard', 'เข้าสู่ระบบ Vercel Dashboard สำเร็จ', 0x22d3a0);
-
     const tok = localStorage.getItem(LS_TOKEN);
     btn.disabled = false; btn.textContent = 'Continue →';
     document.getElementById('screen-password').classList.add('hidden');
-
-    if (tok) {
-      vcToken = tok;
-      showApp();
-    } else {
-      document.getElementById('screen-token').classList.remove('hidden');
-    }
-
+    if (tok) { vcToken = tok; showApp(); }
+    else { document.getElementById('screen-token').classList.remove('hidden'); }
   } catch(e) {
     err.textContent = 'ไม่สามารถเชื่อมต่อ Supabase: ' + e.message;
     btn.disabled = false; btn.textContent = 'Continue →';
@@ -590,6 +649,7 @@ function clearAll() {
   if (!confirm('ลบข้อมูลทั้งหมด (token) ใน localStorage?')) return;
   localStorage.removeItem(LS_TOKEN);
   localStorage.removeItem('vd_webhook');
+  localStorage.removeItem(HIST_KEY);
   doLogout();
 }
 
@@ -598,13 +658,14 @@ function clearAll() {
 // ══════════════════════════════════════════════════
 async function showApp() {
   document.getElementById('app').style.display = 'block';
-  // Send page visit alert
   sendAlert('👁️ Vercel Dashboard Opened', 'มีการเปิดหน้า Vercel Dashboard', 0x38bdf8);
   await loadAllData();
+  loadStatusHistory();
+  fetchStatus();
 }
 
 // ══════════════════════════════════════════════════
-// VERCEL API FETCH
+// VERCEL API
 // ══════════════════════════════════════════════════
 async function vc(path) {
   const r = await fetch(`${VERCEL_API}${path}`, { headers: { Authorization: `Bearer ${vcToken}` } });
@@ -619,20 +680,11 @@ async function loadAllData() {
       vc('/v2/user'),
       vc('/v9/projects?limit=100'),
       vc('/v6/deployments?limit=100'),
-      vc('/v5/domains?limit=100'),
-      vc('/v2/teams'),
     ]);
     if (results[0].status === 'fulfilled') cachedData.account     = results[0].value.user;
     if (results[1].status === 'fulfilled') cachedData.projects    = results[1].value.projects || [];
     if (results[2].status === 'fulfilled') cachedData.deployments = results[2].value.deployments || [];
-    if (results[3].status === 'fulfilled') cachedData.domains     = results[3].value.domains || [];
-    if (results[4].status === 'fulfilled') cachedData.teams       = results[4].value.teams || [];
-
     renderAll();
-    // Load env vars + webhooks + usage async (slower)
-    loadEnvVars();
-    loadVercelWebhooks();
-    loadUsage();
   } catch(e) { console.error(e); }
   setRefreshSpin(false);
 }
@@ -641,29 +693,20 @@ function setRefreshSpin(on) {
   document.getElementById('refresh-btn').classList.toggle('refresh-spin', on);
 }
 
+let lastDeployIds = new Set();
 async function refreshAll() {
   await loadAllData();
-  checkNewDeployments();
-}
-
-// ── New deployment check ──
-let lastDeployIds = new Set();
-function checkNewDeployments() {
+  // Check new deployments
   const current = new Set(cachedData.deployments.map(d => d.uid));
   if (lastDeployIds.size > 0) {
     for (const id of current) {
       if (!lastDeployIds.has(id)) {
         const dep = cachedData.deployments.find(d => d.uid === id);
         if (dep) {
-          sendAlert(
-            '🚀 New Deployment — Vercel Dashboard',
-            `Project: **${dep.name || '—'}**\nURL: \`${dep.url ? 'https://'+dep.url : '—'}\`\nState: \`${dep.state || '—'}\``,
-            0x5c6bc0,
-            [
-              { name: '📁 Project', value: dep.name || '—', inline: true },
-              { name: '⚡ State', value: dep.state || '—', inline: true }
-            ]
-          );
+          sendAlert('🚀 New Deployment', `Project: **${dep.name || '—'}**\nState: \`${dep.state || '—'}\``, 0x5c6bc0, [
+            { name: '📁 Project', value: dep.name || '—', inline: true },
+            { name: '⚡ State', value: dep.state || '—', inline: true }
+          ]);
         }
       }
     }
@@ -672,184 +715,21 @@ function checkNewDeployments() {
 }
 
 // ══════════════════════════════════════════════════
-// ENV VARS (per project)
-// ══════════════════════════════════════════════════
-async function loadEnvVars() {
-  const el = document.getElementById('envvars-list');
-  if (!cachedData.projects.length) {
-    el.innerHTML = '<div class="empty-state"><div class="empty-icon">🔑</div><div class="empty-text">No projects to fetch env vars from</div></div>';
-    return;
-  }
-  el.innerHTML = '<div class="loading-wrap"><div class="loading-spinner"></div><div class="loading-text">Loading env vars...</div></div>';
-  let html = '';
-  for (const proj of cachedData.projects.slice(0, 20)) {
-    try {
-      const data = await vc(`/v9/projects/${proj.id}/env`);
-      const envs = data.envs || [];
-      if (!envs.length) continue;
-      html += `<div class="sec-divider">📁 ${proj.name} <span style="font-weight:400;letter-spacing:0;text-transform:none;">(${envs.length} vars)</span></div>`;
-      html += '<div class="list-card">';
-      html += envs.map(e => `
-        <div class="env-item">
-          <div class="env-key">${e.key}</div>
-          <div style="display:flex;align-items:center;gap:6px;">
-            <span class="pill ${e.target?.includes('production') ? 'pill-green' : 'pill-grey'}" style="font-size:9px;">${(e.target||[]).join(', ')||'—'}</span>
-            <span class="pill pill-grey" style="font-size:9px;">${e.type||'plain'}</span>
-          </div>
-        </div>`).join('');
-      html += '</div>';
-    } catch {}
-  }
-  el.innerHTML = html || '<div class="empty-state"><div class="empty-icon">🔑</div><div class="empty-text">No env vars found</div></div>';
-}
-
-// ══════════════════════════════════════════════════
-// VERCEL WEBHOOKS
-// ══════════════════════════════════════════════════
-async function loadVercelWebhooks() {
-  const el = document.getElementById('webhooks-list');
-  try {
-    const data = await vc('/v1/webhooks');
-    const hooks = data || [];
-    if (!hooks.length) {
-      el.innerHTML = '<div class="empty-state"><div class="empty-icon">🪝</div><div class="empty-text">No webhooks configured in Vercel</div></div>';
-      return;
-    }
-    el.innerHTML = '<div class="list-card">' + hooks.map(h => `
-      <div class="list-item">
-        <div class="list-icon">🪝</div>
-        <div class="list-main">
-          <div class="list-name">${h.url || '—'}</div>
-          <div class="list-desc">Events: ${(h.events || []).join(', ') || 'all'}</div>
-        </div>
-        <div class="list-right">
-          <div class="list-time">${timeAgo(h.createdAt)}</div>
-          <span class="pill pill-green">Active</span>
-        </div>
-      </div>`).join('') + '</div>';
-  } catch {
-    el.innerHTML = '<div class="empty-state"><div class="empty-icon">🪝</div><div class="empty-text">Could not load webhooks</div></div>';
-  }
-}
-
-// ══════════════════════════════════════════════════
-// USAGE
-// ══════════════════════════════════════════════════
-async function loadUsage() {
-  const el = document.getElementById('usage-content');
-  try {
-    const [userBilling] = await Promise.allSettled([vc('/v2/user')]);
-    const u = userBilling.status === 'fulfilled' ? userBilling.value.user : null;
-    if (!u) throw new Error();
-
-    const plan = u.billing?.plan || 'hobby';
-    const planLimits = {
-      hobby:      { bw: 100,    builds: 100, exec: 100,   domains: 50  },
-      pro:        { bw: 1000,   builds: 6000, exec: 1000, domains: 500 },
-      enterprise: { bw: 99999, builds: 99999, exec: 99999, domains: 9999 }
-    };
-    const limits = planLimits[plan] || planLimits.hobby;
-
-    el.innerHTML = `
-      <div class="list-card" style="margin-bottom:14px;padding:20px;">
-        <div class="sec-divider" style="margin-top:0;">📊 Bandwidth</div>
-        ${usageBar('Bandwidth Used', '—', limits.bw, 'GB', 'linear-gradient(90deg,var(--blue),var(--accent2))')}
-        <div class="sec-divider">⚡ Build Minutes</div>
-        ${usageBar('Build Minutes', cachedData.deployments.length, limits.builds, 'builds', 'linear-gradient(90deg,var(--yellow),var(--orange))')}
-        <div class="sec-divider">🌐 Domains</div>
-        ${usageBar('Custom Domains', cachedData.domains.length, limits.domains, 'domains', 'linear-gradient(90deg,var(--green),var(--blue))')}
-        <div class="sec-divider">📁 Projects</div>
-        ${usageBar('Projects', cachedData.projects.length, 200, 'projects', 'linear-gradient(90deg,var(--purple),var(--accent2))')}
-      </div>
-
-      <div class="list-card">
-        <div class="env-item"><div class="env-key">Plan</div><div class="env-val" style="text-transform:uppercase;font-weight:600;">${plan}</div></div>
-        <div class="env-item"><div class="env-key">Email</div><div class="env-val">${u.email || '—'}</div></div>
-        <div class="env-item"><div class="env-key">Username</div><div class="env-val">@${u.username || '—'}</div></div>
-        <div class="env-item"><div class="env-key">Account Created</div><div class="env-val">${fmtDate(u.createdAt)}</div></div>
-        <div class="env-item"><div class="env-key">Total Projects</div><div class="env-val">${cachedData.projects.length}</div></div>
-        <div class="env-item"><div class="env-key">Total Deployments</div><div class="env-val">${cachedData.deployments.length}</div></div>
-        <div class="env-item"><div class="env-key">Total Domains</div><div class="env-val">${cachedData.domains.length}</div></div>
-        <div class="env-item"><div class="env-key">Teams</div><div class="env-val">${cachedData.teams.length}</div></div>
-      </div>
-    `;
-  } catch {
-    el.innerHTML = '<div class="empty-state"><div class="empty-icon">📈</div><div class="empty-text">Could not load usage data</div></div>';
-  }
-}
-
-function usageBar(label, used, limit, unit, gradient) {
-  const pct = limit > 0 ? Math.min(Math.round((used / limit) * 100), 100) : 0;
-  const color = pct >= 90 ? 'var(--red)' : pct >= 70 ? 'var(--yellow)' : gradient;
-  return `
-    <div class="usage-item">
-      <div class="usage-header">
-        <div class="usage-name">${label}</div>
-        <div class="usage-vals">${used} / ${limit} ${unit}</div>
-      </div>
-      <div class="usage-bar-bg">
-        <div class="usage-bar-fill" style="width:${pct}%;background:${color};"></div>
-      </div>
-    </div>`;
-}
-
-// ══════════════════════════════════════════════════
-// RENDER
+// RENDER ALL
 // ══════════════════════════════════════════════════
 function renderAll() {
-  renderAccount();
   renderOverview();
   renderDeployments();
   renderProjects();
-  renderDomains();
-  renderTeams();
   updateBadges();
-}
-
-function renderAccount() {
-  const u = cachedData.account;
-  if (!u) return;
-  document.getElementById('topbar-account').textContent = u.username || u.name || 'User';
-
-  const plan = u.billing?.plan || 'hobby';
-  const planPill = { pro: 'pill-purple', enterprise: 'pill-orange', hobby: 'pill-grey' };
-  const avatarHTML = u.avatar
-    ? `<img src="https://vercel.com/api/www/avatar/${u.avatar}?s=120" alt="avatar" onerror="this.parentElement.textContent='${(u.name||'V')[0]}';">`
-    : (u.name || 'V')[0];
-
-  document.getElementById('account-info').innerHTML = `
-    <div class="account-card">
-      <div class="account-avatar">${avatarHTML}</div>
-      <div>
-        <div class="account-name">${u.name || u.username || '—'}</div>
-        <div class="account-handle">@${u.username || '—'} · ${u.email || '—'}</div>
-        <span class="pill ${planPill[plan] || 'pill-grey'}" style="margin-top:8px;display:inline-flex;">${plan.toUpperCase()}</span>
-      </div>
-    </div>
-    <div class="list-card">
-      ${aRow('👤 Username', u.username || '—')}
-      ${aRow('📧 Email', u.email || '—')}
-      ${aRow('🆔 User ID', u.id || '—', true)}
-      ${aRow('📅 Created', fmtDate(u.createdAt))}
-      ${aRow('🌍 Plan', plan.toUpperCase())}
-      ${aRow('💬 Bio', u.bio || '—')}
-      ${aRow('🔗 Website', u.website || '—')}
-      ${aRow('🐙 GitHub', u.profiles?.find(p => p.service === 'github')?.name || '—')}
-      ${aRow('🔒 2FA', u.softBlock ? 'Blocked' : u.hasTrialAvailable ? 'Trial' : '—')}
-      ${aRow('📍 Resource Groups', (u.resourceConfig?.concurrentBuilds || '—') + ' concurrent builds')}
-    </div>`;
-}
-function aRow(label, val, mono = false) {
-  return `<div class="env-item">
-    <div class="env-key" style="${mono ? '' : 'font-family:Inter,sans-serif;'}">${label}</div>
-    <div class="env-val" style="${mono ? '' : 'font-family:Inter,sans-serif;color:var(--text)'}">${val}</div>
-  </div>`;
+  if (cachedData.account) {
+    document.getElementById('topbar-account').textContent = cachedData.account.username || cachedData.account.name || 'User';
+  }
 }
 
 function renderOverview() {
   const deps  = cachedData.deployments;
   const projs = cachedData.projects;
-  const doms  = cachedData.domains;
   const ok    = deps.filter(d => d.state === 'READY').length;
   const err   = deps.filter(d => d.state === 'ERROR').length;
   const build = deps.filter(d => d.state === 'BUILDING' || d.state === 'INITIALIZING').length;
@@ -859,12 +739,11 @@ function renderOverview() {
   document.getElementById('ov-deploys-sub').textContent = `${ok} ready · ${err} error`;
   document.getElementById('ov-projects').textContent    = projs.length;
   document.getElementById('ov-projects-sub').textContent= `${projs.filter(p => p.latestDeployments?.length).length} active`;
-  document.getElementById('ov-domains').textContent     = doms.length;
-  document.getElementById('ov-domains-sub').textContent = `${doms.filter(d => d.verified).length} verified`;
   document.getElementById('ov-success').textContent     = pct + '%';
   document.getElementById('ov-success').className       = 'stat-value ' + (pct === 100 ? 'c-green' : pct >= 80 ? 'c-yellow' : 'c-red');
   document.getElementById('ov-success-sub').textContent = `${ok}/${deps.length} successful`;
   document.getElementById('ov-errors').textContent      = err;
+  document.getElementById('ov-errors-sub').textContent  = err > 0 ? 'needs attention' : 'all clear';
   document.getElementById('ov-building').textContent    = build;
 
   const recent = [...deps].sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0)).slice(0, 15);
@@ -873,10 +752,10 @@ function renderOverview() {
   act.innerHTML = recent.map(d => {
     const [cls, lbl] = deployStatePill(d.state);
     return `<div class="list-item">
-      <div class="list-icon" style="font-size:12px;">${d.state === 'READY' ? '✅' : d.state === 'ERROR' ? '❌' : d.state === 'BUILDING' ? '🔨' : '⏸️'}</div>
+      <div class="list-icon" style="font-size:12px;">${d.state==='READY'?'✅':d.state==='ERROR'?'❌':d.state==='BUILDING'?'🔨':'⏸️'}</div>
       <div class="list-main">
-        <div class="list-name">${d.name || '—'}</div>
-        <div class="list-desc">${d.url ? `https://${d.url}` : '—'} · ${d.meta?.githubCommitMessage?.slice(0, 50) || 'Manual'}</div>
+        <div class="list-name">${d.name||'—'}</div>
+        <div class="list-desc">${d.url?`https://${d.url}`:'—'} · ${d.meta?.githubCommitMessage?.slice(0,50)||'Manual'}</div>
       </div>
       <div class="list-right">
         <div class="list-time">${timeAgo(d.createdAt)}</div>
@@ -887,23 +766,23 @@ function renderOverview() {
 }
 
 function renderDeployments(filter = '') {
-  let deps = [...cachedData.deployments].sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+  let deps = [...cachedData.deployments].sort((a, b) => (b.createdAt||0) - (a.createdAt||0));
   if (filter) deps = deps.filter(d => d.state === filter);
   document.getElementById('deploys-count').textContent = deps.length + ' deployments';
   const el = document.getElementById('deployments-list');
   if (!deps.length) { el.innerHTML = '<div class="empty-state"><div class="empty-icon">🚀</div><div class="empty-text">No deployments</div></div>'; return; }
   el.innerHTML = deps.map(d => {
     const [cls, lbl] = deployStatePill(d.state);
-    const branch = d.meta?.githubCommitRef || d.meta?.gitlabCommitRef || 'main';
-    const commit = d.meta?.githubCommitMessage || d.meta?.gitlabCommitMessage || '';
+    const branch = d.meta?.githubCommitRef || 'main';
+    const commit = d.meta?.githubCommitMessage || '';
     const sha    = (d.meta?.githubCommitSha || '').slice(0, 7);
     const region = d.regions ? d.regions.join(', ') : '—';
     return `<div class="list-item">
-      <div class="list-icon" style="font-size:12px;">${d.state === 'READY' ? '✅' : d.state === 'ERROR' ? '❌' : d.state === 'BUILDING' ? '🔨' : '⏸️'}</div>
+      <div class="list-icon" style="font-size:12px;">${d.state==='READY'?'✅':d.state==='ERROR'?'❌':d.state==='BUILDING'?'🔨':'⏸️'}</div>
       <div class="list-main">
-        <div class="list-name">${d.name || '—'} ${sha ? `<span style="font-size:10px;color:var(--sub);font-family:'JetBrains Mono',monospace;">#${sha}</span>` : ''}</div>
-        <div class="list-desc">${d.url ? `https://${d.url}` : '—'}${branch ? ` · ${branch}` : ''}${region !== '—' ? ` · ${region}` : ''}</div>
-        ${commit ? `<div class="list-desc" style="margin-top:1px;opacity:.55;">${commit.slice(0, 60)}${commit.length > 60 ? '…' : ''}</div>` : ''}
+        <div class="list-name">${d.name||'—'} ${sha?`<span style="font-size:10px;color:var(--sub);font-family:'JetBrains Mono',monospace;">#${sha}</span>`:''}</div>
+        <div class="list-desc">${d.url?`https://${d.url}`:'—'}${branch?` · ${branch}`:''}${region!=='—'?` · ${region}`:''}</div>
+        ${commit?`<div class="list-desc" style="margin-top:1px;opacity:.55;">${commit.slice(0,60)}${commit.length>60?'…':''}</div>`:''}
       </div>
       <div class="list-right">
         <div class="list-time">${timeAgo(d.createdAt)}</div>
@@ -914,31 +793,27 @@ function renderDeployments(filter = '') {
 }
 
 function filterDeploys(state) {
-  currentDeployFilter = state;
-  document.querySelectorAll('#deploy-filter button').forEach(b => {
-    b.style.background = ''; b.style.color = '';
-  });
-  const active = document.getElementById(`df-${state || 'all'}`);
-  if (active) { active.style.background = 'rgba(92,107,192,.15)'; active.style.color = 'var(--accent2)'; }
+  document.querySelectorAll('#deploy-filter button').forEach(b => { b.style.background=''; b.style.color=''; });
+  const active = document.getElementById(`df-${state||'all'}`);
+  if (active) { active.style.background='rgba(92,107,192,.15)'; active.style.color='var(--accent2)'; }
   renderDeployments(state);
 }
 
 function renderProjects() {
-  const projs = [...cachedData.projects].sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
+  const projs = [...cachedData.projects].sort((a, b) => (b.updatedAt||0) - (a.updatedAt||0));
   document.getElementById('projects-count').textContent = projs.length + ' projects';
   const el = document.getElementById('projects-list');
   if (!projs.length) { el.innerHTML = '<div class="list-card"><div class="empty-state"><div class="empty-icon">📁</div><div class="empty-text">No projects</div></div></div>'; return; }
   el.innerHTML = projs.map(p => {
     const latest = p.latestDeployments?.[0];
-    const [cls, lbl] = latest ? deployStatePill(latest.state) : ['pill pill-grey', 'No deploy'];
+    const [cls, lbl] = latest ? deployStatePill(latest.state) : ['pill pill-grey','No deploy'];
     const url = latest?.url || p.alias?.[0] || '—';
-    const fw  = p.framework || '—';
     return `<div class="list-card" style="margin-bottom:10px;">
       <div class="list-item">
         <div class="list-icon">📁</div>
         <div class="list-main">
-          <div class="list-name">${p.name || '—'}</div>
-          <div class="list-desc">${url !== '—' ? `https://${url}` : '—'} · ${fw}</div>
+          <div class="list-name">${p.name||'—'}</div>
+          <div class="list-desc">${url!=='—'?`https://${url}`:'—'} · ${p.framework||'—'}</div>
         </div>
         <div class="list-right">
           <div class="list-time">${timeAgo(p.updatedAt)}</div>
@@ -946,69 +821,287 @@ function renderProjects() {
         </div>
       </div>
       <div style="padding:0 16px 12px;display:flex;gap:6px;flex-wrap:wrap;">
-        ${p.nodeVersion ? `<span class="pill pill-grey">Node ${p.nodeVersion}</span>` : ''}
-        ${p.framework ? `<span class="pill pill-blue">${p.framework}</span>` : ''}
-        ${p.gitRepository?.repo ? `<span class="pill pill-grey">🐙 ${p.gitRepository.repo}</span>` : ''}
-        ${p.gitRepository?.type ? `<span class="pill pill-grey">${p.gitRepository.type}</span>` : ''}
-        <span class="pill pill-grey">🆔 ${(p.id || '').slice(0, 8) || '—'}</span>
-        ${p.rootDirectory ? `<span class="pill pill-grey">📂 ${p.rootDirectory}</span>` : ''}
-        ${p.buildCommand ? `<span class="pill pill-grey">🔨 ${p.buildCommand}</span>` : ''}
-        ${p.outputDirectory ? `<span class="pill pill-grey">📤 ${p.outputDirectory}</span>` : ''}
+        ${p.framework?`<span class="pill pill-blue">${p.framework}</span>`:''}
+        ${p.gitRepository?.repo?`<span class="pill pill-grey">🐙 ${p.gitRepository.repo}</span>`:''}
+        ${p.nodeVersion?`<span class="pill pill-grey">Node ${p.nodeVersion}</span>`:''}
+        <span class="pill pill-grey">🆔 ${(p.id||'').slice(0,8)||'—'}</span>
       </div>
     </div>`;
   }).join('');
-}
-
-function renderDomains() {
-  const doms = [...cachedData.domains];
-  document.getElementById('domains-count').textContent = doms.length + ' domains';
-  const el = document.getElementById('domains-list');
-  if (!doms.length) { el.innerHTML = '<div class="empty-state"><div class="empty-icon">🌐</div><div class="empty-text">No domains</div></div>'; return; }
-  el.innerHTML = doms.map(d => {
-    const [cls, lbl] = d.verified ? ['pill pill-green', 'Verified'] : ['pill pill-red', 'Unverified'];
-    const nsType = d.nsVerifiedAt ? 'NS' : d.txtVerifiedAt ? 'TXT' : 'Pending';
-    return `<div class="domain-row">
-      <div>
-        <div class="domain-name">${d.name || '—'}</div>
-        <div class="domain-project">${d.projectId || 'Unassigned'} · ${nsType} · ${fmtDate(d.createdAt)}</div>
-      </div>
-      <span class="pill ${d.nsVerifiedAt ? 'pill-blue' : 'pill-grey'}" style="font-size:9px;">${nsType}</span>
-      <span class="${cls}">${lbl}</span>
-    </div>`;
-  }).join('');
-}
-
-function renderTeams() {
-  const teams = cachedData.teams;
-  const el = document.getElementById('teams-list');
-  if (!teams.length) { el.innerHTML = '<div class="empty-state"><div class="empty-icon">👥</div><div class="empty-text">No teams</div></div>'; return; }
-  el.innerHTML = '<div class="list-card">' + teams.map(t => `
-    <div class="list-item">
-      <div class="list-icon">👥</div>
-      <div class="list-main">
-        <div class="list-name">${t.name || t.slug || '—'}</div>
-        <div class="list-desc">slug: ${t.slug || '—'} · id: ${t.id || '—'}</div>
-      </div>
-      <div class="list-right">
-        <span class="pill pill-blue">${t.membership?.role || 'member'}</span>
-      </div>
-    </div>`).join('') + '</div>';
 }
 
 function updateBadges() {
   document.getElementById('badge-deploys').textContent  = cachedData.deployments.length;
   document.getElementById('badge-projects').textContent = cachedData.projects.length;
-  document.getElementById('badge-domains').textContent  = cachedData.domains.length;
+}
+
+// ══════════════════════════════════════════════════
+// STATUS PAGE LOGIC
+// ══════════════════════════════════════════════════
+function loadStatusHistory() {
+  try { statusHistory = JSON.parse(localStorage.getItem(HIST_KEY) || '[]'); } catch { statusHistory = []; }
+  if (!Array.isArray(statusHistory)) statusHistory = [];
+}
+function saveStatusHistory() {
+  statusHistory = statusHistory.slice(-SEGS * 4);
+  localStorage.setItem(HIST_KEY, JSON.stringify(statusHistory));
+}
+function pushStatusHist(up, ms) {
+  statusHistory.push({ t: Date.now(), up, ms });
+  saveStatusHistory();
+}
+
+async function pingSite() {
+  const t0 = Date.now();
+  try {
+    const r = await fetch(location.origin + '/?nc=' + t0, { method: 'HEAD', cache: 'no-store' });
+    const ms = Date.now() - t0;
+    return { up: r.ok, ms };
+  } catch {
+    return { up: false, ms: 0 };
+  }
+}
+
+async function fetchStatus() {
+  if (statusFetching) return;
+  statusFetching = true;
+  const btn = document.getElementById('st-refresh-btn');
+  if (btn) { btn.disabled = true; btn.textContent = '↻ Checking...'; }
+
+  const result = await pingSite();
+  pushStatusHist(result.up, result.ms);
+
+  renderStatusSegs();
+  renderStatusChart();
+  updateSystemStatus(result);
+  renderStatusIncidents();
+  updateStatusHero();
+  updateOverviewStatusStat(result);
+
+  if (btn) { btn.disabled = false; btn.textContent = '↻ Refresh Status'; }
+  statusFetching = false;
+}
+
+function renderStatusSegs() {
+  const wrap = document.getElementById('st-seg-wrap');
+  wrap.innerHTML = '';
+  const recent = statusHistory.slice(-SEGS);
+  const pad = SEGS - recent.length;
+  for (let i = 0; i < pad; i++) {
+    const s = document.createElement('div');
+    s.className = 'seg empty';
+    s.innerHTML = '<div class="seg-tooltip">No data</div>';
+    wrap.appendChild(s);
+  }
+  recent.forEach(h => {
+    const s = document.createElement('div');
+    const isGood    = h.up && h.ms > 0 && h.ms < SLOW_MS;
+    const isPartial = h.up && h.ms >= SLOW_MS;
+    s.className = 'seg ' + (isGood ? 'up' : isPartial ? 'partial' : 'down');
+    const ago = Math.round((Date.now() - h.t) / 60000);
+    const timeStr = ago < 2 ? 'Just now' : `${ago}m ago`;
+    const msStr = h.up ? `${h.ms}ms` : 'Timeout';
+    const statusStr = isGood ? 'Up' : isPartial ? 'Slow' : 'Down';
+    s.innerHTML = `<div class="seg-tooltip">${statusStr} · ${msStr} · ${timeStr}</div>`;
+    wrap.appendChild(s);
+  });
+
+  const upCount = recent.filter(h => h.up).length;
+  const pct = recent.length === 0 ? 100 : Math.round((upCount / recent.length) * 100);
+  const downtimes = recent.filter(h => !h.up).length;
+  const msTimes = recent.filter(h => h.up && h.ms > 0).map(h => h.ms);
+  const avg = msTimes.length ? Math.round(msTimes.reduce((a,b) => a+b, 0) / msTimes.length) : 0;
+  const last = recent.length ? recent[recent.length - 1] : null;
+
+  const pctEl = document.getElementById('st-pct');
+  pctEl.textContent = pct + '%';
+  pctEl.className = 'seg-pct ' + (pct === 100 ? 'c-green' : pct >= 90 ? 'c-yellow' : 'c-red');
+
+  document.getElementById('st-stat-uptime').textContent = pct + '%';
+  document.getElementById('st-stat-uptime').className = 'seg-stat-val ' + (pct === 100 ? 'c-green' : pct >= 90 ? 'c-yellow' : 'c-red');
+  document.getElementById('st-stat-down').textContent = downtimes;
+  document.getElementById('st-stat-down').className = 'seg-stat-val ' + (downtimes === 0 ? 'c-green' : 'c-red');
+  document.getElementById('st-stat-avg').textContent = avg ? avg + 'ms' : '—';
+  document.getElementById('st-stat-avg').className = 'seg-stat-val ' + (avg < GOOD_MS ? 'c-green' : avg < SLOW_MS ? 'c-yellow' : 'c-red');
+  document.getElementById('st-stat-last').textContent = last ? (last.up ? last.ms + 'ms' : 'Down') : '—';
+  document.getElementById('st-stat-last').className = 'seg-stat-val ' + (!last || !last.up ? 'c-red' : last.ms < SLOW_MS ? 'c-green' : 'c-yellow');
+
+  return { pct, downtimes, avg, last };
+}
+
+function renderStatusChart() {
+  const cv = document.getElementById('st-resp-chart');
+  const ctx = cv.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  const W = cv.offsetWidth || 300, H = cv.offsetHeight || 72;
+  cv.width = W * dpr; cv.height = H * dpr;
+  ctx.scale(dpr, dpr);
+
+  const data = statusHistory.filter(h => h.up && h.ms > 0).slice(-20);
+  if (!data.length) {
+    ctx.fillStyle = 'rgba(255,255,255,.2)';
+    ctx.font = '11px Inter, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('No data yet — click Refresh', W/2, H/2);
+    return;
+  }
+
+  const maxMs = Math.max(...data.map(d => d.ms), SLOW_MS);
+  const pad = { t:6, b:6, l:6, r:6 };
+  const cW = W - pad.l - pad.r;
+  const cH = H - pad.t - pad.b;
+
+  [GOOD_MS, SLOW_MS].forEach(v => {
+    if (v > maxMs) return;
+    const y = pad.t + cH - (v / maxMs) * cH;
+    ctx.beginPath(); ctx.moveTo(pad.l, y); ctx.lineTo(W - pad.r, y);
+    ctx.strokeStyle = 'rgba(255,255,255,.06)'; ctx.lineWidth = 1; ctx.stroke();
+  });
+
+  const grad = ctx.createLinearGradient(0, pad.t, 0, H - pad.b);
+  grad.addColorStop(0, 'rgba(34,211,160,.18)');
+  grad.addColorStop(1, 'rgba(34,211,160,.01)');
+
+  const xStep = cW / Math.max(data.length - 1, 1);
+  const pts = data.map((d, i) => ({
+    x: pad.l + i * xStep,
+    y: pad.t + cH - (d.ms / maxMs) * cH
+  }));
+
+  ctx.beginPath();
+  ctx.moveTo(pts[0].x, H - pad.b);
+  pts.forEach(p => ctx.lineTo(p.x, p.y));
+  ctx.lineTo(pts[pts.length-1].x, H - pad.b);
+  ctx.closePath(); ctx.fillStyle = grad; ctx.fill();
+
+  ctx.beginPath();
+  pts.forEach((p, i) => i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y));
+  ctx.strokeStyle = 'var(--green)'; ctx.lineWidth = 1.5; ctx.lineJoin = 'round'; ctx.stroke();
+
+  pts.forEach(p => {
+    ctx.beginPath(); ctx.arc(p.x, p.y, 2.5, 0, Math.PI*2);
+    ctx.fillStyle = 'var(--green)'; ctx.fill();
+    ctx.strokeStyle = 'var(--bg)'; ctx.lineWidth = 1.5; ctx.stroke();
+  });
+
+  const minVal = Math.min(...data.map(d => d.ms));
+  const maxVal = Math.max(...data.map(d => d.ms));
+  document.getElementById('st-resp-range').textContent = `${minVal}ms – ${maxVal}ms`;
+
+  const avg = Math.round(data.reduce((a,d) => a+d.ms, 0) / data.length);
+  const pill = document.getElementById('st-resp-pill');
+  if (avg < GOOD_MS)      { pill.textContent = `Avg ${avg}ms`; pill.className = 'pill pill-green'; }
+  else if (avg < SLOW_MS) { pill.textContent = `Avg ${avg}ms`; pill.className = 'pill pill-yellow'; }
+  else                    { pill.textContent = `Avg ${avg}ms`; pill.className = 'pill pill-red'; }
+}
+
+function updateSystemStatus(siteResult) {
+  const siteEl = document.getElementById('st-sys-site');
+  if (!siteResult.up) { siteEl.textContent = 'Outage'; siteEl.className = 'pill pill-red'; }
+  else if (siteResult.ms > SLOW_MS) { siteEl.textContent = 'Degraded'; siteEl.className = 'pill pill-yellow'; }
+  else { siteEl.textContent = 'Operational'; siteEl.className = 'pill pill-green'; }
+
+  fetch('https://www.vercel-status.com/api/v2/status.json')
+    .then(r => r.json())
+    .then(j => {
+      const isOk = (j.status?.indicator || 'none') === 'none';
+      document.getElementById('st-sys-edge').textContent = isOk ? 'Operational' : 'Incident';
+      document.getElementById('st-sys-edge').className   = isOk ? 'pill pill-green' : 'pill pill-red';
+      document.getElementById('st-sys-vc').textContent   = isOk ? 'Operational' : 'Incident';
+      document.getElementById('st-sys-vc').className     = isOk ? 'pill pill-green' : 'pill pill-red';
+      document.getElementById('st-sys-pill').textContent = isOk && siteResult.up ? 'All Operational' : 'Issue Detected';
+      document.getElementById('st-sys-pill').className   = isOk && siteResult.up ? 'pill pill-green' : 'pill pill-red';
+    })
+    .catch(() => {
+      document.getElementById('st-sys-edge').textContent = 'Unknown'; document.getElementById('st-sys-edge').className = 'pill pill-grey';
+      document.getElementById('st-sys-vc').textContent   = 'Unknown'; document.getElementById('st-sys-vc').className   = 'pill pill-grey';
+      document.getElementById('st-sys-pill').textContent = siteResult.up ? 'Partial' : 'Issue';
+      document.getElementById('st-sys-pill').className   = siteResult.up ? 'pill pill-yellow' : 'pill pill-red';
+    });
+}
+
+function renderStatusIncidents() {
+  const el = document.getElementById('st-inc-list');
+  const pill = document.getElementById('st-inc-pill');
+  const incidents = statusHistory.filter(h => !h.up || h.ms > SLOW_MS);
+  if (!incidents.length) {
+    el.innerHTML = '<div class="no-incidents">✓ ไม่พบ incident — ระบบทำงานปกติ</div>';
+    pill.textContent = '0 incidents'; pill.className = 'pill pill-green'; return;
+  }
+  pill.textContent = incidents.length + ' incident' + (incidents.length > 1 ? 's' : '');
+  pill.className = 'pill pill-red';
+  el.innerHTML = incidents.slice(-6).reverse().map(h => {
+    const ago = Math.round((Date.now() - h.t) / 60000);
+    const timeStr = ago < 1 ? 'Just now' : ago < 60 ? `${ago} นาทีที่แล้ว` : `${Math.round(ago/60)} ชั่วโมงที่แล้ว`;
+    const isDown = !h.up;
+    const title = isDown ? 'Site Outage — ไม่ตอบสนอง' : `Performance Degraded — ${h.ms}ms`;
+    const dotColor = isDown ? 'var(--red)' : 'var(--yellow)';
+    return `<div class="inc-item">
+      <div style="margin-top:3px;flex-shrink:0;"><div style="width:7px;height:7px;border-radius:50%;background:${dotColor};"></div></div>
+      <div class="inc-content">
+        <div class="inc-title">${title}</div>
+        <div class="inc-time">${timeStr}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function updateStatusHero() {
+  const recent = statusHistory.slice(-SEGS);
+  const upCount = recent.filter(h => h.up).length;
+  const pct = recent.length === 0 ? 100 : Math.round((upCount / recent.length) * 100);
+  const last = recent.length ? recent[recent.length-1] : null;
+  const siteUp = last ? last.up : true;
+
+  const badge = document.getElementById('st-hero-badge');
+  const dot   = document.getElementById('st-hero-dot');
+  const text  = document.getElementById('st-hero-text');
+  const title = document.getElementById('st-hero-title');
+  const sub   = document.getElementById('st-hero-sub');
+  const time  = document.getElementById('st-hero-time');
+
+  if (pct === 100 && siteUp) {
+    badge.className = 'status-hero-badge badge-green'; dot.className = 'b-dot b-dot-g';
+    text.textContent = 'All Operational'; title.textContent = 'All Systems Normal';
+    sub.textContent  = 'ทุกระบบทำงานปกติ';
+  } else if (pct >= 90 || siteUp) {
+    badge.className = 'status-hero-badge badge-yellow'; dot.className = 'b-dot b-dot-y';
+    text.textContent = 'Minor Issues'; title.textContent = 'Minor Disruption';
+    sub.textContent  = `Uptime ${pct}% — ระบบส่วนใหญ่ปกติ มีบางส่วนช้าหรือหยุดชั่วคราว`;
+  } else {
+    badge.className = 'status-hero-badge badge-red'; dot.className = 'b-dot b-dot-r';
+    text.textContent = 'Disruption'; title.textContent = 'Outage Detected';
+    sub.textContent  = `Uptime ${pct}% — ระบบไม่ตอบสนอง`;
+  }
+  const now = new Date();
+  time.textContent = `อัปเดต: ${now.toLocaleTimeString('th-TH', {hour:'2-digit',minute:'2-digit',second:'2-digit'})} · Auto-refresh ทุก 60s`;
+}
+
+function updateOverviewStatusStat(result) {
+  const el = document.getElementById('ov-status-val');
+  const sub = document.getElementById('ov-status-sub');
+  if (!result.up) {
+    el.textContent = '🔴 Down'; el.className = 'stat-value c-red';
+    sub.textContent = 'Site unreachable';
+  } else if (result.ms > SLOW_MS) {
+    el.textContent = '🟡 Slow'; el.className = 'stat-value c-yellow';
+    sub.textContent = `${result.ms}ms response`;
+  } else {
+    el.textContent = '🟢 Online'; el.className = 'stat-value c-green';
+    sub.textContent = `${result.ms}ms response`;
+  }
 }
 
 // ══════════════════════════════════════════════════
 // TABS
 // ══════════════════════════════════════════════════
-function switchTab(el) {
+function switchTab(el, isStatus) {
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.pane').forEach(p => p.classList.remove('active'));
   el.classList.add('active');
   document.getElementById(el.dataset.pane).classList.add('active');
+  // Re-render chart on tab open (canvas needs visible parent)
+  if (isStatus) { setTimeout(() => renderStatusChart(), 50); }
 }
 
 // ══════════════════════════════════════════════════
@@ -1020,11 +1113,10 @@ async function saveWebhookToSupabase() {
   msg.textContent = 'Saving...'; msg.style.color = 'var(--sub)';
   const ok = await sbPatch('bio_config', '?id=eq.main', { vercel_webhook: url });
   if (ok) {
-    vercelWebhook = url;
-    localStorage.setItem('vd_webhook', url);
-    msg.textContent = '✅ Saved to Supabase!'; msg.style.color = 'var(--green)';
+    vercelWebhook = url; localStorage.setItem('vd_webhook', url);
+    msg.textContent = '✅ Saved!'; msg.style.color = 'var(--green)';
   } else {
-    msg.textContent = '❌ Failed to save'; msg.style.color = 'var(--red)';
+    msg.textContent = '❌ Failed'; msg.style.color = 'var(--red)';
   }
   setTimeout(() => msg.textContent = '', 3000);
 }
@@ -1035,8 +1127,8 @@ async function testWebhook() {
   if (!url) { msg.textContent = '⚠️ Enter webhook URL first'; msg.style.color = 'var(--red)'; return; }
   vercelWebhook = url;
   msg.textContent = 'Sending...'; msg.style.color = 'var(--sub)';
-  await sendAlert('🧪 Test Alert — Vercel Dashboard', 'Webhook connection test — working correctly!', 0x22d3a0);
-  msg.textContent = '✅ Test sent! Check Discord.'; msg.style.color = 'var(--green)';
+  await sendAlert('🧪 Test Alert', 'Webhook test — working!', 0x22d3a0);
+  msg.textContent = '✅ Check Discord!'; msg.style.color = 'var(--green)';
   setTimeout(() => msg.textContent = '', 4000);
 }
 
@@ -1048,9 +1140,8 @@ async function changeToken() {
   try {
     const r = await fetch(`${VERCEL_API}/v2/user`, { headers: { Authorization: `Bearer ${tok}` } });
     if (!r.ok) throw new Error();
-    localStorage.setItem(LS_TOKEN, tok);
-    vcToken = tok;
-    msg.textContent = '✅ Token updated! Refreshing...'; msg.style.color = 'var(--green)';
+    localStorage.setItem(LS_TOKEN, tok); vcToken = tok;
+    msg.textContent = '✅ Updated! Refreshing...'; msg.style.color = 'var(--green)';
     document.getElementById('new-token').value = '';
     await loadAllData();
   } catch {
@@ -1060,24 +1151,21 @@ async function changeToken() {
 }
 
 // ══════════════════════════════════════════════════
-// AUTO-REFRESH every 60s
+// AUTO-REFRESH
 // ══════════════════════════════════════════════════
 setInterval(() => { if (vcToken) refreshAll(); }, 60000);
+setInterval(() => { if (vcToken) fetchStatus(); }, 60000);
 
 // ══════════════════════════════════════════════════
-// INIT — auto-login if session exists
+// INIT
 // ══════════════════════════════════════════════════
 (async () => {
   const tok = localStorage.getItem(LS_TOKEN);
   if (tok) vcToken = tok;
   const wh = localStorage.getItem('vd_webhook');
-  if (wh) {
-    vercelWebhook = wh;
-    document.getElementById('webhook-url').value = wh;
-  }
+  if (wh) { vercelWebhook = wh; document.getElementById('webhook-url').value = wh; }
 
   if (sessionStorage.getItem('vd_auth') === '1' && tok) {
-    // Reload webhook from Supabase silently
     try {
       const cfg = await sbGet('bio_config', '?id=eq.main&select=vercel_webhook&limit=1');
       if (cfg?.[0]?.vercel_webhook) {
