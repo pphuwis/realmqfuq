@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Vercel Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#080a0f;--surface:#0d1117;--card:#111820;
+  --border:rgba(255,255,255,.07);--border2:rgba(255,255,255,.12);
+  --text:#e2e8f0;--sub:#64748b;--muted:rgba(255,255,255,.18);
+  --accent:#5c6bc0;--accent2:#7986cb;
+  --green:#22d3a0;--red:#f87171;--yellow:#fbbf24;
+  --blue:#38bdf8;--purple:#a78bfa;--orange:#fb923c;
+}
+html,body{min-height:100%;font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);}
+::-webkit-scrollbar{width:4px;height:4px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:4px;}
+body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(ellipse 80% 50% at 50% -10%,rgba(92,107,192,.15),transparent);pointer-events:none;z-index:0;}
+
+/* ── SCREENS ── */
+.screen{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:var(--bg);z-index:200;padding:20px;}
+.screen.hidden{display:none;}
+
+/* ── AUTH BOX ── */
+.auth-box{width:min(400px,100%);background:var(--card);border:1px solid var(--border2);border-radius:24px;padding:40px 32px;display:flex;flex-direction:column;gap:20px;}
+.auth-logo{font-size:22px;font-weight:700;letter-spacing:-.02em;display:flex;align-items:center;gap:10px;}
+.auth-step{font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--sub);}
+.auth-title{font-size:18px;font-weight:700;line-height:1.3;}
+.auth-desc{font-size:12px;color:var(--sub);line-height:1.6;margin-top:4px;}
+.auth-field{display:flex;flex-direction:column;gap:6px;}
+.auth-field label{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--sub);}
+.auth-field input{background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;padding:11px 14px;color:var(--text);font-family:'Inter',sans-serif;font-size:13px;outline:none;transition:border .2s,background .2s;}
+.auth-field input:focus{border-color:var(--accent2);background:rgba(255,255,255,.07);}
+.auth-field input::placeholder{color:var(--sub);}
+.auth-hint{font-size:11px;color:var(--sub);line-height:1.5;}
+.auth-hint a{color:var(--accent2);text-decoration:none;}
+.auth-btn{padding:13px;border-radius:11px;border:none;background:var(--accent);color:#fff;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:background .2s,transform .1s,opacity .2s;}
+.auth-btn:hover{background:var(--accent2);}
+.auth-btn:active{transform:scale(.97);}
+.auth-btn:disabled{opacity:.45;cursor:not-allowed;}
+.auth-err{font-size:12px;color:var(--red);min-height:16px;text-align:center;}
+.auth-link{text-align:center;font-size:12px;color:var(--sub);}
+.auth-link span{color:var(--accent2);cursor:pointer;}
+.auth-link span:hover{text-decoration:underline;}
+
+/* ── APP LAYOUT ── */
+#app{display:none;position:relative;z-index:1;min-height:100vh;}
+
+/* ── TOPBAR ── */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;border-bottom:1px solid var(--border);position:sticky;top:0;background:rgba(8,10,15,.88);backdrop-filter:blur(16px);z-index:50;}
+.topbar-left{display:flex;align-items:center;gap:12px;}
+.topbar-logo{font-size:14px;font-weight:700;letter-spacing:-.01em;display:flex;align-items:center;gap:8px;}
+.topbar-logo-icon{width:26px;height:26px;background:var(--accent);border-radius:7px;display:flex;align-items:center;justify-content:center;}
+.topbar-account{font-size:11px;color:var(--sub);padding:3px 10px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:20px;}
+.topbar-right{display:flex;align-items:center;gap:6px;}
+.icon-btn{display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--sub);cursor:pointer;transition:background .15s,color .15s;font-size:14px;}
+.icon-btn:hover{background:rgba(255,255,255,.09);color:var(--text);}
+@keyframes spin{to{transform:rotate(360deg);}}
+.refresh-spin{animation:spin .7s linear infinite;}
+
+/* ── NAV TABS ── */
+.nav-tabs{display:flex;align-items:center;gap:2px;padding:10px 24px;border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none;}
+.nav-tabs::-webkit-scrollbar{display:none;}
+.tab{display:flex;align-items:center;gap:5px;padding:6px 12px;border-radius:8px;font-size:12px;font-weight:500;color:var(--sub);cursor:pointer;white-space:nowrap;transition:background .15s,color .15s;border:1px solid transparent;}
+.tab.active{background:rgba(92,107,192,.15);border-color:rgba(92,107,192,.25);color:var(--accent2);}
+.tab:hover:not(.active){background:rgba(255,255,255,.05);color:var(--text);}
+.tab-badge{font-size:10px;padding:1px 6px;border-radius:20px;background:rgba(255,255,255,.08);color:var(--sub);}
+.tab.active .tab-badge{background:rgba(92,107,192,.2);color:var(--accent2);}
+
+/* ── CONTENT ── */
+.content{padding:20px;max-width:1200px;margin:0 auto;}
+.pane{display:none;}
+.pane.active{display:block;}
+
+/* ── STAT CARDS ── */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:20px;}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;}
+.stat-label{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--sub);margin-bottom:6px;}
+.stat-value{font-size:26px;font-weight:700;letter-spacing:-.02em;line-height:1;}
+.stat-sub{font-size:11px;color:var(--sub);margin-top:5px;}
+.stat-icon{font-size:18px;margin-bottom:6px;}
+.c-green{color:var(--green);}
+.c-red{color:var(--red);}
+.c-yellow{color:var(--yellow);}
+.c-blue{color:var(--blue);}
+.c-purple{color:var(--purple);}
+.c-sub{color:var(--sub);}
+
+/* ── SEC HEADER ── */
+.sec-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.sec-title{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--sub);}
+.sec-count{font-size:11px;color:var(--sub);padding:2px 9px;background:rgba(255,255,255,.05);border-radius:20px;}
+
+/* ── LIST CARDS ── */
+.list-card{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:16px;}
+.list-item{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--border);transition:background .12s;}
+.list-item:last-child{border-bottom:none;}
+.list-item:hover{background:rgba(255,255,255,.025);}
+.list-icon{width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.list-main{flex:1;min-width:0;}
+.list-name{font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.list-desc{font-size:10px;color:var(--sub);margin-top:2px;font-family:'JetBrains Mono',monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.list-right{display:flex;align-items:center;gap:6px;flex-shrink:0;}
+.list-time{font-size:10px;color:var(--sub);}
+
+/* ── PILLS ── */
+.pill{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:500;white-space:nowrap;}
+.pill-green{background:rgba(34,211,160,.1);border:1px solid rgba(34,211,160,.22);color:var(--green);}
+.pill-red{background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.22);color:var(--red);}
+.pill-yellow{background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.22);color:var(--yellow);}
+.pill-blue{background:rgba(56,189,248,.1);border:1px solid rgba(56,189,248,.22);color:var(--blue);}
+.pill-purple{background:rgba(167,139,250,.1);border:1px solid rgba(167,139,250,.22);color:var(--purple);}
+.pill-grey{background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--sub);}
+.pill-orange{background:rgba(251,146,60,.1);border:1px solid rgba(251,146,60,.22);color:var(--orange);}
+
+/* ── ACCOUNT CARD ── */
+.account-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:16px;display:flex;align-items:center;gap:16px;}
+.account-avatar{width:56px;height:56px;border-radius:12px;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;flex-shrink:0;overflow:hidden;}
+.account-avatar img{width:100%;height:100%;object-fit:cover;}
+.account-name{font-size:18px;font-weight:700;letter-spacing:-.01em;}
+.account-handle{font-size:12px;color:var(--sub);margin-top:2px;}
+
+/* ── ENV / TABLE ROWS ── */
+.env-item{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid var(--border);}
+.env-item:last-child{border-bottom:none;}
+.env-key{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;color:var(--sub);}
+.env-val{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text);max-width:55%;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+
+/* ── DOMAIN TABLE ── */
+.domain-row{display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;padding:12px 16px;border-bottom:1px solid var(--border);}
+.domain-row:last-child{border-bottom:none;}
+.domain-name{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;}
+.domain-project{font-size:10px;color:var(--sub);margin-top:2px;}
+
+/* ── SETTINGS ── */
+.settings-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:14px;}
+.settings-title{font-size:12px;font-weight:600;margin-bottom:14px;color:var(--text);}
+.settings-field{margin-bottom:10px;}
+.settings-field label{display:block;font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--sub);margin-bottom:5px;}
+.settings-field input{width:100%;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:9px;padding:9px 13px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:11px;outline:none;transition:border .2s;}
+.settings-field input:focus{border-color:var(--accent2);}
+.settings-field input::placeholder{color:var(--sub);}
+.settings-row{display:flex;gap:8px;align-items:flex-end;}
+.settings-row .settings-field{flex:1;margin-bottom:0;}
+.save-btn{padding:9px 18px;border-radius:8px;border:none;background:var(--accent);color:#fff;font-family:'Inter',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:background .2s;white-space:nowrap;}
+.save-btn:hover{background:var(--accent2);}
+.save-btn:disabled{opacity:.45;cursor:not-allowed;}
+.test-btn{padding:9px 14px;border-radius:8px;border:1px solid var(--border);background:rgba(255,255,255,.04);color:var(--sub);font-family:'Inter',sans-serif;font-size:12px;font-weight:500;cursor:pointer;transition:background .2s,color .2s;white-space:nowrap;}
+.test-btn:hover{background:rgba(255,255,255,.08);color:var(--text);}
+.settings-msg{font-size:11px;margin-top:7px;min-height:15px;}
+
+/* ── LOADING / EMPTY ── */
+.loading-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px 20px;gap:12px;}
+.loading-spinner{width:28px;height:28px;border:2px solid rgba(255,255,255,.08);border-top-color:var(--accent2);border-radius:50%;animation:spin .7s linear infinite;}
+.loading-text{font-size:12px;color:var(--sub);}
+.empty-state{text-align:center;padding:40px 20px;color:var(--sub);}
+.empty-icon{font-size:28px;margin-bottom:8px;}
+.empty-text{font-size:12px;}
+
+/* ── ALERT BANNER ── */
+.alert-banner{display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:10px;font-size:11px;margin-bottom:12px;}
+.alert-info{background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.2);color:var(--blue);}
+.alert-success{background:rgba(34,211,160,.08);border:1px solid rgba(34,211,160,.2);color:var(--green);}
+.alert-error{background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.2);color:var(--red);}
+
+/* ── USAGE BARS ── */
+.usage-item{margin-bottom:12px;}
+.usage-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;}
+.usage-name{font-size:11px;font-weight:500;}
+.usage-vals{font-size:10px;color:var(--sub);}
+.usage-bar-bg{height:5px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden;}
+.usage-bar-fill{height:100%;border-radius:3px;transition:width .5s;}
+
+/* ── CODE BLOCK ── */
+.code-block{background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--sub);overflow-x:auto;margin-top:6px;}
+
+/* ── SECTION DIVIDER ── */
+.sec-divider{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--sub);padding:14px 0 8px;display:flex;align-items:center;gap:8px;}
+.sec-divider::after{content:'';flex:1;height:1px;background:var(--border);}
+
+/* ── MOBILE ── */
+@media(max-width:600px){
+  .topbar{padding:10px 14px;}
+  .nav-tabs{padding:8px 14px;}
+  .content{padding:14px;}
+  .stats-grid{grid-template-columns:1fr 1fr;}
+  .account-card{flex-direction:column;text-align:center;}
+  .settings-row{flex-direction:column;}
+}
+</style>
+</head>
+<body>
+
+<!-- ── PASSWORD SCREEN ── -->
+<div class="screen" id="screen-password">
+  <div class="auth-box">
+    <div class="auth-logo">
+      <svg width="22" height="22" viewBox="0 0 76 65" fill="none"><path d="M37.5274 0L75.0548 65H0L37.5274 0Z" fill="white"/></svg>
+      Vercel Dashboard
+    </div>
+    <div>
+      <div class="auth-step">Step 1 of 2</div>
+      <div class="auth-title">Enter password</div>
+      <div class="auth-desc">Protected dashboard — enter your admin password to continue.</div>
+    </div>
+    <div class="auth-field">
+      <label>Password</label>
+      <input type="password" id="pw-input" placeholder="••••••••" autocomplete="current-password">
+    </div>
+    <button class="auth-btn" id="pw-btn">Continue →</button>
+    <div class="auth-err" id="pw-err"></div>
+  </div>
+</div>
+
+<!-- ── TOKEN SCREEN ── -->
+<div class="screen hidden" id="screen-token">
+  <div class="auth-box">
+    <div class="auth-logo">
+      <svg width="22" height="22" viewBox="0 0 76 65" fill="none"><path d="M37.5274 0L75.0548 65H0L37.5274 0Z" fill="white"/></svg>
+      Connect Vercel
+    </div>
+    <div>
+      <div class="auth-step">Step 2 of 2</div>
+      <div class="auth-title">Enter your Vercel Token</div>
+      <div class="auth-desc">Token จะถูกเก็บใน localStorage ของเครื่องคุณ ไม่ได้ส่งไปไหน</div>
+    </div>
+    <div class="auth-field">
+      <label>Vercel API Token</label>
+      <input type="password" id="token-input" placeholder="Enter Vercel token...">
+    </div>
+    <div class="auth-hint">สร้าง token ได้ที่ <a href="https://vercel.com/account/tokens" target="_blank">vercel.com/account/tokens</a> — scope: <strong>Full Account</strong></div>
+    <button class="auth-btn" id="token-btn">Connect & Load Data →</button>
+    <div class="auth-err" id="token-err"></div>
+    <div class="auth-link"><span onclick="doLogout()">← ออกจากระบบ</span></div>
+  </div>
+</div>
+
+<!-- ── MAIN APP ── -->
+<div id="app">
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="topbar-logo">
+        <div class="topbar-logo-icon">
+          <svg width="12" height="12" viewBox="0 0 76 65" fill="none"><path d="M37.5274 0L75.0548 65H0L37.5274 0Z" fill="white"/></svg>
+        </div>
+        Vercel
+      </div>
+      <div class="topbar-account" id="topbar-account">Loading...</div>
+    </div>
+    <div class="topbar-right">
+      <div class="icon-btn" id="refresh-btn" title="Refresh" onclick="refreshAll()">↻</div>
+      <div class="icon-btn" onclick="doLogout()" title="Logout" style="font-size:12px;">⏻</div>
+    </div>
+  </div>
+
+  <div class="nav-tabs">
+    <div class="tab active" data-pane="pane-overview" onclick="switchTab(this)">📊 Overview</div>
+    <div class="tab" data-pane="pane-deployments" onclick="switchTab(this)">🚀 Deployments <span class="tab-badge" id="badge-deploys">—</span></div>
+    <div class="tab" data-pane="pane-projects" onclick="switchTab(this)">📁 Projects <span class="tab-badge" id="badge-projects">—</span></div>
+    <div class="tab" data-pane="pane-domains" onclick="switchTab(this)">🌐 Domains <span class="tab-badge" id="badge-domains">—</span></div>
+    <div class="tab" data-pane="pane-envvars" onclick="switchTab(this)">🔑 Env Vars</div>
+    <div class="tab" data-pane="pane-teams" onclick="switchTab(this)">👥 Teams</div>
+    <div class="tab" data-pane="pane-webhooks" onclick="switchTab(this)">🪝 Webhooks</div>
+    <div class="tab" data-pane="pane-usage" onclick="switchTab(this)">📈 Usage</div>
+    <div class="tab" data-pane="pane-account" onclick="switchTab(this)">👤 Account</div>
+    <div class="tab" data-pane="pane-settings" onclick="switchTab(this)">⚙️ Settings</div>
+  </div>
+
+  <div class="content">
+
+    <!-- OVERVIEW -->
+    <div class="pane active" id="pane-overview">
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-icon">🚀</div><div class="stat-label">Deployments</div><div class="stat-value c-blue" id="ov-deploys">—</div><div class="stat-sub" id="ov-deploys-sub">Loading...</div></div>
+        <div class="stat-card"><div class="stat-icon">📁</div><div class="stat-label">Projects</div><div class="stat-value c-purple" id="ov-projects">—</div><div class="stat-sub" id="ov-projects-sub">Loading...</div></div>
+        <div class="stat-card"><div class="stat-icon">🌐</div><div class="stat-label">Domains</div><div class="stat-value c-green" id="ov-domains">—</div><div class="stat-sub" id="ov-domains-sub">Loading...</div></div>
+        <div class="stat-card"><div class="stat-icon">✅</div><div class="stat-label">Success Rate</div><div class="stat-value c-green" id="ov-success">—</div><div class="stat-sub" id="ov-success-sub">Loading...</div></div>
+        <div class="stat-card"><div class="stat-icon">❌</div><div class="stat-label">Failed Deploys</div><div class="stat-value c-red" id="ov-errors">—</div><div class="stat-sub" id="ov-errors-sub">Loading...</div></div>
+        <div class="stat-card"><div class="stat-icon">🔨</div><div class="stat-label">Building Now</div><div class="stat-value c-yellow" id="ov-building">—</div><div class="stat-sub">Active builds</div></div>
+      </div>
+      <div class="sec-header"><div class="sec-title">🕐 Recent Deployments</div></div>
+      <div class="list-card" id="overview-activity">
+        <div class="loading-wrap"><div class="loading-spinner"></div><div class="loading-text">Loading...</div></div>
+      </div>
+    </div>
+
+    <!-- DEPLOYMENTS -->
+    <div class="pane" id="pane-deployments">
+      <div class="sec-header"><div class="sec-title">All Deployments</div><div class="sec-count" id="deploys-count">—</div></div>
+      <div id="deploy-filter" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;">
+        <button class="test-btn" onclick="filterDeploys('')" id="df-all" style="background:rgba(92,107,192,.15);color:var(--accent2);">All</button>
+        <button class="test-btn" onclick="filterDeploys('READY')" id="df-ready">Ready</button>
+        <button class="test-btn" onclick="filterDeploys('ERROR')" id="df-error">Error</button>
+        <button class="test-btn" onclick="filterDeploys('BUILDING')" id="df-building">Building</button>
+        <button class="test-btn" onclick="filterDeploys('CANCELED')" id="df-canceled">Canceled</button>
+      </div>
+      <div class="list-card" id="deployments-list">
+        <div class="loading-wrap"><div class="loading-spinner"></div><div class="loading-text">Loading deployments...</div></div>
+      </div>
+    </div>
+
+    <!-- PROJECTS -->
+    <div class="pane" id="pane-projects">
+      <div class="sec-header"><div class="sec-title">Projects</div><div class="sec-count" id="projects-count">—</div></div>
+      <div id="projects-list">
+        <div class="loading-wrap"><div class="loading-spinner"></div><div class="loading-text">Loading projects...</div></div>
+      </div>
+    </div>
+
+    <!-- DOMAINS -->
+    <div class="pane" id="pane-domains">
+      <div class="sec-header"><div class="sec-title">Domains</div><div class="sec-count" id="domains-count">—</div></div>
+      <div class="list-card" id="domains-list">
+        <div class="loading-wrap"><div class="loading-spinner"></div><div class="loading-text">Loading domains...</div></div>
+      </div>
+    </div>
+
+    <!-- ENV VARS -->
+    <div class="pane" id="pane-envvars">
+      <div class="sec-header"><div class="sec-title">Environment Variables (per project)</div></div>
+      <div id="envvars-list">
+        <div class="loading-wrap"><div class="loading-spinner"></div><div class="loading-text">Loading env vars...</div></div>
+      </div>
+    </div>
+
+    <!-- TEAMS -->
+    <div class="pane" id="pane-teams">
+      <div class="sec-header"><div class="sec-title">Teams</div></div>
+      <div id="teams-list">
+        <div class="loading-wrap"><div class="loading-spinner"></div><div class="loading-text">Loading teams...</div></div>
+      </div>
+    </div>
+
+    <!-- WEBHOOKS -->
+    <div class="pane" id="pane-webhooks">
+      <div class="sec-header"><div class="sec-title">Vercel Webhooks</div></div>
+      <div id="webhooks-list">
+        <div class="loading-wrap"><div class="loading-spinner"></div><div class="loading-text">Loading webhooks...</div></div>
+      </div>
+    </div>
+
+    <!-- USAGE -->
+    <div class="pane" id="pane-usage">
+      <div class="sec-header"><div class="sec-title">Usage & Limits</div></div>
+      <div id="usage-content">
+        <div class="loading-wrap"><div class="loading-spinner"></div><div class="loading-text">Loading usage...</div></div>
+      </div>
+    </div>
+
+    <!-- ACCOUNT -->
+    <div class="pane" id="pane-account">
+      <div id="account-info">
+        <div class="loading-wrap"><div class="loading-spinner"></div><div class="loading-text">Loading account...</div></div>
+      </div>
+    </div>
+
+    <!-- SETTINGS -->
+    <div class="pane" id="pane-settings">
+
+      <div class="settings-card">
+        <div class="settings-title">🔔 Discord Webhook (Vercel Dashboard)</div>
+        <div class="alert-info" style="margin-bottom:12px;"><span>ℹ️</span> Webhook นี้ใช้สำหรับ Vercel Dashboard เท่านั้น — แจ้งเมื่อ: Login, New deploy, Page visit</div>
+        <div class="settings-field">
+          <label>Discord Webhook URL</label>
+          <div class="settings-row">
+            <div class="settings-field"><input type="text" id="webhook-url" placeholder="https://discord.com/api/webhooks/..."></div>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:4px;">
+          <button class="save-btn" onclick="saveWebhookToSupabase()">Save to Supabase</button>
+          <button class="test-btn" onclick="testWebhook()">🧪 Test</button>
+        </div>
+        <div class="settings-msg" id="webhook-msg"></div>
+      </div>
+
+      <div class="settings-card">
+        <div class="settings-title">🔑 Vercel API Token</div>
+        <div class="settings-field">
+          <label>Replace Token</label>
+          <div class="settings-row">
+            <div class="settings-field"><input type="password" id="new-token" placeholder="Enter new Vercel token..."></div>
+            <button class="save-btn" onclick="changeToken()">Update</button>
+          </div>
+        </div>
+        <div class="settings-msg" id="token-change-msg"></div>
+      </div>
+
+      <div class="settings-card">
+        <div class="settings-title">🗑️ Session</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="save-btn" onclick="doLogout()" style="background:#374151;">Logout</button>
+          <button class="save-btn" onclick="clearAll()" style="background:#dc2626;">Clear All Local Data</button>
+        </div>
+      </div>
+
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /app -->
+
+<script>
+// ══════════════════════════════════════════════════
+// CONFIG
+// ══════════════════════════════════════════════════
+const SB_URL = 'https://qzjlbyjlkeqnknkeqdom.supabase.co';
+const SB_KEY = 'sb_publishable_wLXHjAzQjH5h-yK0gpzmyA_0GC5Sdwi';
+const VERCEL_API = 'https://api.vercel.com';
+const LS_TOKEN   = 'vd_token';
+
+// ══════════════════════════════════════════════════
+// SUPABASE
+// ══════════════════════════════════════════════════
+async function sbGet(table, q = '') {
+  const r = await fetch(`${SB_URL}/rest/v1/${table}${q}`, {
+    headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}` }
+  });
+  return r.ok ? r.json() : null;
+}
+async function sbPatch(table, q, data) {
+  const r = await fetch(`${SB_URL}/rest/v1/${table}${q}`, {
+    method: 'PATCH',
+    headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  });
+  return r.ok;
+}
+
+// ══════════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════════
+let vcToken = '';
+let vercelWebhook = '';
+let cachedData = { deployments: [], projects: [], domains: [], account: null, teams: [], usage: null };
+let currentDeployFilter = '';
+
+// ══════════════════════════════════════════════════
+// HELPERS
+// ══════════════════════════════════════════════════
+function timeAgo(ts) {
+  if (!ts) return '—';
+  const s = Math.floor((Date.now() - new Date(ts)) / 1000);
+  if (s < 60)    return `${s}s ago`;
+  if (s < 3600)  return `${Math.floor(s/60)}m ago`;
+  if (s < 86400) return `${Math.floor(s/3600)}h ago`;
+  return `${Math.floor(s/86400)}d ago`;
+}
+function fmtDate(ts) {
+  if (!ts) return '—';
+  return new Date(ts).toLocaleString('th-TH', { day:'2-digit', month:'short', year:'2-digit', hour:'2-digit', minute:'2-digit' });
+}
+function deployStatePill(state) {
+  const m = {
+    READY:       ['pill pill-green',  'Ready'],
+    ERROR:       ['pill pill-red',    'Error'],
+    BUILDING:    ['pill pill-yellow', 'Building'],
+    QUEUED:      ['pill pill-grey',   'Queued'],
+    CANCELED:    ['pill pill-grey',   'Canceled'],
+    INITIALIZING:['pill pill-blue',   'Init'],
+  };
+  return m[state] || ['pill pill-grey', state || '—'];
+}
+
+// ══════════════════════════════════════════════════
+// IP FETCH
+// ══════════════════════════════════════════════════
+async function getIP() {
+  try {
+    const r = await fetch('https://api.ipify.org?format=json');
+    const d = await r.json();
+    return d.ip || 'unknown';
+  } catch { return 'unknown'; }
+}
+
+// ══════════════════════════════════════════════════
+// DISCORD ALERTS
+// ══════════════════════════════════════════════════
+async function sendAlert(title, desc, color = 0x5c6bc0, extraFields = []) {
+  const wh = vercelWebhook || localStorage.getItem('vd_webhook') || '';
+  if (!wh) return;
+  const ip = await getIP();
+  const embed = {
+    title,
+    description: desc,
+    color,
+    fields: [
+      { name: '🌐 IP', value: `\`${ip}\``, inline: true },
+      { name: '📅 Time', value: `\`${new Date().toLocaleString('th-TH')}\``, inline: true },
+      { name: '📄 Page', value: '`Vercel Dashboard`', inline: true },
+      ...extraFields
+    ],
+    footer: { text: 'Vercel Dashboard Guard' },
+    timestamp: new Date().toISOString()
+  };
+  try {
+    await fetch(wh, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username: '🛡️ Vercel Guard', embeds: [embed] })
+    });
+  } catch {}
+}
+
+// ══════════════════════════════════════════════════
+// AUTH — PASSWORD (Supabase)
+// ══════════════════════════════════════════════════
+document.getElementById('pw-input').addEventListener('keydown', e => { if (e.key === 'Enter') doPasswordLogin(); });
+document.getElementById('token-input').addEventListener('keydown', e => { if (e.key === 'Enter') doTokenLogin(); });
+document.getElementById('pw-btn').addEventListener('click', doPasswordLogin);
+document.getElementById('token-btn').addEventListener('click', doTokenLogin);
+
+async function doPasswordLogin() {
+  const pw  = document.getElementById('pw-input').value.trim();
+  const btn = document.getElementById('pw-btn');
+  const err = document.getElementById('pw-err');
+  err.textContent = '';
+  if (!pw) { err.textContent = 'กรุณากรอกรหัสผ่าน'; return; }
+  btn.disabled = true; btn.textContent = 'Checking...';
+
+  try {
+    const data = await sbGet('bio_config', '?id=eq.main&select=admin_password,vercel_webhook&limit=1');
+    if (!data || !data[0]) throw new Error('Cannot connect to Supabase');
+
+    const cfg = data[0];
+    // Load webhook
+    vercelWebhook = cfg.vercel_webhook || '';
+    localStorage.setItem('vd_webhook', vercelWebhook);
+    document.getElementById('webhook-url').value = vercelWebhook;
+
+    if (pw !== cfg.admin_password) {
+      err.textContent = 'รหัสผ่านไม่ถูกต้อง';
+      sendAlert('🚨 Failed Login — Vercel Dashboard', 'มีการพยายาม login ที่ล้มเหลว', 0xf87171);
+      btn.disabled = false; btn.textContent = 'Continue →';
+      return;
+    }
+
+    sessionStorage.setItem('vd_auth', '1');
+    sendAlert('🔐 Admin Login — Vercel Dashboard', 'เข้าสู่ระบบ Vercel Dashboard สำเร็จ', 0x22d3a0);
+
+    const tok = localStorage.getItem(LS_TOKEN);
+    btn.disabled = false; btn.textContent = 'Continue →';
+    document.getElementById('screen-password').classList.add('hidden');
+
+    if (tok) {
+      vcToken = tok;
+      showApp();
+    } else {
+      document.getElementById('screen-token').classList.remove('hidden');
+    }
+
+  } catch(e) {
+    err.textContent = 'ไม่สามารถเชื่อมต่อ Supabase: ' + e.message;
+    btn.disabled = false; btn.textContent = 'Continue →';
+  }
+}
+
+async function doTokenLogin() {
+  const tok = document.getElementById('token-input').value.trim();
+  const btn = document.getElementById('token-btn');
+  const err = document.getElementById('token-err');
+  err.textContent = '';
+  if (!tok) { err.textContent = 'กรุณากรอก token'; return; }
+  btn.disabled = true; btn.textContent = 'Verifying...';
+  try {
+    const r = await fetch(`${VERCEL_API}/v2/user`, { headers: { Authorization: `Bearer ${tok}` } });
+    if (!r.ok) throw new Error('invalid');
+    localStorage.setItem(LS_TOKEN, tok);
+    vcToken = tok;
+    btn.disabled = false; btn.textContent = 'Connect & Load Data →';
+    document.getElementById('screen-token').classList.add('hidden');
+    showApp();
+  } catch {
+    err.textContent = 'Token ไม่ถูกต้อง';
+    btn.disabled = false; btn.textContent = 'Connect & Load Data →';
+  }
+}
+
+function doLogout() {
+  sessionStorage.removeItem('vd_auth');
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('screen-password').classList.remove('hidden');
+  document.getElementById('screen-token').classList.add('hidden');
+  document.getElementById('pw-input').value = '';
+}
+
+function clearAll() {
+  if (!confirm('ลบข้อมูลทั้งหมด (token) ใน localStorage?')) return;
+  localStorage.removeItem(LS_TOKEN);
+  localStorage.removeItem('vd_webhook');
+  doLogout();
+}
+
+// ══════════════════════════════════════════════════
+// APP INIT
+// ══════════════════════════════════════════════════
+async function showApp() {
+  document.getElementById('app').style.display = 'block';
+  // Send page visit alert
+  sendAlert('👁️ Vercel Dashboard Opened', 'มีการเปิดหน้า Vercel Dashboard', 0x38bdf8);
+  await loadAllData();
+}
+
+// ══════════════════════════════════════════════════
+// VERCEL API FETCH
+// ══════════════════════════════════════════════════
+async function vc(path) {
+  const r = await fetch(`${VERCEL_API}${path}`, { headers: { Authorization: `Bearer ${vcToken}` } });
+  if (!r.ok) throw new Error(`${r.status}`);
+  return r.json();
+}
+
+async function loadAllData() {
+  setRefreshSpin(true);
+  try {
+    const results = await Promise.allSettled([
+      vc('/v2/user'),
+      vc('/v9/projects?limit=100'),
+      vc('/v6/deployments?limit=100'),
+      vc('/v5/domains?limit=100'),
+      vc('/v2/teams'),
+    ]);
+    if (results[0].status === 'fulfilled') cachedData.account     = results[0].value.user;
+    if (results[1].status === 'fulfilled') cachedData.projects    = results[1].value.projects || [];
+    if (results[2].status === 'fulfilled') cachedData.deployments = results[2].value.deployments || [];
+    if (results[3].status === 'fulfilled') cachedData.domains     = results[3].value.domains || [];
+    if (results[4].status === 'fulfilled') cachedData.teams       = results[4].value.teams || [];
+
+    renderAll();
+    // Load env vars + webhooks + usage async (slower)
+    loadEnvVars();
+    loadVercelWebhooks();
+    loadUsage();
+  } catch(e) { console.error(e); }
+  setRefreshSpin(false);
+}
+
+function setRefreshSpin(on) {
+  document.getElementById('refresh-btn').classList.toggle('refresh-spin', on);
+}
+
+async function refreshAll() {
+  await loadAllData();
+  checkNewDeployments();
+}
+
+// ── New deployment check ──
+let lastDeployIds = new Set();
+function checkNewDeployments() {
+  const current = new Set(cachedData.deployments.map(d => d.uid));
+  if (lastDeployIds.size > 0) {
+    for (const id of current) {
+      if (!lastDeployIds.has(id)) {
+        const dep = cachedData.deployments.find(d => d.uid === id);
+        if (dep) {
+          sendAlert(
+            '🚀 New Deployment — Vercel Dashboard',
+            `Project: **${dep.name || '—'}**\nURL: \`${dep.url ? 'https://'+dep.url : '—'}\`\nState: \`${dep.state || '—'}\``,
+            0x5c6bc0,
+            [
+              { name: '📁 Project', value: dep.name || '—', inline: true },
+              { name: '⚡ State', value: dep.state || '—', inline: true }
+            ]
+          );
+        }
+      }
+    }
+  }
+  lastDeployIds = current;
+}
+
+// ══════════════════════════════════════════════════
+// ENV VARS (per project)
+// ══════════════════════════════════════════════════
+async function loadEnvVars() {
+  const el = document.getElementById('envvars-list');
+  if (!cachedData.projects.length) {
+    el.innerHTML = '<div class="empty-state"><div class="empty-icon">🔑</div><div class="empty-text">No projects to fetch env vars from</div></div>';
+    return;
+  }
+  el.innerHTML = '<div class="loading-wrap"><div class="loading-spinner"></div><div class="loading-text">Loading env vars...</div></div>';
+  let html = '';
+  for (const proj of cachedData.projects.slice(0, 20)) {
+    try {
+      const data = await vc(`/v9/projects/${proj.id}/env`);
+      const envs = data.envs || [];
+      if (!envs.length) continue;
+      html += `<div class="sec-divider">📁 ${proj.name} <span style="font-weight:400;letter-spacing:0;text-transform:none;">(${envs.length} vars)</span></div>`;
+      html += '<div class="list-card">';
+      html += envs.map(e => `
+        <div class="env-item">
+          <div class="env-key">${e.key}</div>
+          <div style="display:flex;align-items:center;gap:6px;">
+            <span class="pill ${e.target?.includes('production') ? 'pill-green' : 'pill-grey'}" style="font-size:9px;">${(e.target||[]).join(', ')||'—'}</span>
+            <span class="pill pill-grey" style="font-size:9px;">${e.type||'plain'}</span>
+          </div>
+        </div>`).join('');
+      html += '</div>';
+    } catch {}
+  }
+  el.innerHTML = html || '<div class="empty-state"><div class="empty-icon">🔑</div><div class="empty-text">No env vars found</div></div>';
+}
+
+// ══════════════════════════════════════════════════
+// VERCEL WEBHOOKS
+// ══════════════════════════════════════════════════
+async function loadVercelWebhooks() {
+  const el = document.getElementById('webhooks-list');
+  try {
+    const data = await vc('/v1/webhooks');
+    const hooks = data || [];
+    if (!hooks.length) {
+      el.innerHTML = '<div class="empty-state"><div class="empty-icon">🪝</div><div class="empty-text">No webhooks configured in Vercel</div></div>';
+      return;
+    }
+    el.innerHTML = '<div class="list-card">' + hooks.map(h => `
+      <div class="list-item">
+        <div class="list-icon">🪝</div>
+        <div class="list-main">
+          <div class="list-name">${h.url || '—'}</div>
+          <div class="list-desc">Events: ${(h.events || []).join(', ') || 'all'}</div>
+        </div>
+        <div class="list-right">
+          <div class="list-time">${timeAgo(h.createdAt)}</div>
+          <span class="pill pill-green">Active</span>
+        </div>
+      </div>`).join('') + '</div>';
+  } catch {
+    el.innerHTML = '<div class="empty-state"><div class="empty-icon">🪝</div><div class="empty-text">Could not load webhooks</div></div>';
+  }
+}
+
+// ══════════════════════════════════════════════════
+// USAGE
+// ══════════════════════════════════════════════════
+async function loadUsage() {
+  const el = document.getElementById('usage-content');
+  try {
+    const [userBilling] = await Promise.allSettled([vc('/v2/user')]);
+    const u = userBilling.status === 'fulfilled' ? userBilling.value.user : null;
+    if (!u) throw new Error();
+
+    const plan = u.billing?.plan || 'hobby';
+    const planLimits = {
+      hobby:      { bw: 100,    builds: 100, exec: 100,   domains: 50  },
+      pro:        { bw: 1000,   builds: 6000, exec: 1000, domains: 500 },
+      enterprise: { bw: 99999, builds: 99999, exec: 99999, domains: 9999 }
+    };
+    const limits = planLimits[plan] || planLimits.hobby;
+
+    el.innerHTML = `
+      <div class="list-card" style="margin-bottom:14px;padding:20px;">
+        <div class="sec-divider" style="margin-top:0;">📊 Bandwidth</div>
+        ${usageBar('Bandwidth Used', '—', limits.bw, 'GB', 'linear-gradient(90deg,var(--blue),var(--accent2))')}
+        <div class="sec-divider">⚡ Build Minutes</div>
+        ${usageBar('Build Minutes', cachedData.deployments.length, limits.builds, 'builds', 'linear-gradient(90deg,var(--yellow),var(--orange))')}
+        <div class="sec-divider">🌐 Domains</div>
+        ${usageBar('Custom Domains', cachedData.domains.length, limits.domains, 'domains', 'linear-gradient(90deg,var(--green),var(--blue))')}
+        <div class="sec-divider">📁 Projects</div>
+        ${usageBar('Projects', cachedData.projects.length, 200, 'projects', 'linear-gradient(90deg,var(--purple),var(--accent2))')}
+      </div>
+
+      <div class="list-card">
+        <div class="env-item"><div class="env-key">Plan</div><div class="env-val" style="text-transform:uppercase;font-weight:600;">${plan}</div></div>
+        <div class="env-item"><div class="env-key">Email</div><div class="env-val">${u.email || '—'}</div></div>
+        <div class="env-item"><div class="env-key">Username</div><div class="env-val">@${u.username || '—'}</div></div>
+        <div class="env-item"><div class="env-key">Account Created</div><div class="env-val">${fmtDate(u.createdAt)}</div></div>
+        <div class="env-item"><div class="env-key">Total Projects</div><div class="env-val">${cachedData.projects.length}</div></div>
+        <div class="env-item"><div class="env-key">Total Deployments</div><div class="env-val">${cachedData.deployments.length}</div></div>
+        <div class="env-item"><div class="env-key">Total Domains</div><div class="env-val">${cachedData.domains.length}</div></div>
+        <div class="env-item"><div class="env-key">Teams</div><div class="env-val">${cachedData.teams.length}</div></div>
+      </div>
+    `;
+  } catch {
+    el.innerHTML = '<div class="empty-state"><div class="empty-icon">📈</div><div class="empty-text">Could not load usage data</div></div>';
+  }
+}
+
+function usageBar(label, used, limit, unit, gradient) {
+  const pct = limit > 0 ? Math.min(Math.round((used / limit) * 100), 100) : 0;
+  const color = pct >= 90 ? 'var(--red)' : pct >= 70 ? 'var(--yellow)' : gradient;
+  return `
+    <div class="usage-item">
+      <div class="usage-header">
+        <div class="usage-name">${label}</div>
+        <div class="usage-vals">${used} / ${limit} ${unit}</div>
+      </div>
+      <div class="usage-bar-bg">
+        <div class="usage-bar-fill" style="width:${pct}%;background:${color};"></div>
+      </div>
+    </div>`;
+}
+
+// ══════════════════════════════════════════════════
+// RENDER
+// ══════════════════════════════════════════════════
+function renderAll() {
+  renderAccount();
+  renderOverview();
+  renderDeployments();
+  renderProjects();
+  renderDomains();
+  renderTeams();
+  updateBadges();
+}
+
+function renderAccount() {
+  const u = cachedData.account;
+  if (!u) return;
+  document.getElementById('topbar-account').textContent = u.username || u.name || 'User';
+
+  const plan = u.billing?.plan || 'hobby';
+  const planPill = { pro: 'pill-purple', enterprise: 'pill-orange', hobby: 'pill-grey' };
+  const avatarHTML = u.avatar
+    ? `<img src="https://vercel.com/api/www/avatar/${u.avatar}?s=120" alt="avatar" onerror="this.parentElement.textContent='${(u.name||'V')[0]}';">`
+    : (u.name || 'V')[0];
+
+  document.getElementById('account-info').innerHTML = `
+    <div class="account-card">
+      <div class="account-avatar">${avatarHTML}</div>
+      <div>
+        <div class="account-name">${u.name || u.username || '—'}</div>
+        <div class="account-handle">@${u.username || '—'} · ${u.email || '—'}</div>
+        <span class="pill ${planPill[plan] || 'pill-grey'}" style="margin-top:8px;display:inline-flex;">${plan.toUpperCase()}</span>
+      </div>
+    </div>
+    <div class="list-card">
+      ${aRow('👤 Username', u.username || '—')}
+      ${aRow('📧 Email', u.email || '—')}
+      ${aRow('🆔 User ID', u.id || '—', true)}
+      ${aRow('📅 Created', fmtDate(u.createdAt))}
+      ${aRow('🌍 Plan', plan.toUpperCase())}
+      ${aRow('💬 Bio', u.bio || '—')}
+      ${aRow('🔗 Website', u.website || '—')}
+      ${aRow('🐙 GitHub', u.profiles?.find(p => p.service === 'github')?.name || '—')}
+      ${aRow('🔒 2FA', u.softBlock ? 'Blocked' : u.hasTrialAvailable ? 'Trial' : '—')}
+      ${aRow('📍 Resource Groups', (u.resourceConfig?.concurrentBuilds || '—') + ' concurrent builds')}
+    </div>`;
+}
+function aRow(label, val, mono = false) {
+  return `<div class="env-item">
+    <div class="env-key" style="${mono ? '' : 'font-family:Inter,sans-serif;'}">${label}</div>
+    <div class="env-val" style="${mono ? '' : 'font-family:Inter,sans-serif;color:var(--text)'}">${val}</div>
+  </div>`;
+}
+
+function renderOverview() {
+  const deps  = cachedData.deployments;
+  const projs = cachedData.projects;
+  const doms  = cachedData.domains;
+  const ok    = deps.filter(d => d.state === 'READY').length;
+  const err   = deps.filter(d => d.state === 'ERROR').length;
+  const build = deps.filter(d => d.state === 'BUILDING' || d.state === 'INITIALIZING').length;
+  const pct   = deps.length ? Math.round((ok / deps.length) * 100) : 100;
+
+  document.getElementById('ov-deploys').textContent     = deps.length;
+  document.getElementById('ov-deploys-sub').textContent = `${ok} ready · ${err} error`;
+  document.getElementById('ov-projects').textContent    = projs.length;
+  document.getElementById('ov-projects-sub').textContent= `${projs.filter(p => p.latestDeployments?.length).length} active`;
+  document.getElementById('ov-domains').textContent     = doms.length;
+  document.getElementById('ov-domains-sub').textContent = `${doms.filter(d => d.verified).length} verified`;
+  document.getElementById('ov-success').textContent     = pct + '%';
+  document.getElementById('ov-success').className       = 'stat-value ' + (pct === 100 ? 'c-green' : pct >= 80 ? 'c-yellow' : 'c-red');
+  document.getElementById('ov-success-sub').textContent = `${ok}/${deps.length} successful`;
+  document.getElementById('ov-errors').textContent      = err;
+  document.getElementById('ov-building').textContent    = build;
+
+  const recent = [...deps].sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0)).slice(0, 15);
+  const act = document.getElementById('overview-activity');
+  if (!recent.length) { act.innerHTML = '<div class="empty-state"><div class="empty-icon">🚀</div><div class="empty-text">No deployments found</div></div>'; return; }
+  act.innerHTML = recent.map(d => {
+    const [cls, lbl] = deployStatePill(d.state);
+    return `<div class="list-item">
+      <div class="list-icon" style="font-size:12px;">${d.state === 'READY' ? '✅' : d.state === 'ERROR' ? '❌' : d.state === 'BUILDING' ? '🔨' : '⏸️'}</div>
+      <div class="list-main">
+        <div class="list-name">${d.name || '—'}</div>
+        <div class="list-desc">${d.url ? `https://${d.url}` : '—'} · ${d.meta?.githubCommitMessage?.slice(0, 50) || 'Manual'}</div>
+      </div>
+      <div class="list-right">
+        <div class="list-time">${timeAgo(d.createdAt)}</div>
+        <span class="${cls}">${lbl}</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderDeployments(filter = '') {
+  let deps = [...cachedData.deployments].sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+  if (filter) deps = deps.filter(d => d.state === filter);
+  document.getElementById('deploys-count').textContent = deps.length + ' deployments';
+  const el = document.getElementById('deployments-list');
+  if (!deps.length) { el.innerHTML = '<div class="empty-state"><div class="empty-icon">🚀</div><div class="empty-text">No deployments</div></div>'; return; }
+  el.innerHTML = deps.map(d => {
+    const [cls, lbl] = deployStatePill(d.state);
+    const branch = d.meta?.githubCommitRef || d.meta?.gitlabCommitRef || 'main';
+    const commit = d.meta?.githubCommitMessage || d.meta?.gitlabCommitMessage || '';
+    const sha    = (d.meta?.githubCommitSha || '').slice(0, 7);
+    const region = d.regions ? d.regions.join(', ') : '—';
+    return `<div class="list-item">
+      <div class="list-icon" style="font-size:12px;">${d.state === 'READY' ? '✅' : d.state === 'ERROR' ? '❌' : d.state === 'BUILDING' ? '🔨' : '⏸️'}</div>
+      <div class="list-main">
+        <div class="list-name">${d.name || '—'} ${sha ? `<span style="font-size:10px;color:var(--sub);font-family:'JetBrains Mono',monospace;">#${sha}</span>` : ''}</div>
+        <div class="list-desc">${d.url ? `https://${d.url}` : '—'}${branch ? ` · ${branch}` : ''}${region !== '—' ? ` · ${region}` : ''}</div>
+        ${commit ? `<div class="list-desc" style="margin-top:1px;opacity:.55;">${commit.slice(0, 60)}${commit.length > 60 ? '…' : ''}</div>` : ''}
+      </div>
+      <div class="list-right">
+        <div class="list-time">${timeAgo(d.createdAt)}</div>
+        <span class="${cls}">${lbl}</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function filterDeploys(state) {
+  currentDeployFilter = state;
+  document.querySelectorAll('#deploy-filter button').forEach(b => {
+    b.style.background = ''; b.style.color = '';
+  });
+  const active = document.getElementById(`df-${state || 'all'}`);
+  if (active) { active.style.background = 'rgba(92,107,192,.15)'; active.style.color = 'var(--accent2)'; }
+  renderDeployments(state);
+}
+
+function renderProjects() {
+  const projs = [...cachedData.projects].sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
+  document.getElementById('projects-count').textContent = projs.length + ' projects';
+  const el = document.getElementById('projects-list');
+  if (!projs.length) { el.innerHTML = '<div class="list-card"><div class="empty-state"><div class="empty-icon">📁</div><div class="empty-text">No projects</div></div></div>'; return; }
+  el.innerHTML = projs.map(p => {
+    const latest = p.latestDeployments?.[0];
+    const [cls, lbl] = latest ? deployStatePill(latest.state) : ['pill pill-grey', 'No deploy'];
+    const url = latest?.url || p.alias?.[0] || '—';
+    const fw  = p.framework || '—';
+    return `<div class="list-card" style="margin-bottom:10px;">
+      <div class="list-item">
+        <div class="list-icon">📁</div>
+        <div class="list-main">
+          <div class="list-name">${p.name || '—'}</div>
+          <div class="list-desc">${url !== '—' ? `https://${url}` : '—'} · ${fw}</div>
+        </div>
+        <div class="list-right">
+          <div class="list-time">${timeAgo(p.updatedAt)}</div>
+          <span class="${cls}">${lbl}</span>
+        </div>
+      </div>
+      <div style="padding:0 16px 12px;display:flex;gap:6px;flex-wrap:wrap;">
+        ${p.nodeVersion ? `<span class="pill pill-grey">Node ${p.nodeVersion}</span>` : ''}
+        ${p.framework ? `<span class="pill pill-blue">${p.framework}</span>` : ''}
+        ${p.gitRepository?.repo ? `<span class="pill pill-grey">🐙 ${p.gitRepository.repo}</span>` : ''}
+        ${p.gitRepository?.type ? `<span class="pill pill-grey">${p.gitRepository.type}</span>` : ''}
+        <span class="pill pill-grey">🆔 ${(p.id || '').slice(0, 8) || '—'}</span>
+        ${p.rootDirectory ? `<span class="pill pill-grey">📂 ${p.rootDirectory}</span>` : ''}
+        ${p.buildCommand ? `<span class="pill pill-grey">🔨 ${p.buildCommand}</span>` : ''}
+        ${p.outputDirectory ? `<span class="pill pill-grey">📤 ${p.outputDirectory}</span>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderDomains() {
+  const doms = [...cachedData.domains];
+  document.getElementById('domains-count').textContent = doms.length + ' domains';
+  const el = document.getElementById('domains-list');
+  if (!doms.length) { el.innerHTML = '<div class="empty-state"><div class="empty-icon">🌐</div><div class="empty-text">No domains</div></div>'; return; }
+  el.innerHTML = doms.map(d => {
+    const [cls, lbl] = d.verified ? ['pill pill-green', 'Verified'] : ['pill pill-red', 'Unverified'];
+    const nsType = d.nsVerifiedAt ? 'NS' : d.txtVerifiedAt ? 'TXT' : 'Pending';
+    return `<div class="domain-row">
+      <div>
+        <div class="domain-name">${d.name || '—'}</div>
+        <div class="domain-project">${d.projectId || 'Unassigned'} · ${nsType} · ${fmtDate(d.createdAt)}</div>
+      </div>
+      <span class="pill ${d.nsVerifiedAt ? 'pill-blue' : 'pill-grey'}" style="font-size:9px;">${nsType}</span>
+      <span class="${cls}">${lbl}</span>
+    </div>`;
+  }).join('');
+}
+
+function renderTeams() {
+  const teams = cachedData.teams;
+  const el = document.getElementById('teams-list');
+  if (!teams.length) { el.innerHTML = '<div class="empty-state"><div class="empty-icon">👥</div><div class="empty-text">No teams</div></div>'; return; }
+  el.innerHTML = '<div class="list-card">' + teams.map(t => `
+    <div class="list-item">
+      <div class="list-icon">👥</div>
+      <div class="list-main">
+        <div class="list-name">${t.name || t.slug || '—'}</div>
+        <div class="list-desc">slug: ${t.slug || '—'} · id: ${t.id || '—'}</div>
+      </div>
+      <div class="list-right">
+        <span class="pill pill-blue">${t.membership?.role || 'member'}</span>
+      </div>
+    </div>`).join('') + '</div>';
+}
+
+function updateBadges() {
+  document.getElementById('badge-deploys').textContent  = cachedData.deployments.length;
+  document.getElementById('badge-projects').textContent = cachedData.projects.length;
+  document.getElementById('badge-domains').textContent  = cachedData.domains.length;
+}
+
+// ══════════════════════════════════════════════════
+// TABS
+// ══════════════════════════════════════════════════
+function switchTab(el) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.pane').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById(el.dataset.pane).classList.add('active');
+}
+
+// ══════════════════════════════════════════════════
+// SETTINGS
+// ══════════════════════════════════════════════════
+async function saveWebhookToSupabase() {
+  const url = document.getElementById('webhook-url').value.trim();
+  const msg = document.getElementById('webhook-msg');
+  msg.textContent = 'Saving...'; msg.style.color = 'var(--sub)';
+  const ok = await sbPatch('bio_config', '?id=eq.main', { vercel_webhook: url });
+  if (ok) {
+    vercelWebhook = url;
+    localStorage.setItem('vd_webhook', url);
+    msg.textContent = '✅ Saved to Supabase!'; msg.style.color = 'var(--green)';
+  } else {
+    msg.textContent = '❌ Failed to save'; msg.style.color = 'var(--red)';
+  }
+  setTimeout(() => msg.textContent = '', 3000);
+}
+
+async function testWebhook() {
+  const msg = document.getElementById('webhook-msg');
+  const url = document.getElementById('webhook-url').value.trim();
+  if (!url) { msg.textContent = '⚠️ Enter webhook URL first'; msg.style.color = 'var(--red)'; return; }
+  vercelWebhook = url;
+  msg.textContent = 'Sending...'; msg.style.color = 'var(--sub)';
+  await sendAlert('🧪 Test Alert — Vercel Dashboard', 'Webhook connection test — working correctly!', 0x22d3a0);
+  msg.textContent = '✅ Test sent! Check Discord.'; msg.style.color = 'var(--green)';
+  setTimeout(() => msg.textContent = '', 4000);
+}
+
+async function changeToken() {
+  const tok = document.getElementById('new-token').value.trim();
+  const msg = document.getElementById('token-change-msg');
+  if (!tok) { msg.textContent = '⚠️ Enter a token'; msg.style.color = 'var(--red)'; return; }
+  msg.textContent = 'Verifying...'; msg.style.color = 'var(--sub)';
+  try {
+    const r = await fetch(`${VERCEL_API}/v2/user`, { headers: { Authorization: `Bearer ${tok}` } });
+    if (!r.ok) throw new Error();
+    localStorage.setItem(LS_TOKEN, tok);
+    vcToken = tok;
+    msg.textContent = '✅ Token updated! Refreshing...'; msg.style.color = 'var(--green)';
+    document.getElementById('new-token').value = '';
+    await loadAllData();
+  } catch {
+    msg.textContent = '❌ Invalid token'; msg.style.color = 'var(--red)';
+  }
+  setTimeout(() => msg.textContent = '', 4000);
+}
+
+// ══════════════════════════════════════════════════
+// AUTO-REFRESH every 60s
+// ══════════════════════════════════════════════════
+setInterval(() => { if (vcToken) refreshAll(); }, 60000);
+
+// ══════════════════════════════════════════════════
+// INIT — auto-login if session exists
+// ══════════════════════════════════════════════════
+(async () => {
+  const tok = localStorage.getItem(LS_TOKEN);
+  if (tok) vcToken = tok;
+  const wh = localStorage.getItem('vd_webhook');
+  if (wh) {
+    vercelWebhook = wh;
+    document.getElementById('webhook-url').value = wh;
+  }
+
+  if (sessionStorage.getItem('vd_auth') === '1' && tok) {
+    // Reload webhook from Supabase silently
+    try {
+      const cfg = await sbGet('bio_config', '?id=eq.main&select=vercel_webhook&limit=1');
+      if (cfg?.[0]?.vercel_webhook) {
+        vercelWebhook = cfg[0].vercel_webhook;
+        document.getElementById('webhook-url').value = vercelWebhook;
+      }
+    } catch {}
+    document.getElementById('screen-password').classList.add('hidden');
+    showApp();
+  }
+})();
+</script>
+</body>
+</html>
