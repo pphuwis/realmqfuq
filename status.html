@@ -14,6 +14,7 @@
   --accent:#5c6bc0;--accent2:#7986cb;
   --green:#22d3a0;--red:#f87171;--yellow:#fbbf24;
   --blue:#38bdf8;--purple:#a78bfa;--orange:#fb923c;
+  --mc:#55ff55;--mc-dark:#2d8a2d;
 }
 html,body{min-height:100%;font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);}
 ::-webkit-scrollbar{width:4px;height:4px;}
@@ -88,6 +89,8 @@ body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(
 .c-yellow{color:var(--yellow);}
 .c-blue{color:var(--blue);}
 .c-purple{color:var(--purple);}
+.c-orange{color:var(--orange);}
+.c-mc{color:var(--mc);}
 .c-sub{color:var(--sub);}
 
 /* ── SEC HEADER ── */
@@ -116,15 +119,17 @@ body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(
 .pill-purple{background:rgba(167,139,250,.1);border:1px solid rgba(167,139,250,.22);color:var(--purple);}
 .pill-grey{background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--sub);}
 .pill-orange{background:rgba(251,146,60,.1);border:1px solid rgba(251,146,60,.22);color:var(--orange);}
+.pill-mc{background:rgba(85,255,85,.1);border:1px solid rgba(85,255,85,.22);color:var(--mc);}
 
 /* ── SETTINGS ── */
 .settings-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:14px;}
 .settings-title{font-size:12px;font-weight:600;margin-bottom:14px;color:var(--text);}
 .settings-field{margin-bottom:10px;}
 .settings-field label{display:block;font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--sub);margin-bottom:5px;}
-.settings-field input{width:100%;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:9px;padding:9px 13px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:11px;outline:none;transition:border .2s;}
-.settings-field input:focus{border-color:var(--accent2);}
-.settings-field input::placeholder{color:var(--sub);}
+.settings-field input,.settings-field textarea,.settings-field select{width:100%;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:9px;padding:9px 13px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:11px;outline:none;transition:border .2s;}
+.settings-field textarea{resize:vertical;min-height:80px;font-family:'JetBrains Mono',monospace;}
+.settings-field input:focus,.settings-field textarea:focus,.settings-field select:focus{border-color:var(--accent2);}
+.settings-field input::placeholder,.settings-field textarea::placeholder{color:var(--sub);}
 .settings-row{display:flex;gap:8px;align-items:flex-end;}
 .settings-row .settings-field{flex:1;margin-bottom:0;}
 .save-btn{padding:9px 18px;border-radius:8px;border:none;background:var(--accent);color:#fff;font-family:'Inter',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:background .2s;white-space:nowrap;}
@@ -147,6 +152,7 @@ body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(
 .alert-info{background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.2);color:var(--blue);}
 .alert-success{background:rgba(34,211,160,.08);border:1px solid rgba(34,211,160,.2);color:var(--green);}
 .alert-error{background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.2);color:var(--red);}
+.alert-warn{background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.2);color:var(--yellow);}
 
 /* ── SECTION DIVIDER ── */
 .sec-divider{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--sub);padding:14px 0 8px;display:flex;align-items:center;gap:8px;}
@@ -218,6 +224,88 @@ canvas{width:100%;height:100%;display:block;}
 .inc-time{font-size:10px;color:var(--sub);margin-top:2px;}
 .no-incidents{padding:12px 0;font-size:11px;color:var(--sub);}
 
+/* ══════════════════════════════════════════════════
+   MINECRAFT PANEL STYLES
+   ══════════════════════════════════════════════════ */
+.mc-hero{display:flex;align-items:center;gap:16px;padding:18px 22px;background:linear-gradient(135deg,rgba(85,255,85,.06),rgba(92,107,192,.06));border:1px solid rgba(85,255,85,.18);border-radius:14px;margin-bottom:16px;}
+.mc-hero-icon{width:52px;height:52px;background:linear-gradient(135deg,#55ff55,#2d8a2d);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;box-shadow:0 0 20px rgba(85,255,85,.2);}
+.mc-hero-info{flex:1;min-width:0;}
+.mc-hero-title{font-size:16px;font-weight:700;letter-spacing:-.01em;}
+.mc-hero-sub{font-size:11px;color:var(--sub);margin-top:3px;font-family:'JetBrains Mono',monospace;}
+.mc-hero-badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;}
+.mc-hero-actions{display:flex;gap:6px;flex-shrink:0;}
+
+.mc-btn{padding:8px 14px;border-radius:8px;border:1px solid var(--border);background:rgba(255,255,255,.04);color:var(--text);font-family:'Inter',sans-serif;font-size:11px;font-weight:600;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:5px;white-space:nowrap;}
+.mc-btn:hover{background:rgba(255,255,255,.08);border-color:var(--border2);}
+.mc-btn:disabled{opacity:.4;cursor:not-allowed;}
+.mc-btn-green{background:rgba(34,211,160,.12);border-color:rgba(34,211,160,.3);color:var(--green);}
+.mc-btn-green:hover{background:rgba(34,211,160,.2);}
+.mc-btn-red{background:rgba(248,113,113,.12);border-color:rgba(248,113,113,.3);color:var(--red);}
+.mc-btn-red:hover{background:rgba(248,113,113,.2);}
+.mc-btn-yellow{background:rgba(251,191,36,.12);border-color:rgba(251,191,36,.3);color:var(--yellow);}
+.mc-btn-yellow:hover{background:rgba(251,191,36,.2);}
+
+/* ── CONSOLE ── */
+.console-card{background:#05070a;border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:16px;font-family:'JetBrains Mono',monospace;}
+.console-header{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:rgba(255,255,255,.03);border-bottom:1px solid var(--border);}
+.console-title{font-size:11px;font-weight:600;color:var(--sub);display:flex;align-items:center;gap:6px;}
+.console-title::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);animation:blink 2s ease infinite;}
+.console-actions{display:flex;gap:4px;}
+.console-body{height:360px;overflow-y:auto;padding:12px 14px;font-size:11.5px;line-height:1.55;background:#05070a;}
+.console-line{white-space:pre-wrap;word-break:break-word;color:#d4d4d8;}
+.console-line.info{color:var(--blue);}
+.console-line.warn{color:var(--yellow);}
+.console-line.error{color:var(--red);}
+.console-line.success{color:var(--green);}
+.console-line.system{color:var(--purple);font-style:italic;}
+.console-line .ts{color:rgba(255,255,255,.25);margin-right:6px;font-size:10px;}
+.console-input-wrap{display:flex;align-items:center;gap:8px;padding:10px 14px;border-top:1px solid var(--border);background:rgba(255,255,255,.02);}
+.console-prompt{color:var(--mc);font-weight:700;font-size:12px;}
+.console-input{flex:1;background:transparent;border:none;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:12px;outline:none;}
+.console-input::placeholder{color:var(--sub);}
+.console-send{padding:6px 12px;border-radius:6px;border:1px solid rgba(85,255,85,.3);background:rgba(85,255,85,.1);color:var(--mc);font-family:'Inter',sans-serif;font-size:11px;font-weight:600;cursor:pointer;transition:all .15s;}
+.console-send:hover{background:rgba(85,255,85,.2);}
+.console-send:disabled{opacity:.4;cursor:not-allowed;}
+
+/* ── PLAYER ROW ── */
+.player-row{display:flex;align-items:center;gap:12px;padding:10px 16px;border-bottom:1px solid var(--border);transition:background .12s;}
+.player-row:last-child{border-bottom:none;}
+.player-row:hover{background:rgba(255,255,255,.025);}
+.player-avatar{width:36px;height:36px;border-radius:6px;background:rgba(85,255,85,.1);border:1px solid rgba(85,255,85,.2);image-rendering:pixelated;flex-shrink:0;}
+.player-info{flex:1;min-width:0;}
+.player-name{font-size:12px;font-weight:600;}
+.player-meta{font-size:10px;color:var(--sub);margin-top:2px;font-family:'JetBrains Mono',monospace;display:flex;gap:8px;flex-wrap:wrap;}
+.player-actions{display:flex;gap:4px;flex-shrink:0;}
+.player-action{padding:4px 8px;border-radius:6px;border:1px solid var(--border);background:rgba(255,255,255,.03);color:var(--sub);font-size:10px;font-weight:500;cursor:pointer;transition:all .15s;}
+.player-action:hover{background:rgba(255,255,255,.07);color:var(--text);}
+.player-action.danger:hover{background:rgba(248,113,113,.15);color:var(--red);border-color:rgba(248,113,113,.3);}
+.player-action.warn:hover{background:rgba(251,191,36,.15);color:var(--yellow);border-color:rgba(251,191,36,.3);}
+.player-action.good:hover{background:rgba(34,211,160,.15);color:var(--green);border-color:rgba(34,211,160,.3);}
+
+/* ── MC SUB TABS ── */
+.mc-subtabs{display:flex;gap:4px;margin-bottom:14px;overflow-x:auto;scrollbar-width:none;}
+.mc-subtabs::-webkit-scrollbar{display:none;}
+.mc-subtab{padding:6px 12px;border-radius:8px;font-size:11px;font-weight:500;color:var(--sub);cursor:pointer;white-space:nowrap;border:1px solid var(--border);background:rgba(255,255,255,.02);transition:all .15s;}
+.mc-subtab.active{background:rgba(85,255,85,.1);border-color:rgba(85,255,85,.25);color:var(--mc);}
+.mc-subtab:hover:not(.active){background:rgba(255,255,255,.05);color:var(--text);}
+
+.mc-subpane{display:none;}
+.mc-subpane.active{display:block;}
+
+/* ── PROGRESS BAR ── */
+.progress-wrap{height:6px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden;margin-top:6px;}
+.progress-bar{height:100%;background:linear-gradient(90deg,var(--green),var(--mc));transition:width .3s;border-radius:3px;}
+.progress-bar.warn{background:linear-gradient(90deg,var(--yellow),var(--orange));}
+.progress-bar.danger{background:linear-gradient(90deg,var(--red),#dc2626);}
+
+/* ── TOAST ── */
+.toast-wrap{position:fixed;bottom:20px;right:20px;display:flex;flex-direction:column;gap:8px;z-index:300;pointer-events:none;}
+.toast{padding:10px 14px;background:var(--card);border:1px solid var(--border2);border-radius:10px;font-size:12px;box-shadow:0 8px 24px rgba(0,0,0,.4);display:flex;align-items:center;gap:8px;min-width:220px;animation:slideIn .25s ease;}
+.toast.success{border-left:3px solid var(--green);}
+.toast.error{border-left:3px solid var(--red);}
+.toast.info{border-left:3px solid var(--blue);}
+@keyframes slideIn{from{transform:translateX(20px);opacity:0;}to{transform:translateX(0);opacity:1;}}
+
 /* ── MOBILE ── */
 @media(max-width:600px){
   .topbar{padding:10px 14px;}
@@ -226,6 +314,11 @@ canvas{width:100%;height:100%;display:block;}
   .stats-grid{grid-template-columns:1fr 1fr;}
   .seg-stats{grid-template-columns:repeat(2,1fr);}
   .settings-row{flex-direction:column;}
+  .mc-hero{flex-direction:column;align-items:flex-start;}
+  .mc-hero-actions{width:100%;justify-content:stretch;}
+  .mc-hero-actions .mc-btn{flex:1;justify-content:center;}
+  .console-body{height:280px;}
+  .player-actions{flex-direction:column;}
 }
 </style>
 </head>
@@ -297,6 +390,7 @@ canvas{width:100%;height:100%;display:block;}
     <div class="tab active" data-pane="pane-overview" onclick="switchTab(this)">📊 Overview</div>
     <div class="tab" data-pane="pane-deployments" onclick="switchTab(this)">🚀 Deployments <span class="tab-badge" id="badge-deploys">—</span></div>
     <div class="tab" data-pane="pane-projects" onclick="switchTab(this)">📁 Projects <span class="tab-badge" id="badge-projects">—</span></div>
+    <div class="tab" data-pane="pane-minecraft" onclick="switchTab(this,true)">🎮 Minecraft <span class="tab-badge pill-mc" id="badge-mc">—</span></div>
     <div class="tab" data-pane="pane-status" onclick="switchTab(this,true)">📡 Status</div>
     <div class="tab" data-pane="pane-settings" onclick="switchTab(this)">⚙️ Settings</div>
   </div>
@@ -342,10 +436,301 @@ canvas{width:100%;height:100%;display:block;}
       </div>
     </div>
 
+    <!-- ══════════════════════════════════════════════════
+         MINECRAFT PANEL
+         ══════════════════════════════════════════════════ -->
+    <div class="pane" id="pane-minecraft">
+
+      <!-- Hero -->
+      <div class="mc-hero">
+        <div class="mc-hero-icon">⛏️</div>
+        <div class="mc-hero-info">
+          <div class="mc-hero-title">Geyser + Spigot Server</div>
+          <div class="mc-hero-sub" id="mc-hero-sub">Connecting to VPS...</div>
+          <div class="mc-hero-badges" id="mc-hero-badges">
+            <span class="pill pill-grey" id="mc-pill-status">Checking...</span>
+          </div>
+        </div>
+        <div class="mc-hero-actions">
+          <button class="mc-btn mc-btn-green" id="mc-btn-start" onclick="mcStart()">▶ Start</button>
+          <button class="mc-btn mc-btn-yellow" id="mc-btn-restart" onclick="mcRestart()">↻ Restart</button>
+          <button class="mc-btn mc-btn-red" id="mc-btn-stop" onclick="mcStop()">■ Stop</button>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon">👥</div>
+          <div class="stat-label">Players</div>
+          <div class="stat-value c-mc" id="mc-players">0/0</div>
+          <div class="stat-sub" id="mc-players-sub">Online / Max</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">⚡</div>
+          <div class="stat-label">TPS</div>
+          <div class="stat-value c-green" id="mc-tps">—</div>
+          <div class="stat-sub">Ticks / second</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">💾</div>
+          <div class="stat-label">Memory</div>
+          <div class="stat-value c-blue" id="mc-ram">—</div>
+          <div class="stat-sub" id="mc-ram-sub">Usage</div>
+          <div class="progress-wrap"><div class="progress-bar" id="mc-ram-bar" style="width:0%;"></div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🔥</div>
+          <div class="stat-label">CPU</div>
+          <div class="stat-value c-orange" id="mc-cpu">—</div>
+          <div class="stat-sub">Process usage</div>
+          <div class="progress-wrap"><div class="progress-bar" id="mc-cpu-bar" style="width:0%;"></div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">⏱️</div>
+          <div class="stat-label">Uptime</div>
+          <div class="stat-value c-purple" id="mc-uptime" style="font-size:18px;">—</div>
+          <div class="stat-sub" id="mc-uptime-sub">Since start</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🌐</div>
+          <div class="stat-label">Version</div>
+          <div class="stat-value" id="mc-version" style="font-size:14px;">—</div>
+          <div class="stat-sub" id="mc-version-sub">Server version</div>
+        </div>
+      </div>
+
+      <!-- Sub tabs -->
+      <div class="mc-subtabs">
+        <div class="mc-subtab active" onclick="switchMcSub(this,'mcsub-console')">💻 Console</div>
+        <div class="mc-subtab" onclick="switchMcSub(this,'mcsub-players')">👥 Players <span class="tab-badge" id="mc-badge-players">0</span></div>
+        <div class="mc-subtab" onclick="switchMcSub(this,'mcsub-whitelist')">📜 Whitelist</div>
+        <div class="mc-subtab" onclick="switchMcSub(this,'mcsub-ops')">⭐ Operators</div>
+        <div class="mc-subtab" onclick="switchMcSub(this,'mcsub-bans')">🚫 Bans</div>
+        <div class="mc-subtab" onclick="switchMcSub(this,'mcsub-properties')">⚙️ Properties</div>
+        <div class="mc-subtab" onclick="switchMcSub(this,'mcsub-backups')">💾 Backups</div>
+      </div>
+
+      <!-- CONSOLE -->
+      <div class="mc-subpane active" id="mcsub-console">
+        <div class="console-card">
+          <div class="console-header">
+            <div class="console-title">Live Console</div>
+            <div class="console-actions">
+              <button class="mc-btn" onclick="mcClearConsole()" title="Clear">🗑️ Clear</button>
+              <button class="mc-btn" onclick="mcToggleAutoscroll()" id="mc-autoscroll-btn" title="Autoscroll">📜 Auto ↓</button>
+              <button class="mc-btn" onclick="mcReconnectWs()" title="Reconnect">🔌 Reconnect</button>
+            </div>
+          </div>
+          <div class="console-body" id="mc-console-body">
+            <div class="console-line system"><span class="ts">[--:--:--]</span>Waiting for connection...</div>
+          </div>
+          <div class="console-input-wrap">
+            <span class="console-prompt">&gt;</span>
+            <input type="text" class="console-input" id="mc-console-input" placeholder="พิมพ์คำสั่งเซิร์ฟเวอร์ เช่น: say Hello, gamelist, stop..." autocomplete="off">
+            <button class="console-send" id="mc-console-send" onclick="mcSendCmd()">Send ↵</button>
+          </div>
+        </div>
+        <div class="alert-banner alert-info">
+          <span>ℹ️</span>
+          <span>คำสั่งยอดนิยม: <code style="color:var(--mc);">say</code>, <code style="color:var(--mc);">kick</code>, <code style="color:var(--mc);">ban</code>, <code style="color:var(--mc);">whitelist</code>, <code style="color:var(--mc);">op</code>, <code style="color:var(--mc);">gamemode</code>, <code style="color:var(--mc);">tp</code>, <code style="color:var(--mc);">save-all</code>, <code style="color:var(--mc);">stop</code></span>
+        </div>
+      </div>
+
+      <!-- PLAYERS -->
+      <div class="mc-subpane" id="mcsub-players">
+        <div class="sec-header">
+          <div class="sec-title">👥 Online Players</div>
+          <div class="sec-count" id="mc-players-count">0 online</div>
+        </div>
+        <div class="list-card" id="mc-players-list">
+          <div class="empty-state"><div class="empty-icon">👥</div><div class="empty-text">No players online</div></div>
+        </div>
+      </div>
+
+      <!-- WHITELIST -->
+      <div class="mc-subpane" id="mcsub-whitelist">
+        <div class="settings-card">
+          <div class="settings-title">➕ Add to Whitelist</div>
+          <div class="settings-row">
+            <div class="settings-field">
+              <label>Minecraft Username</label>
+              <input type="text" id="mc-wl-input" placeholder="Notch">
+            </div>
+            <button class="save-btn" onclick="mcWhitelistAdd()">Add</button>
+          </div>
+          <div class="settings-msg" id="mc-wl-msg"></div>
+        </div>
+        <div class="sec-header">
+          <div class="sec-title">📜 Whitelisted Players</div>
+          <div style="display:flex;gap:6px;">
+            <span class="sec-count" id="mc-wl-count">0 players</span>
+            <button class="mc-btn" onclick="mcWhitelistReload()">↻ Reload</button>
+            <button class="mc-btn mc-btn-yellow" onclick="mcWhitelistToggle()">⚡ Toggle</button>
+          </div>
+        </div>
+        <div class="list-card" id="mc-whitelist-list">
+          <div class="loading-wrap"><div class="loading-spinner"></div><div class="loading-text">Loading...</div></div>
+        </div>
+      </div>
+
+      <!-- OPS -->
+      <div class="mc-subpane" id="mcsub-ops">
+        <div class="settings-card">
+          <div class="settings-title">⭐ Add Operator</div>
+          <div class="settings-row">
+            <div class="settings-field">
+              <label>Minecraft Username</label>
+              <input type="text" id="mc-op-input" placeholder="Notch">
+            </div>
+            <button class="save-btn" onclick="mcOpAdd()">Promote</button>
+          </div>
+          <div class="settings-msg" id="mc-op-msg"></div>
+        </div>
+        <div class="sec-header">
+          <div class="sec-title">⭐ Server Operators</div>
+          <span class="sec-count" id="mc-op-count">0 ops</span>
+        </div>
+        <div class="list-card" id="mc-ops-list">
+          <div class="loading-wrap"><div class="loading-spinner"></div><div class="loading-text">Loading...</div></div>
+        </div>
+      </div>
+
+      <!-- BANS -->
+      <div class="mc-subpane" id="mcsub-bans">
+        <div class="settings-card">
+          <div class="settings-title">🚫 Ban Player</div>
+          <div class="settings-row">
+            <div class="settings-field" style="flex:2;">
+              <label>Username</label>
+              <input type="text" id="mc-ban-input" placeholder="griefer123">
+            </div>
+            <div class="settings-field" style="flex:3;">
+              <label>Reason (optional)</label>
+              <input type="text" id="mc-ban-reason" placeholder="Griefing">
+            </div>
+            <button class="save-btn" style="background:var(--red);" onclick="mcBanAdd()">Ban</button>
+          </div>
+          <div class="settings-msg" id="mc-ban-msg"></div>
+        </div>
+        <div class="sec-header">
+          <div class="sec-title">🚫 Banned Players</div>
+          <span class="sec-count" id="mc-ban-count">0 bans</span>
+        </div>
+        <div class="list-card" id="mc-bans-list">
+          <div class="loading-wrap"><div class="loading-spinner"></div><div class="loading-text">Loading...</div></div>
+        </div>
+      </div>
+
+      <!-- PROPERTIES -->
+      <div class="mc-subpane" id="mcsub-properties">
+        <div class="alert-banner alert-warn">
+          <span>⚠️</span>
+          <span>การแก้ไข server.properties บางค่าต้อง <strong>restart เซิร์ฟเวอร์</strong> ถึงจะมีผล</span>
+        </div>
+        <div class="settings-card">
+          <div class="settings-title">⚙️ Quick Settings</div>
+          <div class="settings-row" style="margin-bottom:10px;">
+            <div class="settings-field">
+              <label>MOTD</label>
+              <input type="text" id="mc-prop-motd" placeholder="A Minecraft Server">
+            </div>
+          </div>
+          <div class="settings-row" style="margin-bottom:10px;">
+            <div class="settings-field">
+              <label>Max Players</label>
+              <input type="number" id="mc-prop-maxplayers" min="1" max="200">
+            </div>
+            <div class="settings-field">
+              <label>View Distance</label>
+              <input type="number" id="mc-prop-viewdistance" min="2" max="32">
+            </div>
+            <div class="settings-field">
+              <label>Difficulty</label>
+              <select id="mc-prop-difficulty">
+                <option value="peaceful">Peaceful</option>
+                <option value="easy">Easy</option>
+                <option value="normal">Normal</option>
+                <option value="hard">Hard</option>
+              </select>
+            </div>
+          </div>
+          <div class="settings-row" style="margin-bottom:10px;">
+            <div class="settings-field">
+              <label>Game Mode</label>
+              <select id="mc-prop-gamemode">
+                <option value="survival">Survival</option>
+                <option value="creative">Creative</option>
+                <option value="adventure">Adventure</option>
+                <option value="spectator">Spectator</option>
+              </select>
+            </div>
+            <div class="settings-field">
+              <label>PVP</label>
+              <select id="mc-prop-pvp">
+                <option value="true">Enabled</option>
+                <option value="false">Disabled</option>
+              </select>
+            </div>
+            <div class="settings-field">
+              <label>Online Mode</label>
+              <select id="mc-prop-onlinemode">
+                <option value="true">True</option>
+                <option value="false">False</option>
+              </select>
+            </div>
+          </div>
+          <div style="display:flex;gap:8px;margin-top:8px;">
+            <button class="save-btn" onclick="mcPropertiesSave()">💾 Save Quick Settings</button>
+            <button class="test-btn" onclick="mcPropertiesReload()">↻ Reload from Server</button>
+          </div>
+          <div class="settings-msg" id="mc-prop-msg"></div>
+        </div>
+
+        <div class="settings-card">
+          <div class="settings-title">📄 Raw server.properties</div>
+          <div class="settings-field">
+            <label>Full Configuration File</label>
+            <textarea id="mc-prop-raw" rows="18" placeholder="#Minecraft server properties&#10;#Tue Jan 01 00:00:00 UTC 2026..."></textarea>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <button class="save-btn" onclick="mcPropertiesSaveRaw()">💾 Save Raw File</button>
+            <button class="test-btn" onclick="mcPropertiesReload()">↻ Reload</button>
+          </div>
+          <div class="settings-msg" id="mc-prop-raw-msg"></div>
+        </div>
+      </div>
+
+      <!-- BACKUPS -->
+      <div class="mc-subpane" id="mcsub-backups">
+        <div class="settings-card">
+          <div class="settings-title">💾 Create Backup</div>
+          <div class="alert-banner alert-info">
+            <span>ℹ️</span>
+            <span>สำรองข้อมูล world, plugins, whitelist.json, ops.json, banned-players.json</span>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="mc-btn mc-btn-green" onclick="mcBackupCreate()">📦 Create Backup Now</button>
+            <button class="mc-btn" onclick="mcBackupList()">↻ Refresh List</button>
+          </div>
+          <div class="settings-msg" id="mc-backup-msg"></div>
+        </div>
+        <div class="sec-header">
+          <div class="sec-title">📦 Backup History</div>
+          <span class="sec-count" id="mc-backup-count">0 backups</span>
+        </div>
+        <div class="list-card" id="mc-backup-list">
+          <div class="empty-state"><div class="empty-icon">💾</div><div class="empty-text">No backups yet</div></div>
+        </div>
+      </div>
+
+    </div>
+    <!-- ══════════════════════════════════════════════════
+         END MINECRAFT PANEL
+         ══════════════════════════════════════════════════ -->
+
     <!-- ── STATUS ── -->
     <div class="pane" id="pane-status">
-
-      <!-- Hero badge -->
       <div class="status-hero">
         <div class="status-hero-badge badge-green" id="st-hero-badge">
           <span class="b-dot b-dot-g" id="st-hero-dot"></span>
@@ -357,8 +742,6 @@ canvas{width:100%;height:100%;display:block;}
           <div class="status-hero-time" id="st-hero-time">—</div>
         </div>
       </div>
-
-      <!-- Uptime segments -->
       <div class="seg-card">
         <div class="seg-card-header">
           <div class="seg-card-label">🟢 Uptime — Last 24 Checks</div>
@@ -379,8 +762,6 @@ canvas{width:100%;height:100%;display:block;}
           <div class="seg-stat"><div class="seg-stat-val" id="st-stat-last">—</div><div class="seg-stat-lbl">Last Check</div></div>
         </div>
       </div>
-
-      <!-- Response time chart -->
       <div class="resp-chart-card">
         <div class="resp-chart-header">
           <div class="resp-chart-label">⚡ Response Time</div>
@@ -393,51 +774,60 @@ canvas{width:100%;height:100%;display:block;}
           <span class="chart-xlbl">Latest</span>
         </div>
       </div>
-
-      <!-- System status -->
       <div class="list-card" style="padding:16px;margin-bottom:14px;">
         <div class="sec-header" style="margin-bottom:10px;"><div class="sec-title">🔍 System Status</div><span class="pill pill-grey" id="st-sys-pill">Checking</span></div>
         <div class="sys-items">
           <div class="sys-item">
-            <div class="sys-item-left">
-              <div class="sys-item-name">Bio Website</div>
-              <div class="sys-item-desc">Main page response</div>
-            </div>
+            <div class="sys-item-left"><div class="sys-item-name">Bio Website</div><div class="sys-item-desc">Main page response</div></div>
             <span class="pill pill-grey" id="st-sys-site">Checking</span>
           </div>
           <div class="sys-item">
-            <div class="sys-item-left">
-              <div class="sys-item-name">Vercel Edge Network</div>
-              <div class="sys-item-desc">CDN / Static assets</div>
-            </div>
+            <div class="sys-item-left"><div class="sys-item-name">Vercel Edge Network</div><div class="sys-item-desc">CDN / Static assets</div></div>
             <span class="pill pill-grey" id="st-sys-edge">Checking</span>
           </div>
           <div class="sys-item">
-            <div class="sys-item-left">
-              <div class="sys-item-name">Vercel Platform</div>
-              <div class="sys-item-desc">Deployment infrastructure</div>
-            </div>
+            <div class="sys-item-left"><div class="sys-item-name">Vercel Platform</div><div class="sys-item-desc">Deployment infrastructure</div></div>
             <span class="pill pill-grey" id="st-sys-vc">Checking</span>
           </div>
         </div>
       </div>
-
-      <!-- Incident log -->
       <div class="list-card" style="padding:16px;margin-bottom:14px;">
         <div class="sec-header" style="margin-bottom:10px;"><div class="sec-title">📋 Incident Log</div><span class="pill pill-grey" id="st-inc-pill">—</span></div>
         <div id="st-inc-list" class="inc-items">
           <div class="no-incidents">กำลังโหลด...</div>
         </div>
       </div>
-
       <button class="save-btn" style="width:100%;background:rgba(255,255,255,.06);border:1px solid var(--border);color:var(--sub);font-family:Inter,sans-serif;" id="st-refresh-btn" onclick="fetchStatus()">↻ Refresh Status</button>
     </div>
 
     <!-- ── SETTINGS ── -->
     <div class="pane" id="pane-settings">
       <div class="settings-card">
+        <div class="settings-title">🎮 Minecraft API Endpoint</div>
+        <div class="alert-banner alert-info">
+          <span>ℹ️</span>
+          <span>URL ของ backend API ที่รันอยู่บน VPS ของคุณ (เช่น http://your-vps-ip:3000)</span>
+        </div>
+        <div class="settings-field">
+          <label>API Base URL</label>
+          <div class="settings-row">
+            <div class="settings-field"><input type="text" id="mc-api-url" placeholder="http://123.45.67.89:3000"></div>
+            <button class="save-btn" onclick="mcSaveApiUrl()">Save</button>
+          </div>
+        </div>
+        <div class="settings-field">
+          <label>API Secret (optional, for auth)</label>
+          <div class="settings-row">
+            <div class="settings-field"><input type="password" id="mc-api-secret" placeholder="your-secret-token"></div>
+            <button class="test-btn" onclick="mcTestApi()">🧪 Test</button>
+          </div>
+        </div>
+        <div class="settings-msg" id="mc-api-msg"></div>
+      </div>
+
+      <div class="settings-card">
         <div class="settings-title">🔔 Discord Webhook</div>
-        <div class="alert-banner alert-info"><span>ℹ️</span> แจ้งเมื่อ: Login, New deploy, Page visit</div>
+        <div class="alert-banner alert-info"><span>ℹ️</span> แจ้งเมื่อ: Login, New deploy, Page visit, MC server events</div>
         <div class="settings-field">
           <label>Discord Webhook URL</label>
           <div class="settings-row">
@@ -472,8 +862,11 @@ canvas{width:100%;height:100%;display:block;}
       </div>
     </div>
 
-  </div><!-- /content -->
-</div><!-- /app -->
+  </div>
+</div>
+
+<!-- Toast container -->
+<div class="toast-wrap" id="toast-wrap"></div>
 
 <script>
 // ══════════════════════════════════════════════════
@@ -515,6 +908,16 @@ let cachedData = { deployments: [], projects: [], account: null };
 let statusHistory = [];
 let statusFetching = false;
 
+// Minecraft state
+let MC_API = localStorage.getItem('mc_api_url') || '';
+let MC_SECRET = localStorage.getItem('mc_api_secret') || '';
+let mcStatus = null;
+let mcWs = null;
+let mcAutoscroll = true;
+let mcConsoleHistory = [];
+let mcCmdHistory = [];
+let mcCmdIdx = -1;
+
 // ══════════════════════════════════════════════════
 // HELPERS
 // ══════════════════════════════════════════════════
@@ -536,6 +939,29 @@ function deployStatePill(state) {
     INITIALIZING:['pill pill-blue',   'Init'],
   };
   return m[state] || ['pill pill-grey', state || '—'];
+}
+
+function toast(msg, type = 'info') {
+  const wrap = document.getElementById('toast-wrap');
+  const el = document.createElement('div');
+  el.className = 'toast ' + type;
+  const icon = type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️';
+  el.innerHTML = `<span>${icon}</span><span>${msg}</span>`;
+  wrap.appendChild(el);
+  setTimeout(() => { el.style.opacity = '0'; el.style.transform = 'translateX(20px)'; el.style.transition = 'all .25s'; }, 3000);
+  setTimeout(() => el.remove(), 3400);
+}
+
+function fmtDuration(ms) {
+  const s = Math.floor(ms / 1000);
+  const d = Math.floor(s / 86400);
+  const h = Math.floor((s % 86400) / 3600);
+  const m = Math.floor((s % 3600) / 60);
+  const sec = s % 60;
+  if (d > 0) return `${d}d ${h}h ${m}m`;
+  if (h > 0) return `${h}h ${m}m ${sec}s`;
+  if (m > 0) return `${m}m ${sec}s`;
+  return `${sec}s`;
 }
 
 // ══════════════════════════════════════════════════
@@ -639,6 +1065,7 @@ async function doTokenLogin() {
 
 function doLogout() {
   sessionStorage.removeItem('vd_auth');
+  if (mcWs) { try { mcWs.close(); } catch {} mcWs = null; }
   document.getElementById('app').style.display = 'none';
   document.getElementById('screen-password').classList.remove('hidden');
   document.getElementById('screen-token').classList.add('hidden');
@@ -650,6 +1077,8 @@ function clearAll() {
   localStorage.removeItem(LS_TOKEN);
   localStorage.removeItem('vd_webhook');
   localStorage.removeItem(HIST_KEY);
+  localStorage.removeItem('mc_api_url');
+  localStorage.removeItem('mc_api_secret');
   doLogout();
 }
 
@@ -662,6 +1091,8 @@ async function showApp() {
   await loadAllData();
   loadStatusHistory();
   fetchStatus();
+  // Init Minecraft panel
+  mcInit();
 }
 
 // ══════════════════════════════════════════════════
@@ -696,7 +1127,6 @@ function setRefreshSpin(on) {
 let lastDeployIds = new Set();
 async function refreshAll() {
   await loadAllData();
-  // Check new deployments
   const current = new Set(cachedData.deployments.map(d => d.uid));
   if (lastDeployIds.size > 0) {
     for (const id of current) {
@@ -1100,8 +1530,19 @@ function switchTab(el, isStatus) {
   document.querySelectorAll('.pane').forEach(p => p.classList.remove('active'));
   el.classList.add('active');
   document.getElementById(el.dataset.pane).classList.add('active');
-  // Re-render chart on tab open (canvas needs visible parent)
   if (isStatus) { setTimeout(() => renderStatusChart(), 50); }
+  if (el.dataset.pane === 'pane-minecraft') {
+    setTimeout(() => {
+      if (MC_API && !mcWs) mcConnectWs();
+    }, 100);
+  }
+}
+
+function switchMcSub(el, paneId) {
+  document.querySelectorAll('.mc-subtab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.mc-subpane').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById(paneId).classList.add('active');
 }
 
 // ══════════════════════════════════════════════════
@@ -1149,6 +1590,770 @@ async function changeToken() {
   }
   setTimeout(() => msg.textContent = '', 4000);
 }
+
+// ══════════════════════════════════════════════════
+// MINECRAFT PANEL
+// ══════════════════════════════════════════════════
+// 🔧 BACKEND API ENDPOINTS (you must implement these on your VPS):
+//
+// GET    /api/status          → { status:'online'|'offline', version, tps, ram:{used,max}, cpu, uptime, players:[{name,uuid,ip,ping}], maxPlayers, whitelistEnabled }
+// POST   /api/start           → { ok:true }
+// POST   /api/stop            → { ok:true }
+// POST   /api/restart         → { ok:true }
+// POST   /api/command         body: { cmd:'say hi' }  → { ok:true, output:'...' }
+// GET    /api/players         → { players:[{name,uuid,ip,ping,world,health,food}] }
+// POST   /api/kick            body: { player, reason }
+// POST   /api/ban             body: { player, reason }
+// POST   /api/pardon          body: { player }
+// POST   /api/op              body: { player }
+// POST   /api/deop            body: { player }
+// GET    /api/whitelist       → { players:[{name,uuid}] }
+// POST   /api/whitelist/add   body: { player }
+// POST   /api/whitelist/remove body: { player }
+// POST   /api/whitelist/reload
+// POST   /api/whitelist/toggle body: { enabled: true|false }
+// GET    /api/ops             → { players:[{name,uuid,level}] }
+// GET    /api/bans            → { players:[{name,reason,source,created}] }
+// GET    /api/properties      → { raw:'#...', parsed:{...} }
+// POST   /api/properties      body: { raw:'#...' } OR { parsed:{...} }
+// GET    /api/backups         → { backups:[{name,size,created}] }
+// POST   /api/backups         → { ok:true, name:'backup-2026-06-16.tar.gz' }
+// POST   /api/backups/restore body: { name }
+// DELETE /api/backups         body: { name }
+//
+// WebSocket: ws://your-vps:port/ws/console
+//   server → client: { type:'log', line:'[12:00:00 INFO]: Hello', level:'info' }
+//   client → server: { type:'cmd', cmd:'say hi' }
+
+function mcApiHeaders() {
+  const h = { 'Content-Type': 'application/json' };
+  if (MC_SECRET) h['Authorization'] = `Bearer ${MC_SECRET}`;
+  return h;
+}
+
+async function mcApi(path, opts = {}) {
+  if (!MC_API) throw new Error('MC API URL not configured');
+  const url = MC_API.replace(/\/$/, '') + path;
+  const r = await fetch(url, { headers: mcApiHeaders(), ...opts });
+  if (!r.ok) {
+    const txt = await r.text().catch(() => '');
+    throw new Error(`API ${r.status}: ${txt.slice(0,100)}`);
+  }
+  const ct = r.headers.get('content-type') || '';
+  return ct.includes('application/json') ? r.json() : { ok: true };
+}
+
+function mcSaveApiUrl() {
+  const url = document.getElementById('mc-api-url').value.trim();
+  const secret = document.getElementById('mc-api-secret').value.trim();
+  const msg = document.getElementById('mc-api-msg');
+  if (!url) { msg.textContent = '⚠️ กรุณากรอก API URL'; msg.style.color = 'var(--red)'; return; }
+  MC_API = url; MC_SECRET = secret;
+  localStorage.setItem('mc_api_url', url);
+  localStorage.setItem('mc_api_secret', secret);
+  msg.textContent = '✅ Saved!'; msg.style.color = 'var(--green)';
+  toast('Minecraft API URL บันทึกแล้ว', 'success');
+  if (mcWs) { try { mcWs.close(); } catch {} mcWs = null; }
+  mcInit();
+  setTimeout(() => msg.textContent = '', 3000);
+}
+
+async function mcTestApi() {
+  const url = document.getElementById('mc-api-url').value.trim();
+  const secret = document.getElementById('mc-api-secret').value.trim();
+  const msg = document.getElementById('mc-api-msg');
+  if (!url) { msg.textContent = '⚠️ กรุณากรอก API URL'; msg.style.color = 'var(--red)'; return; }
+  MC_API = url; MC_SECRET = secret;
+  msg.textContent = 'Testing...'; msg.style.color = 'var(--sub)';
+  try {
+    const data = await mcApi('/api/status');
+    msg.textContent = `✅ Connected! Status: ${data.status || 'ok'} · ${data.players?.length || 0} players`;
+    msg.style.color = 'var(--green)';
+    toast('เชื่อมต่อ Minecraft API สำเร็จ', 'success');
+  } catch (e) {
+    msg.textContent = '❌ ' + e.message;
+    msg.style.color = 'var(--red)';
+    toast('เชื่อมต่อ Minecraft API ล้มเหลว', 'error');
+  }
+}
+
+async function mcInit() {
+  document.getElementById('mc-api-url').value = MC_API;
+  document.getElementById('mc-api-secret').value = MC_SECRET;
+  if (!MC_API) {
+    document.getElementById('mc-hero-sub').textContent = '⚠️ กรุณาตั้งค่า Minecraft API URL ใน Settings';
+    document.getElementById('mc-pill-status').textContent = 'Not configured';
+    document.getElementById('mc-pill-status').className = 'pill pill-yellow';
+    return;
+  }
+  await mcFetchStatus();
+  mcConnectWs();
+  // Auto-refresh status every 10s
+  setInterval(mcFetchStatus, 10000);
+}
+
+async function mcFetchStatus() {
+  if (!MC_API) return;
+  try {
+    const data = await mcApi('/api/status');
+    mcStatus = data;
+    mcRenderHero();
+    mcRenderStats();
+    document.getElementById('badge-mc').textContent = data.players?.length || 0;
+    document.getElementById('mc-badge-players').textContent = data.players?.length || 0;
+  } catch (e) {
+    document.getElementById('mc-pill-status').textContent = 'Offline';
+    document.getElementById('mc-pill-status').className = 'pill pill-red';
+    document.getElementById('mc-hero-sub').textContent = '❌ ' + e.message;
+  }
+}
+
+function mcRenderHero() {
+  if (!mcStatus) return;
+  const s = mcStatus;
+  const online = s.status === 'online';
+  const pill = document.getElementById('mc-pill-status');
+  pill.textContent = online ? '🟢 Online' : '🔴 Offline';
+  pill.className = 'pill ' + (online ? 'pill-green' : 'pill-red');
+
+  const badges = document.getElementById('mc-hero-badges');
+  const parts = [
+    `<span class="pill ${online?'pill-green':'pill-red'}">${online?'🟢 Online':'🔴 Offline'}</span>`,
+    s.version ? `<span class="pill pill-blue">⛏️ ${s.version}</span>` : '',
+    s.players ? `<span class="pill pill-purple">👥 ${s.players.length}/${s.maxPlayers || '?'}</span>` : '',
+    s.tps !== undefined ? `<span class="pill ${s.tps>=18?'pill-green':s.tps>=15?'pill-yellow':'pill-red'}">⚡ ${s.tps.toFixed(1)} TPS</span>` : '',
+    s.whitelistEnabled !== undefined ? `<span class="pill ${s.whitelistEnabled?'pill-mc':'pill-grey'}">📜 Whitelist ${s.whitelistEnabled?'ON':'OFF'}</span>` : ''
+  ].filter(Boolean);
+  badges.innerHTML = parts.join('');
+
+  const subParts = [];
+  if (s.version) subParts.push(s.version);
+  if (s.address) subParts.push(s.address);
+  if (s.uptime) subParts.push('Up ' + fmtDuration(s.uptime));
+  document.getElementById('mc-hero-sub').textContent = subParts.join(' · ') || 'Connected to VPS';
+
+  // Button states
+  document.getElementById('mc-btn-start').disabled = online;
+  document.getElementById('mc-btn-stop').disabled = !online;
+  document.getElementById('mc-btn-restart').disabled = !online;
+}
+
+function mcRenderStats() {
+  if (!mcStatus) return;
+  const s = mcStatus;
+  const pCount = s.players?.length || 0;
+  const pMax = s.maxPlayers || 0;
+  document.getElementById('mc-players').textContent = `${pCount}/${pMax}`;
+  document.getElementById('mc-players-sub').textContent = `${pCount} online · ${pMax} max`;
+
+  if (s.tps !== undefined) {
+    const tps = s.tps;
+    document.getElementById('mc-tps').textContent = tps.toFixed(1);
+    document.getElementById('mc-tps').className = 'stat-value ' + (tps >= 18 ? 'c-green' : tps >= 15 ? 'c-yellow' : 'c-red');
+  }
+
+  if (s.ram) {
+    const used = s.ram.used, max = s.ram.max;
+    const pct = Math.round((used / max) * 100);
+    document.getElementById('mc-ram').textContent = `${used}MB`;
+    document.getElementById('mc-ram-sub').textContent = `${used} / ${max} MB (${pct}%)`;
+    const bar = document.getElementById('mc-ram-bar');
+    bar.style.width = pct + '%';
+    bar.className = 'progress-bar' + (pct > 90 ? ' danger' : pct > 70 ? ' warn' : '');
+  }
+
+  if (s.cpu !== undefined) {
+    const cpu = typeof s.cpu === 'number' ? s.cpu : 0;
+    document.getElementById('mc-cpu').textContent = cpu.toFixed(1) + '%';
+    const bar = document.getElementById('mc-cpu-bar');
+    bar.style.width = Math.min(cpu, 100) + '%';
+    bar.className = 'progress-bar' + (cpu > 90 ? ' danger' : cpu > 70 ? ' warn' : '');
+  }
+
+  if (s.uptime) {
+    document.getElementById('mc-uptime').textContent = fmtDuration(s.uptime);
+  }
+
+  if (s.version) {
+    document.getElementById('mc-version').textContent = s.version;
+    document.getElementById('mc-version-sub').textContent = s.platform || 'Geyser + Spigot';
+  }
+}
+
+async function mcStart() {
+  if (!confirm('ต้องการเริ่มเซิร์ฟเวอร์?')) return;
+  try {
+    toast('กำลังเริ่มเซิร์ฟเวอร์...', 'info');
+    await mcApi('/api/start', { method: 'POST' });
+    mcConsoleLog('🟢 Server start command sent', 'success');
+    sendAlert('🟢 MC Server Starting', 'เริ่มเซิร์ฟเวอร์ Minecraft', 0x22d3a0);
+    setTimeout(mcFetchStatus, 3000);
+  } catch (e) { toast('❌ ' + e.message, 'error'); }
+}
+
+async function mcStop() {
+  if (!confirm('ต้องการหยุดเซิร์ฟเวอร์? ผู้เล่นทั้งหมดจะถูกตัดการเชื่อมต่อ')) return;
+  try {
+    toast('กำลังหยุดเซิร์ฟเวอร์...', 'info');
+    await mcApi('/api/stop', { method: 'POST' });
+    mcConsoleLog('🔴 Server stop command sent', 'error');
+    sendAlert('🔴 MC Server Stopping', 'หยุดเซิร์ฟเวอร์ Minecraft', 0xf87171);
+    setTimeout(mcFetchStatus, 3000);
+  } catch (e) { toast('❌ ' + e.message, 'error'); }
+}
+
+async function mcRestart() {
+  if (!confirm('ต้องการ restart เซิร์ฟเวอร์?')) return;
+  try {
+    toast('กำลัง restart เซิร์ฟเวอร์...', 'info');
+    await mcApi('/api/restart', { method: 'POST' });
+    mcConsoleLog('🟡 Server restart command sent', 'warn');
+    sendAlert('🟡 MC Server Restarting', 'restart เซิร์ฟเวอร์ Minecraft', 0xfbbf24);
+    setTimeout(mcFetchStatus, 5000);
+  } catch (e) { toast('❌ ' + e.message, 'error'); }
+}
+
+// ── CONSOLE ──
+function mcConnectWs() {
+  if (!MC_API) return;
+  if (mcWs && (mcWs.readyState === WebSocket.OPEN || mcWs.readyState === WebSocket.CONNECTING)) return;
+  try {
+    const wsUrl = MC_API.replace(/^http/, 'ws').replace(/\/$/, '') + '/ws/console';
+    if (MC_SECRET) {
+      mcWs = new WebSocket(wsUrl + '?token=' + encodeURIComponent(MC_SECRET));
+    } else {
+      mcWs = new WebSocket(wsUrl);
+    }
+    mcWs.onopen = () => {
+      mcConsoleLog('🔌 Connected to console stream', 'success');
+    };
+    mcWs.onmessage = (ev) => {
+      try {
+        const data = JSON.parse(ev.data);
+        if (data.type === 'log' && data.line) {
+          mcConsoleLog(data.line, data.level || 'info');
+        } else if (typeof ev.data === 'string') {
+          mcConsoleLog(ev.data);
+        }
+      } catch {
+        mcConsoleLog(ev.data);
+      }
+    };
+    mcWs.onclose = () => {
+      mcConsoleLog('🔌 Console disconnected — reconnecting in 5s...', 'system');
+      setTimeout(() => { if (document.getElementById('pane-minecraft').classList.contains('active')) mcConnectWs(); }, 5000);
+    };
+    mcWs.onerror = () => {
+      mcConsoleLog('⚠️ WebSocket error', 'warn');
+    };
+  } catch (e) {
+    mcConsoleLog('❌ Cannot connect: ' + e.message, 'error');
+  }
+}
+
+function mcReconnectWs() {
+  if (mcWs) { try { mcWs.close(); } catch {} mcWs = null; }
+  mcConsoleLog('🔌 Reconnecting...', 'system');
+  mcConnectWs();
+}
+
+function mcConsoleLog(line, level = 'info') {
+  const body = document.getElementById('mc-console-body');
+  const div = document.createElement('div');
+  div.className = 'console-line ' + level;
+  const now = new Date();
+  const ts = now.toTimeString().slice(0, 8);
+  // Strip ANSI codes
+  const clean = line.replace(/\x1b\[[0-9;]*m/g, '');
+  div.innerHTML = `<span class="ts">[${ts}]</span>${escapeHtml(clean)}`;
+  body.appendChild(div);
+  mcConsoleHistory.push({ line, level, t: Date.now() });
+  if (mcConsoleHistory.length > 500) {
+    mcConsoleHistory.shift();
+    if (body.firstChild) body.removeChild(body.firstChild);
+  }
+  if (mcAutoscroll) body.scrollTop = body.scrollHeight;
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function mcClearConsole() {
+  document.getElementById('mc-console-body').innerHTML = '';
+  mcConsoleHistory = [];
+  mcConsoleLog('🗑️ Console cleared', 'system');
+}
+
+function mcToggleAutoscroll() {
+  mcAutoscroll = !mcAutoscroll;
+  const btn = document.getElementById('mc-autoscroll-btn');
+  btn.textContent = mcAutoscroll ? '📜 Auto ↓' : '📜 Auto ✕';
+  btn.style.borderColor = mcAutoscroll ? 'rgba(85,255,85,.3)' : 'var(--border)';
+  btn.style.color = mcAutoscroll ? 'var(--mc)' : 'var(--sub)';
+}
+
+async function mcSendCmd() {
+  const input = document.getElementById('mc-console-input');
+  const cmd = input.value.trim();
+  if (!cmd) return;
+  input.value = '';
+  mcCmdHistory.unshift(cmd);
+  if (mcCmdHistory.length > 50) mcCmdHistory.pop();
+  mcCmdIdx = -1;
+  mcConsoleLog('> ' + cmd, 'system');
+  if (mcWs && mcWs.readyState === WebSocket.OPEN) {
+    mcWs.send(JSON.stringify({ type: 'cmd', cmd }));
+  } else {
+    try {
+      const res = await mcApi('/api/command', {
+        method: 'POST',
+        body: JSON.stringify({ cmd })
+      });
+      if (res.output) mcConsoleLog(res.output);
+    } catch (e) {
+      mcConsoleLog('❌ ' + e.message, 'error');
+    }
+  }
+}
+
+// Console input handlers
+document.getElementById('mc-console-input').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    mcSendCmd();
+  } else if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    if (mcCmdHistory.length > 0) {
+      mcCmdIdx = Math.min(mcCmdIdx + 1, mcCmdHistory.length - 1);
+      e.target.value = mcCmdHistory[mcCmdIdx] || '';
+    }
+  } else if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    if (mcCmdIdx > 0) {
+      mcCmdIdx--;
+      e.target.value = mcCmdHistory[mcCmdIdx] || '';
+    } else {
+      mcCmdIdx = -1;
+      e.target.value = '';
+    }
+  }
+});
+
+// ── PLAYERS ──
+async function mcRenderPlayers() {
+  if (!mcStatus) return;
+  const players = mcStatus.players || [];
+  const el = document.getElementById('mc-players-list');
+  document.getElementById('mc-players-count').textContent = players.length + ' online';
+  if (!players.length) {
+    el.innerHTML = '<div class="empty-state"><div class="empty-icon">👥</div><div class="empty-text">No players online</div></div>';
+    return;
+  }
+  el.innerHTML = players.map(p => {
+    const avatar = `https://mc-heads.net/avatar/${encodeURIComponent(p.name)}/36`;
+    const meta = [];
+    if (p.ping !== undefined) meta.push(`📶 ${p.ping}ms`);
+    if (p.ip) meta.push(`🌐 ${p.ip}`);
+    if (p.world) meta.push(`🗺️ ${p.world}`);
+    if (p.health !== undefined) meta.push(`❤️ ${p.health}`);
+    if (p.food !== undefined) meta.push(`🍖 ${p.food}`);
+    if (p.gamemode) meta.push(`🎮 ${p.gamemode}`);
+    return `<div class="player-row">
+      <img class="player-avatar" src="${avatar}" alt="${escapeHtml(p.name)}" onerror="this.style.display='none'">
+      <div class="player-info">
+        <div class="player-name">${escapeHtml(p.name)}</div>
+        <div class="player-meta">${meta.map(m => `<span>${m}</span>`).join('')}</div>
+      </div>
+      <div class="player-actions">
+        <button class="player-action good" onclick="mcTpTo('${escapeHtml(p.name)}')" title="Teleport">📍</button>
+        <button class="player-action warn" onclick="mcKick('${escapeHtml(p.name)}')" title="Kick">👢</button>
+        <button class="player-action danger" onclick="mcBan('${escapeHtml(p.name)}')" title="Ban">🚫</button>
+        <button class="player-action" onclick="mcWhisper('${escapeHtml(p.name)}')" title="Whisper">💬</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+async function mcKick(name) {
+  const reason = prompt(`Kick ${name} — เหตุผล (optional):`) || 'Kicked by admin';
+  try {
+    await mcApi('/api/kick', { method: 'POST', body: JSON.stringify({ player: name, reason }) });
+    toast(`👢 Kicked ${name}`, 'success');
+    mcConsoleLog(`👢 Kicked ${name}: ${reason}`, 'warn');
+    setTimeout(mcFetchStatus, 1000);
+  } catch (e) { toast('❌ ' + e.message, 'error'); }
+}
+
+async function mcBan(name) {
+  const reason = prompt(`Ban ${name} — เหตุผล:`) || 'Banned by admin';
+  if (!confirm(`ยืนยันการ ban ${name}?`)) return;
+  try {
+    await mcApi('/api/ban', { method: 'POST', body: JSON.stringify({ player: name, reason }) });
+    toast(`🚫 Banned ${name}`, 'success');
+    mcConsoleLog(`🚫 Banned ${name}: ${reason}`, 'error');
+    setTimeout(mcFetchStatus, 1000);
+  } catch (e) { toast('❌ ' + e.message, 'error'); }
+}
+
+async function mcTpTo(name) {
+  const target = prompt(`Teleport ${name} ไปหาใคร? (หรือเว้นว่างเพื่อดูตำแหน่ง)`);
+  if (target === null) return;
+  try {
+    if (target) {
+      await mcApi('/api/command', { method: 'POST', body: JSON.stringify({ cmd: `tp ${name} ${target}` }) });
+      toast(`📍 Teleported ${name} → ${target}`, 'success');
+    } else {
+      const res = await mcApi('/api/command', { method: 'POST', body: JSON.stringify({ cmd: `data get entity ${name} Pos` }) });
+      alert(`${name}'s position:\n${res.output || 'unknown'}`);
+    }
+  } catch (e) { toast('❌ ' + e.message, 'error'); }
+}
+
+function mcWhisper(name) {
+  const msg = prompt(`ส่งข้อความถึง ${name}:`);
+  if (!msg) return;
+  mcSendCmd(`tellraw ${name} {"text":"[Admin → You] ${msg.replace(/"/g,'\\"')}","color":"light_purple"}`);
+}
+
+// Update players when status changes
+const _origMcRenderStats = mcRenderStats;
+mcRenderStats = function() {
+  _origMcRenderStats();
+  mcRenderPlayers();
+};
+
+// ── WHITELIST ──
+async function mcWhitelistLoad() {
+  try {
+    const data = await mcApi('/api/whitelist');
+    const players = data.players || [];
+    document.getElementById('mc-wl-count').textContent = players.length + ' players';
+    const el = document.getElementById('mc-whitelist-list');
+    if (!players.length) {
+      el.innerHTML = '<div class="empty-state"><div class="empty-icon">📜</div><div class="empty-text">Whitelist is empty</div></div>';
+      return;
+    }
+    el.innerHTML = players.map(p => {
+      const avatar = `https://mc-heads.net/avatar/${encodeURIComponent(p.name)}/36`;
+      return `<div class="player-row">
+        <img class="player-avatar" src="${avatar}" alt="${escapeHtml(p.name)}" onerror="this.style.display='none'">
+        <div class="player-info">
+          <div class="player-name">${escapeHtml(p.name)}</div>
+          <div class="player-meta">${p.uuid ? `<span>🆔 ${p.uuid.slice(0,8)}...</span>` : ''}</div>
+        </div>
+        <div class="player-actions">
+          <button class="player-action danger" onclick="mcWhitelistRemove('${escapeHtml(p.name)}')">🗑️ Remove</button>
+        </div>
+      </div>`;
+    }).join('');
+  } catch (e) {
+    document.getElementById('mc-whitelist-list').innerHTML = `<div class="empty-state"><div class="empty-icon">❌</div><div class="empty-text">${e.message}</div></div>`;
+  }
+}
+
+async function mcWhitelistAdd() {
+  const name = document.getElementById('mc-wl-input').value.trim();
+  const msg = document.getElementById('mc-wl-msg');
+  if (!name) { msg.textContent = '⚠️ กรุณากรอกชื่อ'; msg.style.color = 'var(--red)'; return; }
+  msg.textContent = 'Adding...'; msg.style.color = 'var(--sub)';
+  try {
+    await mcApi('/api/whitelist/add', { method: 'POST', body: JSON.stringify({ player: name }) });
+    msg.textContent = `✅ Added ${name}`; msg.style.color = 'var(--green)';
+    document.getElementById('mc-wl-input').value = '';
+    toast(`📜 Added ${name} to whitelist`, 'success');
+    mcWhitelistLoad();
+  } catch (e) {
+    msg.textContent = '❌ ' + e.message; msg.style.color = 'var(--red)';
+  }
+  setTimeout(() => msg.textContent = '', 3000);
+}
+
+async function mcWhitelistRemove(name) {
+  if (!confirm(`ลบ ${name} ออกจาก whitelist?`)) return;
+  try {
+    await mcApi('/api/whitelist/remove', { method: 'POST', body: JSON.stringify({ player: name }) });
+    toast(`🗑️ Removed ${name}`, 'success');
+    mcWhitelistLoad();
+  } catch (e) { toast('❌ ' + e.message, 'error'); }
+}
+
+async function mcWhitelistReload() {
+  try {
+    await mcApi('/api/whitelist/reload', { method: 'POST' });
+    toast('🔄 Whitelist reloaded', 'success');
+    mcWhitelistLoad();
+  } catch (e) { toast('❌ ' + e.message, 'error'); }
+}
+
+async function mcWhitelistToggle() {
+  const current = mcStatus?.whitelistEnabled;
+  const newState = !current;
+  if (!confirm(`${newState?'เปิด':'ปิด'} whitelist?`)) return;
+  try {
+    await mcApi('/api/whitelist/toggle', { method: 'POST', body: JSON.stringify({ enabled: newState }) });
+    toast(`📜 Whitelist ${newState?'enabled':'disabled'}`, 'success');
+    setTimeout(mcFetchStatus, 500);
+  } catch (e) { toast('❌ ' + e.message, 'error'); }
+}
+
+// ── OPS ──
+async function mcOpsLoad() {
+  try {
+    const data = await mcApi('/api/ops');
+    const players = data.players || [];
+    document.getElementById('mc-op-count').textContent = players.length + ' ops';
+    const el = document.getElementById('mc-ops-list');
+    if (!players.length) {
+      el.innerHTML = '<div class="empty-state"><div class="empty-icon">⭐</div><div class="empty-text">No operators</div></div>';
+      return;
+    }
+    el.innerHTML = players.map(p => {
+      const avatar = `https://mc-heads.net/avatar/${encodeURIComponent(p.name)}/36`;
+      return `<div class="player-row">
+        <img class="player-avatar" src="${avatar}" alt="${escapeHtml(p.name)}" onerror="this.style.display='none'">
+        <div class="player-info">
+          <div class="player-name">⭐ ${escapeHtml(p.name)}</div>
+          <div class="player-meta">
+            ${p.level !== undefined ? `<span>🔰 Level ${p.level}</span>` : ''}
+            ${p.uuid ? `<span>🆔 ${p.uuid.slice(0,8)}...</span>` : ''}
+          </div>
+        </div>
+        <div class="player-actions">
+          <button class="player-action danger" onclick="mcOpRemove('${escapeHtml(p.name)}')">🗑️ Demote</button>
+        </div>
+      </div>`;
+    }).join('');
+  } catch (e) {
+    document.getElementById('mc-ops-list').innerHTML = `<div class="empty-state"><div class="empty-icon">❌</div><div class="empty-text">${e.message}</div></div>`;
+  }
+}
+
+async function mcOpAdd() {
+  const name = document.getElementById('mc-op-input').value.trim();
+  const msg = document.getElementById('mc-op-msg');
+  if (!name) { msg.textContent = '⚠️ กรุณากรอกชื่อ'; msg.style.color = 'var(--red)'; return; }
+  if (!confirm(`Promote ${name} เป็น operator?`)) return;
+  msg.textContent = 'Promoting...'; msg.style.color = 'var(--sub)';
+  try {
+    await mcApi('/api/op', { method: 'POST', body: JSON.stringify({ player: name }) });
+    msg.textContent = `⭐ ${name} is now operator`; msg.style.color = 'var(--green)';
+    document.getElementById('mc-op-input').value = '';
+    toast(`⭐ ${name} promoted to operator`, 'success');
+    mcOpsLoad();
+  } catch (e) {
+    msg.textContent = '❌ ' + e.message; msg.style.color = 'var(--red)';
+  }
+  setTimeout(() => msg.textContent = '', 3000);
+}
+
+async function mcOpRemove(name) {
+  if (!confirm(`Demote ${name} จาก operator?`)) return;
+  try {
+    await mcApi('/api/deop', { method: 'POST', body: JSON.stringify({ player: name }) });
+    toast(`🗑️ ${name} demoted`, 'success');
+    mcOpsLoad();
+  } catch (e) { toast('❌ ' + e.message, 'error'); }
+}
+
+// ── BANS ──
+async function mcBansLoad() {
+  try {
+    const data = await mcApi('/api/bans');
+    const players = data.players || [];
+    document.getElementById('mc-ban-count').textContent = players.length + ' bans';
+    const el = document.getElementById('mc-bans-list');
+    if (!players.length) {
+      el.innerHTML = '<div class="empty-state"><div class="empty-icon">✓</div><div class="empty-text">No banned players</div></div>';
+      return;
+    }
+    el.innerHTML = players.map(p => {
+      const avatar = `https://mc-heads.net/avatar/${encodeURIComponent(p.name)}/36`;
+      const when = p.created ? new Date(p.created).toLocaleString('th-TH') : '';
+      return `<div class="player-row">
+        <img class="player-avatar" src="${avatar}" alt="${escapeHtml(p.name)}" onerror="this.style.display='none'">
+        <div class="player-info">
+          <div class="player-name">🚫 ${escapeHtml(p.name)}</div>
+          <div class="player-meta">
+            ${p.reason ? `<span>📝 ${escapeHtml(p.reason)}</span>` : ''}
+            ${p.source ? `<span>👤 by ${escapeHtml(p.source)}</span>` : ''}
+            ${when ? `<span>📅 ${when}</span>` : ''}
+          </div>
+        </div>
+        <div class="player-actions">
+          <button class="player-action good" onclick="mcPardon('${escapeHtml(p.name)}')">✅ Pardon</button>
+        </div>
+      </div>`;
+    }).join('');
+  } catch (e) {
+    document.getElementById('mc-bans-list').innerHTML = `<div class="empty-state"><div class="empty-icon">❌</div><div class="empty-text">${e.message}</div></div>`;
+  }
+}
+
+async function mcBanAdd() {
+  const name = document.getElementById('mc-ban-input').value.trim();
+  const reason = document.getElementById('mc-ban-reason').value.trim() || 'Banned by admin';
+  const msg = document.getElementById('mc-ban-msg');
+  if (!name) { msg.textContent = '⚠️ กรุณากรอกชื่อ'; msg.style.color = 'var(--red)'; return; }
+  if (!confirm(`Ban ${name}?`)) return;
+  msg.textContent = 'Banning...'; msg.style.color = 'var(--sub)';
+  try {
+    await mcApi('/api/ban', { method: 'POST', body: JSON.stringify({ player: name, reason }) });
+    msg.textContent = `🚫 Banned ${name}`; msg.style.color = 'var(--green)';
+    document.getElementById('mc-ban-input').value = '';
+    document.getElementById('mc-ban-reason').value = '';
+    toast(`🚫 Banned ${name}`, 'success');
+    mcBansLoad();
+  } catch (e) {
+    msg.textContent = '❌ ' + e.message; msg.style.color = 'var(--red)';
+  }
+  setTimeout(() => msg.textContent = '', 3000);
+}
+
+async function mcPardon(name) {
+  if (!confirm(`Unban ${name}?`)) return;
+  try {
+    await mcApi('/api/pardon', { method: 'POST', body: JSON.stringify({ player: name }) });
+    toast(`✅ Pardoned ${name}`, 'success');
+    mcBansLoad();
+  } catch (e) { toast('❌ ' + e.message, 'error'); }
+}
+
+// ── PROPERTIES ──
+async function mcPropertiesLoad() {
+  try {
+    const data = await mcApi('/api/properties');
+    if (data.raw) document.getElementById('mc-prop-raw').value = data.raw;
+    if (data.parsed) {
+      const p = data.parsed;
+      if (p.motd) document.getElementById('mc-prop-motd').value = p.motd;
+      if (p['max-players']) document.getElementById('mc-prop-maxplayers').value = p['max-players'];
+      if (p['view-distance']) document.getElementById('mc-prop-viewdistance').value = p['view-distance'];
+      if (p.difficulty) document.getElementById('mc-prop-difficulty').value = p.difficulty;
+      if (p.gamemode) document.getElementById('mc-prop-gamemode').value = p.gamemode;
+      if (p.pvp !== undefined) document.getElementById('mc-prop-pvp').value = String(p.pvp);
+      if (p['online-mode'] !== undefined) document.getElementById('mc-prop-onlinemode').value = String(p['online-mode']);
+    }
+  } catch (e) {
+    toast('❌ Cannot load properties: ' + e.message, 'error');
+  }
+}
+
+async function mcPropertiesReload() {
+  toast('🔄 Reloading properties...', 'info');
+  await mcPropertiesLoad();
+  toast('✅ Properties loaded', 'success');
+}
+
+async function mcPropertiesSave() {
+  const msg = document.getElementById('mc-prop-msg');
+  msg.textContent = 'Saving...'; msg.style.color = 'var(--sub)';
+  const parsed = {
+    motd: document.getElementById('mc-prop-motd').value,
+    'max-players': document.getElementById('mc-prop-maxplayers').value,
+    'view-distance': document.getElementById('mc-prop-viewdistance').value,
+    difficulty: document.getElementById('mc-prop-difficulty').value,
+    gamemode: document.getElementById('mc-prop-gamemode').value,
+    pvp: document.getElementById('mc-prop-pvp').value,
+    'online-mode': document.getElementById('mc-prop-onlinemode').value
+  };
+  try {
+    await mcApi('/api/properties', { method: 'POST', body: JSON.stringify({ parsed }) });
+    msg.textContent = '✅ Saved! Some changes require restart'; msg.style.color = 'var(--green)';
+    toast('✅ Properties saved', 'success');
+  } catch (e) {
+    msg.textContent = '❌ ' + e.message; msg.style.color = 'var(--red)';
+  }
+  setTimeout(() => msg.textContent = '', 4000);
+}
+
+async function mcPropertiesSaveRaw() {
+  const msg = document.getElementById('mc-prop-raw-msg');
+  const raw = document.getElementById('mc-prop-raw').value;
+  msg.textContent = 'Saving...'; msg.style.color = 'var(--sub)';
+  try {
+    await mcApi('/api/properties', { method: 'POST', body: JSON.stringify({ raw }) });
+    msg.textContent = '✅ Raw file saved!'; msg.style.color = 'var(--green)';
+    toast('✅ server.properties saved', 'success');
+  } catch (e) {
+    msg.textContent = '❌ ' + e.message; msg.style.color = 'var(--red)';
+  }
+  setTimeout(() => msg.textContent = '', 4000);
+}
+
+// ── BACKUPS ──
+async function mcBackupList() {
+  try {
+    const data = await mcApi('/api/backups');
+    const backups = data.backups || [];
+    document.getElementById('mc-backup-count').textContent = backups.length + ' backups';
+    const el = document.getElementById('mc-backup-list');
+    if (!backups.length) {
+      el.innerHTML = '<div class="empty-state"><div class="empty-icon">💾</div><div class="empty-text">No backups yet</div></div>';
+      return;
+    }
+    el.innerHTML = backups.map(b => {
+      const when = b.created ? new Date(b.created).toLocaleString('th-TH') : '';
+      const size = b.size ? (b.size > 1048576 ? (b.size/1048576).toFixed(1)+'MB' : (b.size/1024).toFixed(0)+'KB') : '';
+      return `<div class="list-item">
+        <div class="list-icon">💾</div>
+        <div class="list-main">
+          <div class="list-name">${escapeHtml(b.name)}</div>
+          <div class="list-desc">${when}${size?' · '+size:''}</div>
+        </div>
+        <div class="list-right">
+          <button class="mc-btn" onclick="mcBackupRestore('${escapeHtml(b.name)}')" title="Restore">↶ Restore</button>
+          <button class="mc-btn mc-btn-red" onclick="mcBackupDelete('${escapeHtml(b.name)}')" title="Delete">🗑️</button>
+        </div>
+      </div>`;
+    }).join('');
+  } catch (e) {
+    document.getElementById('mc-backup-list').innerHTML = `<div class="empty-state"><div class="empty-icon">❌</div><div class="empty-text">${e.message}</div></div>`;
+  }
+}
+
+async function mcBackupCreate() {
+  const msg = document.getElementById('mc-backup-msg');
+  msg.textContent = 'Creating backup...'; msg.style.color = 'var(--sub)';
+  try {
+    const data = await mcApi('/api/backups', { method: 'POST' });
+    msg.textContent = `✅ Backup created: ${data.name || 'ok'}`; msg.style.color = 'var(--green)';
+    toast('💾 Backup created', 'success');
+    mcBackupList();
+  } catch (e) {
+    msg.textContent = '❌ ' + e.message; msg.style.color = 'var(--red)';
+  }
+  setTimeout(() => msg.textContent = '', 4000);
+}
+
+async function mcBackupRestore(name) {
+  if (!confirm(`⚠️ RESTORE backup "${name}"?\nข้อมูลปัจจุบันจะถูกรวม/ทับ — แนะนำให้ backup ก่อน`)) return;
+  try {
+    await mcApi('/api/backups/restore', { method: 'POST', body: JSON.stringify({ name }) });
+    toast(`↶ Restoring ${name}...`, 'info');
+  } catch (e) { toast('❌ ' + e.message, 'error'); }
+}
+
+async function mcBackupDelete(name) {
+  if (!confirm(`ลบ backup "${name}"?`)) return;
+  try {
+    await mcApi('/api/backups', { method: 'DELETE', body: JSON.stringify({ name }) });
+    toast(`🗑️ Deleted ${name}`, 'success');
+    mcBackupList();
+  } catch (e) { toast('❌ ' + e.message, 'error'); }
+}
+
+// Auto-load MC subpanes when switched
+const _origSwitchMcSub = switchMcSub;
+switchMcSub = function(el, paneId) {
+  _origSwitchMcSub(el, paneId);
+  if (paneId === 'mcsub-players') mcRenderPlayers();
+  else if (paneId === 'mcsub-whitelist') mcWhitelistLoad();
+  else if (paneId === 'mcsub-ops') mcOpsLoad();
+  else if (paneId === 'mcsub-bans') mcBansLoad();
+  else if (paneId === 'mcsub-properties') mcPropertiesLoad();
+  else if (paneId === 'mcsub-backups') mcBackupList();
+};
 
 // ══════════════════════════════════════════════════
 // AUTO-REFRESH
