@@ -364,11 +364,7 @@ canvas{width:100%;height:100%;display:block;}
     <!-- OVERVIEW -->
     <div class="pane active" id="pane-overview">
       <div class="stats-grid">
-        <div class="stat-card"><div class="stat-icon">🌐</div><div class="stat-label">Total Requests</div><div class="stat-value c-cf" id="ov-requests">—</div><div class="stat-sub" id="ov-requests-sub">Last 24h</div></div>
-        <div class="stat-card"><div class="stat-icon">👁️</div><div class="stat-label">Unique Visitors</div><div class="stat-value c-blue" id="ov-visitors">—</div><div class="stat-sub" id="ov-visitors-sub">Last 24h</div></div>
-        <div class="stat-card"><div class="stat-icon">📦</div><div class="stat-label">Bandwidth</div><div class="stat-value c-purple" id="ov-bandwidth">—</div><div class="stat-sub">Last 24h</div></div>
-        <div class="stat-card"><div class="stat-icon">🛡️</div><div class="stat-label">Threats Blocked</div><div class="stat-value c-red" id="ov-threats">—</div><div class="stat-sub">Last 24h</div></div>
-        <div class="stat-card"><div class="stat-icon">⚡</div><div class="stat-label">Cache Rate</div><div class="stat-value c-green" id="ov-cache">—</div><div class="stat-sub">Cache hit ratio</div></div>
+        <div class="stat-card"><div class="stat-icon">🌐</div><div class="stat-label">CF Status</div><div class="stat-value c-green" id="ov-cf-status">—</div><div class="stat-sub" id="ov-cf-sub">Cloudflare</div></div>
         <div class="stat-card"><div class="stat-icon">🎮</div><div class="stat-label">MC Players</div><div class="stat-value c-mc" id="ov-mc-players">—</div><div class="stat-sub" id="ov-mc-sub">Not connected</div></div>
       </div>
       <div class="sec-header"><div class="sec-title">☁️ Cloudflare Status</div></div>
@@ -379,34 +375,78 @@ canvas{width:100%;height:100%;display:block;}
 
     <!-- ANALYTICS -->
     <div class="pane" id="pane-analytics">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px;">
-        <div class="sec-title">☁️ Cloudflare Web Analytics</div>
-        <div class="range-tabs">
-          <div class="range-tab active" onclick="setAnalyticsRange(this,'1440')">24h</div>
-          <div class="range-tab" onclick="setAnalyticsRange(this,'10080')">7d</div>
-          <div class="range-tab" onclick="setAnalyticsRange(this,'43200')">30d</div>
+      <div class="sec-title" style="margin-bottom:14px;">☁️ Cloudflare Web Analytics</div>
+
+      <!-- Quick link to CF dashboard -->
+      <div class="list-card" style="padding:20px;margin-bottom:14px;">
+        <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+          <div style="font-size:28px;">📊</div>
+          <div style="flex:1;min-width:0;">
+            <div style="font-size:13px;font-weight:700;margin-bottom:4px;">ดู Analytics บน Cloudflare</div>
+            <div style="font-size:11px;color:var(--sub);line-height:1.6;">Visitors, Page views, Top pages, Countries และอื่นๆ อยู่ที่ Cloudflare Dashboard ครับ</div>
+          </div>
+          <a href="https://dash.cloudflare.com/?to=/:account/web-analytics" target="_blank" style="text-decoration:none;">
+            <button class="save-btn" style="white-space:nowrap;">เปิด CF Dashboard →</button>
+          </a>
         </div>
       </div>
-      <div id="an-no-token" style="display:none;">
-        <div class="alert-banner alert-cf"><span>☁️</span> กรอก Cloudflare API Token และ Zone ID ใน Settings ก่อนครับ</div>
+
+      <!-- Setup guide -->
+      <div class="settings-card">
+        <div class="settings-title">📋 วิธีเพิ่ม Web Analytics ให้เว็บ</div>
+        <div class="alert-banner alert-cf" style="margin-bottom:14px;"><span>ℹ️</span> ทำครั้งเดียว แล้วดูสถิติได้เลยบน Cloudflare Dashboard</div>
+
+        <div style="display:flex;flex-direction:column;gap:14px;">
+          <div style="display:flex;gap:12px;align-items:flex-start;">
+            <div style="width:24px;height:24px;border-radius:50%;background:var(--cf);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">1</div>
+            <div>
+              <div style="font-size:12px;font-weight:600;margin-bottom:3px;">เปิด Cloudflare Dashboard</div>
+              <div style="font-size:11px;color:var(--sub);">ไปที่ <span style="color:var(--accent2);font-family:'JetBrains Mono',monospace;">dash.cloudflare.com</span> → เมนูซ้าย → <strong style="color:var(--text);">Analytics → Web Analytics</strong></div>
+            </div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;">
+            <div style="width:24px;height:24px;border-radius:50%;background:var(--cf);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">2</div>
+            <div>
+              <div style="font-size:12px;font-weight:600;margin-bottom:3px;">Add a site</div>
+              <div style="font-size:11px;color:var(--sub);">กด <strong style="color:var(--text);">Add a site</strong> → กรอก URL ของ pages.dev → Cloudflare จะให้ script snippet มา</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;">
+            <div style="width:24px;height:24px;border-radius:50%;background:var(--cf);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">3</div>
+            <div>
+              <div style="font-size:12px;font-weight:600;margin-bottom:3px;">ใส่ script ในหน้าเว็บ</div>
+              <div style="font-size:11px;color:var(--sub);margin-bottom:8px;">วาง script ก่อน <code style="color:var(--cf);background:rgba(246,130,31,.1);padding:1px 5px;border-radius:4px;">&lt;/head&gt;</code> ในทุกหน้าที่อยากติดตาม หน้าตาประมาณนี้:</div>
+              <div style="background:#050810;border:1px solid rgba(246,130,31,.15);border-radius:8px;padding:12px 14px;font-family:'JetBrains Mono',monospace;font-size:10px;color:#9bb;line-height:1.7;word-break:break-all;">
+                &lt;script defer<br>
+                &nbsp;&nbsp;src='https://static.cloudflareinsights.com/beacon.min.js'<br>
+                &nbsp;&nbsp;data-cf-beacon='{"token": "<span style="color:var(--cf);">YOUR_TOKEN</span>"}'&gt;<br>
+                &lt;/script&gt;
+              </div>
+            </div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;">
+            <div style="width:24px;height:24px;border-radius:50%;background:var(--green);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">✓</div>
+            <div>
+              <div style="font-size:12px;font-weight:600;margin-bottom:3px;">เสร็จแล้ว!</div>
+              <div style="font-size:11px;color:var(--sub);">push ขึ้น GitHub → Cloudflare Pages deploy ให้ → ข้อมูล analytics จะเริ่มเข้ามาใน 1-2 ชั่วโมง ดูได้ที่ปุ่มด้านบนเลย</div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div id="an-loading" style="display:none;">
-        <div class="loading-wrap"><div class="loading-spinner"></div><div class="loading-text">Loading analytics...</div></div>
-      </div>
-      <div id="an-content" style="display:none;">
-        <div class="analytics-grid" id="an-stats-grid"></div>
-        <div class="cf-bar-chart">
-          <div class="cf-bar-label">🌍 Top Countries</div>
-          <div id="an-countries"></div>
+
+      <!-- Token input for beacon -->
+      <div class="settings-card">
+        <div class="settings-title">🔖 บันทึก Analytics Token ไว้</div>
+        <div style="font-size:11px;color:var(--sub);margin-bottom:10px;">เผื่อจำ token ที่ได้จาก Cloudflare ไม่ออก เก็บไว้ที่นี่ได้เลย (เก็บใน localStorage เครื่องตัวเอง)</div>
+        <div class="settings-field">
+          <label>Web Analytics Token</label>
+          <input type="text" id="wa-token" placeholder="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" style="font-family:'JetBrains Mono',monospace;">
         </div>
-        <div class="cf-bar-chart">
-          <div class="cf-bar-label">📄 Top Pages</div>
-          <div id="an-pages"></div>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+          <button class="save-btn" onclick="saveWaToken()">💾 Save</button>
+          <button class="test-btn" onclick="copyWaScript()">📋 Copy Script</button>
         </div>
-        <div class="resp-chart-card" style="margin:0;">
-          <div class="resp-chart-header"><div class="resp-chart-label">📈 Requests Over Time</div><span class="pill pill-cf" id="an-req-pill">—</span></div>
-          <div class="chart-canvas-wrap"><canvas id="an-req-chart"></canvas></div>
-        </div>
+        <div class="settings-msg" id="wa-msg"></div>
       </div>
     </div>
 
@@ -693,22 +733,7 @@ canvas{width:100%;height:100%;display:block;}
 
     <!-- SETTINGS -->
     <div class="pane" id="pane-settings">
-      <div class="settings-card">
-        <div class="settings-title">☁️ Cloudflare API</div>
-        <div class="alert-banner alert-cf"><span>☁️</span> ใช้สำหรับดึง Analytics และ Zone stats</div>
-        <div class="settings-field"><label>API Token</label><input type="password" id="cf-api-token" placeholder="Cloudflare API Token (Zone.Analytics:Read)"></div>
-        <div class="settings-field"><label>Zone ID</label><input type="text" id="cf-zone-id" placeholder="Zone ID จาก Cloudflare Dashboard"></div>
-        <div class="settings-field"><label>Account ID</label><input type="text" id="cf-account-id" placeholder="Account ID (optional — for account-level analytics)"></div>
-        <div style="display:flex;gap:8px;">
-          <button class="save-btn" onclick="saveCfSettings()">💾 Save</button>
-          <button class="test-btn" onclick="testCfToken()">🧪 Test</button>
-        </div>
-        <div class="settings-msg" id="cf-settings-msg"></div>
-        <div class="auth-hint" style="margin-top:8px;font-size:11px;color:var(--sub);line-height:1.6;">
-          สร้าง token ได้ที่ <a href="https://dash.cloudflare.com/profile/api-tokens" target="_blank" style="color:var(--accent2);">dash.cloudflare.com/profile/api-tokens</a><br>
-          Permission ที่ต้องการ: <strong style="color:var(--text);">Zone → Analytics → Read</strong>
-        </div>
-      </div>
+
       <div class="settings-card">
         <div class="settings-title">🔔 Discord Webhook</div>
         <div class="settings-field"><label>Discord Webhook URL</label><input type="text" id="webhook-url" placeholder="https://discord.com/api/webhooks/..."></div>
@@ -744,9 +769,8 @@ const SB_KEY='sb_publishable_wLXHjAzQjH5h-yK0gpzmyA_0GC5Sdwi';
 const HIST_KEY='bio_status_v2';
 const GOOD_MS=500,SLOW_MS=1500,SEGS=24;
 
-/* ── Cloudflare state ── */
-let cfToken='',cfZoneId='',cfAccountId='';
-let cfAnalyticsRange=1440; // minutes
+/* ── Web Analytics state ── */
+let waToken='';
 
 /* ── MC Bridge State ── */
 let mcBridgeUrl='',mcBridgeToken='',mcWsUrl='';
@@ -806,12 +830,8 @@ async function showApp(){
   document.getElementById('app').style.display='block';
   sendAlert('👁️ Dashboard Opened','มีการเปิดหน้า Dashboard',0x38bdf8);
   loadStatusHistory();fetchStatus();fetchCfStatus();
-  cfToken=localStorage.getItem('cf_token')||'';
-  cfZoneId=localStorage.getItem('cf_zone_id')||'';
-  cfAccountId=localStorage.getItem('cf_account_id')||'';
-  const tEl=document.getElementById('cf-api-token');if(tEl)tEl.value=cfToken;
-  const zEl=document.getElementById('cf-zone-id');if(zEl)zEl.value=cfZoneId;
-  const aEl=document.getElementById('cf-account-id');if(aEl)aEl.value=cfAccountId;
+  waToken=localStorage.getItem('wa_token')||'';
+  const waEl=document.getElementById('wa-token');if(waEl)waEl.value=waToken;
   mcBridgeUrl=localStorage.getItem('mc_bridge_url')||'';
   mcBridgeToken=localStorage.getItem('mc_bridge_token')||'';
   mcWsUrl=localStorage.getItem('mc_ws_url')||'';
@@ -823,7 +843,7 @@ async function showApp(){
   loadCfOverview();
 }
 
-function refreshAll(){setRefreshSpin(true);fetchStatus();fetchCfStatus();if(cfToken&&cfZoneId)loadCfAnalytics();loadCfOverview();if(mcBridgeUrl&&mcBridgeToken)mcFetchStatus();setTimeout(()=>setRefreshSpin(false),1500);}
+function refreshAll(){setRefreshSpin(true);fetchStatus();fetchCfStatus();if(mcBridgeUrl&&mcBridgeToken)mcFetchStatus();setTimeout(()=>setRefreshSpin(false),1500);}
 function setRefreshSpin(on){document.getElementById('refresh-btn').classList.toggle('refresh-spin',on);}
 
 /* ══════════════════════════════════
@@ -868,104 +888,21 @@ function setAnalyticsRange(el,minutes){
   if(cfToken&&cfZoneId)loadCfAnalytics();
 }
 
-async function loadCfAnalytics(){
-  if(!cfToken||!cfZoneId){
-    document.getElementById('an-no-token').style.display='block';
-    document.getElementById('an-content').style.display='none';
-    return;
-  }
-  document.getElementById('an-no-token').style.display='none';
-  document.getElementById('an-loading').style.display='block';
-  document.getElementById('an-content').style.display='none';
-  const now=new Date();
-  const since=new Date(now-cfAnalyticsRange*60000).toISOString();
-  const until=now.toISOString();
-  try{
-    const data=await cfGraphQL(`
-      query($zoneTag:String!,$since:String!,$until:String!){
-        viewer{
-          zones(filter:{zoneTag:$zoneTag}){
-            httpRequests1hGroups(limit:168,filter:{datetime_geq:$since,datetime_leq:$until},orderBy:[datetime_ASC]){
-              dimensions{datetime}
-              sum{requests cachedRequests bytes cachedBytes threats pageViews}
-              uniq{uniques}
-            }
-            httpRequests1dGroups(limit:30,filter:{date_geq:${JSON.stringify(since.slice(0,10))},date_leq:${JSON.stringify(until.slice(0,10))}}){
-              dimensions{date}
-              sum{requests bytes threats pageViews}
-              uniq{uniques}
-            }
-            topCountries:httpRequests1hGroups(limit:1,filter:{datetime_geq:$since,datetime_leq:$until}){
-              sum{countryMap{clientCountryName requests}}
-            }
-          }
-        }
-      }
-    `,{zoneTag:cfZoneId,since,until});
-    const zones=data?.viewer?.zones?.[0];
-    const hourly=zones?.httpRequests1hGroups||[];
-    const totReq=hourly.reduce((a,h)=>a+(h.sum?.requests||0),0);
-    const totBytes=hourly.reduce((a,h)=>a+(h.sum?.bytes||0),0);
-    const totCached=hourly.reduce((a,h)=>a+(h.sum?.cachedRequests||0),0);
-    const totThreats=hourly.reduce((a,h)=>a+(h.sum?.threats||0),0);
-    const totVisitors=hourly.reduce((a,h)=>a+(h.uniq?.uniques||0),0);
-    const totPageviews=hourly.reduce((a,h)=>a+(h.sum?.pageViews||0),0);
-    const cacheRate=totReq>0?Math.round(totCached/totReq*100):0;
-    // update overview stats too
-    ['ov-requests'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=fmtNum(totReq);});
-    ['ov-visitors'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=fmtNum(totVisitors);});
-    ['ov-bandwidth'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=fmtBytes(totBytes);});
-    ['ov-threats'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=fmtNum(totThreats);});
-    ['ov-cache'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=cacheRate+'%';});
-    // analytics grid
-    document.getElementById('an-stats-grid').innerHTML=[
-      {icon:'🌐',label:'Total Requests',value:fmtNum(totReq),sub:'All HTTP requests',cls:'c-cf'},
-      {icon:'👁️',label:'Unique Visitors',value:fmtNum(totVisitors),sub:'Unique IPs',cls:'c-blue'},
-      {icon:'📄',label:'Page Views',value:fmtNum(totPageviews),sub:'Page loads',cls:'c-purple'},
-      {icon:'📦',label:'Bandwidth',value:fmtBytes(totBytes),sub:'Total transferred',cls:'c-green'},
-      {icon:'⚡',label:'Cache Rate',value:cacheRate+'%',sub:`${fmtNum(totCached)} cached`,cls:cacheRate>80?'c-green':cacheRate>50?'c-yellow':'c-red'},
-      {icon:'🛡️',label:'Threats',value:fmtNum(totThreats),sub:'Blocked by CF',cls:totThreats>0?'c-red':'c-green'},
-    ].map(c=>`<div class="an-card"><div class="an-icon">${c.icon}</div><div class="an-label">${c.label}</div><div class="an-value ${c.cls}">${c.value}</div><div class="an-sub">${c.sub}</div></div>`).join('');
-    // countries
-    const countries=zones?.topCountries?.[0]?.sum?.countryMap||[];
-    const sortedC=[...countries].sort((a,b)=>b.requests-a.requests).slice(0,8);
-    const maxC=sortedC[0]?.requests||1;
-    document.getElementById('an-countries').innerHTML=sortedC.length?sortedC.map(c=>`<div class="cf-bar-row"><div class="cf-bar-name">${c.clientCountryName||'Unknown'}</div><div class="cf-bar-track"><div class="cf-bar-fill" style="width:${Math.round(c.requests/maxC*100)}%;background:var(--cf);"></div></div><div class="cf-bar-val">${fmtNum(c.requests)}</div></div>`).join(''):'<div style="font-size:11px;color:var(--sub);padding:8px 0;">No data available</div>';
-    // request time chart
-    renderCfReqChart(hourly);
-    document.getElementById('an-loading').style.display='none';
-    document.getElementById('an-content').style.display='block';
-    const pill=document.getElementById('an-req-pill');if(pill){pill.textContent=fmtNum(totReq)+' total';pill.className='pill pill-cf';}
-  }catch(e){
-    document.getElementById('an-loading').style.display='none';
-    document.getElementById('an-no-token').style.display='block';
-    document.getElementById('an-no-token').innerHTML=`<div class="alert-banner alert-error"><span>❌</span> Error: ${e.message}</div>`;
-  }
+/* ── Web Analytics Token ── */
+function saveWaToken(){
+  const tok=document.getElementById('wa-token').value.trim();
+  if(!tok){setMsg('wa-msg','⚠️ กรอก token ก่อน','var(--red)');return;}
+  localStorage.setItem('wa_token',tok);
+  setMsg('wa-msg','✅ Saved!','var(--green)');
+  setTimeout(()=>setMsg('wa-msg','',''),3000);
 }
-
-function renderCfReqChart(hourly){
-  const cv=document.getElementById('an-req-chart');if(!cv)return;
-  const ctx=cv.getContext('2d');const dpr=window.devicePixelRatio||1;
-  const W=cv.offsetWidth||300,H=cv.offsetHeight||72;
-  cv.width=W*dpr;cv.height=H*dpr;ctx.scale(dpr,dpr);
-  const data=hourly.map(h=>h.sum?.requests||0);
-  if(!data.length){ctx.fillStyle='rgba(255,255,255,.2)';ctx.font='11px Inter,sans-serif';ctx.textAlign='center';ctx.fillText('No data',W/2,H/2);return;}
-  const maxV=Math.max(...data,1);const pad={t:6,b:6,l:6,r:6};const cW=W-pad.l-pad.r,cH=H-pad.t-pad.b;
-  const grad=ctx.createLinearGradient(0,pad.t,0,H-pad.b);grad.addColorStop(0,'rgba(246,130,31,.25)');grad.addColorStop(1,'rgba(246,130,31,.01)');
-  const xStep=cW/Math.max(data.length-1,1);
-  const pts=data.map((v,i)=>({x:pad.l+i*xStep,y:pad.t+cH-(v/maxV)*cH}));
-  ctx.beginPath();ctx.moveTo(pts[0].x,H-pad.b);pts.forEach(p=>ctx.lineTo(p.x,p.y));ctx.lineTo(pts[pts.length-1].x,H-pad.b);ctx.closePath();ctx.fillStyle=grad;ctx.fill();
-  ctx.beginPath();pts.forEach((p,i)=>i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y));ctx.strokeStyle='var(--cf)';ctx.lineWidth=1.5;ctx.lineJoin='round';ctx.stroke();
+function copyWaScript(){
+  const tok=document.getElementById('wa-token').value.trim()||'YOUR_TOKEN';
+  const script=`<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "${tok}"}'><\/script>`;
+  navigator.clipboard.writeText(script).then(()=>{setMsg('wa-msg','✅ Copied!','var(--green)');}).catch(()=>{setMsg('wa-msg','❌ Copy failed','var(--red)');});
+  setTimeout(()=>setMsg('wa-msg','',''),3000);
 }
-
-async function loadCfOverview(){
-  // Always fetch CF status regardless of token
-  fetchCfStatus();
-  if(cfToken&&cfZoneId){
-    // update overview stats
-    loadCfAnalytics();
-  }
-}
+async function loadCfOverview(){fetchCfStatus();}
 
 /* ── Cloudflare Status API ── */
 async function fetchCfStatus(){
@@ -977,6 +914,10 @@ async function fetchCfStatus(){
     const status=d.status?.indicator||'none';
     const ok=status==='none';
     const statusText=ok?'All Systems Operational':d.status?.description||'Incident';
+    // update overview CF stat
+    const ovCf=document.getElementById('ov-cf-status');const ovCfSub=document.getElementById('ov-cf-sub');
+    if(ovCf){ovCf.textContent=ok?'OK':'Issue';ovCf.className='stat-value '+(ok?'c-green':'c-red');}
+    if(ovCfSub)ovCfSub.textContent=ok?'All Operational':statusText;
     // overview card
     if(el){
       const comps=(d.components||[]).filter(c=>!c.group&&c.status);
@@ -1392,7 +1333,6 @@ document.addEventListener('DOMContentLoaded',()=>{
 
 /* ── Auto-refresh ── */
 setInterval(()=>{fetchStatus();fetchCfStatus();},60000);
-setInterval(()=>{if(cfToken&&cfZoneId)loadCfAnalytics();},300000); // every 5min
 setInterval(()=>{if(mcBridgeUrl&&mcBridgeToken)mcFetchStatus();},30000);
 setInterval(()=>{if(mcBridgeUrl&&mcBridgeToken&&!mcWsConnected)mcWsConnect();},15000);
 
