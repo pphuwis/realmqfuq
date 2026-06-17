@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="th">
-  <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "73c3f801bf4d49e5a109eb13a14cabba"}'></script><!-- End Cloudflare Web Analytics -->
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -354,7 +353,7 @@ canvas{width:100%;height:100%;display:block;}
 
   <div class="nav-tabs">
     <div class="tab active" data-pane="pane-overview" onclick="switchTab(this)">📊 Overview</div>
-    <div class="tab" data-pane="pane-analytics" onclick="switchTab(this,false,false,true)">☁️ Analytics <span class="tab-badge" id="badge-cf">CF</span></div>
+    <div class="tab" data-pane="pane-analytics" onclick="switchTab(this)">📡 Uptime <span class="tab-badge" id="badge-uptime">—</span></div>
     <div class="tab" data-pane="pane-status" onclick="switchTab(this,true)">📡 Status</div>
     <div class="tab" id="mc-tab" data-pane="pane-mc" onclick="switchTab(this,false,true)">🎮 Minecraft <span class="tab-badge" id="badge-mc-players">—</span></div>
     <div class="tab" data-pane="pane-settings" onclick="switchTab(this)">⚙️ Settings</div>
@@ -374,81 +373,31 @@ canvas{width:100%;height:100%;display:block;}
       </div>
     </div>
 
-    <!-- ANALYTICS -->
+    <!-- UPTIME MONITOR -->
     <div class="pane" id="pane-analytics">
-      <div class="sec-title" style="margin-bottom:14px;">☁️ Cloudflare Web Analytics</div>
-
-      <!-- Quick link to CF dashboard -->
-      <div class="list-card" style="padding:20px;margin-bottom:14px;">
-        <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
-          <div style="font-size:28px;">📊</div>
-          <div style="flex:1;min-width:0;">
-            <div style="font-size:13px;font-weight:700;margin-bottom:4px;">ดู Analytics บน Cloudflare</div>
-            <div style="font-size:11px;color:var(--sub);line-height:1.6;">Visitors, Page views, Top pages, Countries และอื่นๆ อยู่ที่ Cloudflare Dashboard ครับ</div>
-          </div>
-          <a href="https://dash.cloudflare.com/?to=/:account/web-analytics" target="_blank" style="text-decoration:none;">
-            <button class="save-btn" style="white-space:nowrap;">เปิด CF Dashboard →</button>
-          </a>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px;">
+        <div class="sec-title">📡 Uptime Monitor</div>
+        <div style="display:flex;gap:6px;">
+          <span class="pill pill-grey" id="um-summary">— monitors</span>
+          <button class="test-btn" style="padding:5px 12px;font-size:10px;" onclick="umCheckAll()">↻ Check All</button>
         </div>
       </div>
 
-      <!-- Setup guide -->
-      <div class="settings-card">
-        <div class="settings-title">📋 วิธีเพิ่ม Web Analytics ให้เว็บ</div>
-        <div class="alert-banner alert-cf" style="margin-bottom:14px;"><span>ℹ️</span> ทำครั้งเดียว แล้วดูสถิติได้เลยบน Cloudflare Dashboard</div>
-
-        <div style="display:flex;flex-direction:column;gap:14px;">
-          <div style="display:flex;gap:12px;align-items:flex-start;">
-            <div style="width:24px;height:24px;border-radius:50%;background:var(--cf);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">1</div>
-            <div>
-              <div style="font-size:12px;font-weight:600;margin-bottom:3px;">เปิด Cloudflare Dashboard</div>
-              <div style="font-size:11px;color:var(--sub);">ไปที่ <span style="color:var(--accent2);font-family:'JetBrains Mono',monospace;">dash.cloudflare.com</span> → เมนูซ้าย → <strong style="color:var(--text);">Analytics → Web Analytics</strong></div>
-            </div>
-          </div>
-          <div style="display:flex;gap:12px;align-items:flex-start;">
-            <div style="width:24px;height:24px;border-radius:50%;background:var(--cf);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">2</div>
-            <div>
-              <div style="font-size:12px;font-weight:600;margin-bottom:3px;">Add a site</div>
-              <div style="font-size:11px;color:var(--sub);">กด <strong style="color:var(--text);">Add a site</strong> → กรอก URL ของ pages.dev → Cloudflare จะให้ script snippet มา</div>
-            </div>
-          </div>
-          <div style="display:flex;gap:12px;align-items:flex-start;">
-            <div style="width:24px;height:24px;border-radius:50%;background:var(--cf);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">3</div>
-            <div>
-              <div style="font-size:12px;font-weight:600;margin-bottom:3px;">ใส่ script ในหน้าเว็บ</div>
-              <div style="font-size:11px;color:var(--sub);margin-bottom:8px;">วาง script ก่อน <code style="color:var(--cf);background:rgba(246,130,31,.1);padding:1px 5px;border-radius:4px;">&lt;/head&gt;</code> ในทุกหน้าที่อยากติดตาม หน้าตาประมาณนี้:</div>
-              <div style="background:#050810;border:1px solid rgba(246,130,31,.15);border-radius:8px;padding:12px 14px;font-family:'JetBrains Mono',monospace;font-size:10px;color:#9bb;line-height:1.7;word-break:break-all;">
-                &lt;script defer<br>
-                &nbsp;&nbsp;src='https://static.cloudflareinsights.com/beacon.min.js'<br>
-                &nbsp;&nbsp;data-cf-beacon='{"token": "<span style="color:var(--cf);">YOUR_TOKEN</span>"}'&gt;<br>
-                &lt;/script&gt;
-              </div>
-            </div>
-          </div>
-          <div style="display:flex;gap:12px;align-items:flex-start;">
-            <div style="width:24px;height:24px;border-radius:50%;background:var(--green);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">✓</div>
-            <div>
-              <div style="font-size:12px;font-weight:600;margin-bottom:3px;">เสร็จแล้ว!</div>
-              <div style="font-size:11px;color:var(--sub);">push ขึ้น GitHub → Cloudflare Pages deploy ให้ → ข้อมูล analytics จะเริ่มเข้ามาใน 1-2 ชั่วโมง ดูได้ที่ปุ่มด้านบนเลย</div>
-            </div>
-          </div>
+      <!-- Add monitor -->
+      <div class="settings-card" style="margin-bottom:14px;">
+        <div class="settings-title">➕ Add Monitor</div>
+        <div class="settings-row">
+          <div class="settings-field"><label>Name</label><input type="text" id="um-name" placeholder="My Website"></div>
+          <div class="settings-field"><label>URL</label><input type="text" id="um-url" placeholder="https://example.pages.dev"></div>
         </div>
+        <div style="display:flex;gap:8px;margin-top:4px;">
+          <button class="save-btn" onclick="umAdd()">+ Add</button>
+        </div>
+        <div class="settings-msg" id="um-add-msg"></div>
       </div>
 
-      <!-- Token input for beacon -->
-      <div class="settings-card">
-        <div class="settings-title">🔖 บันทึก Analytics Token ไว้</div>
-        <div style="font-size:11px;color:var(--sub);margin-bottom:10px;">เผื่อจำ token ที่ได้จาก Cloudflare ไม่ออก เก็บไว้ที่นี่ได้เลย (เก็บใน localStorage เครื่องตัวเอง)</div>
-        <div class="settings-field">
-          <label>Web Analytics Token</label>
-          <input type="text" id="wa-token" placeholder="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" style="font-family:'JetBrains Mono',monospace;">
-        </div>
-        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-          <button class="save-btn" onclick="saveWaToken()">💾 Save</button>
-          <button class="test-btn" onclick="copyWaScript()">📋 Copy Script</button>
-        </div>
-        <div class="settings-msg" id="wa-msg"></div>
-      </div>
+      <!-- Monitor list -->
+      <div id="um-list"></div>
     </div>
 
     <!-- STATUS -->
@@ -771,7 +720,6 @@ const HIST_KEY='bio_status_v2';
 const GOOD_MS=500,SLOW_MS=1500,SEGS=24;
 
 /* ── Web Analytics state ── */
-let waToken='';
 
 /* ── MC Bridge State ── */
 let mcBridgeUrl='',mcBridgeToken='',mcWsUrl='';
@@ -824,15 +772,14 @@ async function doPasswordLogin(){
   }catch(e){err.textContent='ไม่สามารถเชื่อมต่อ Supabase: '+e.message;btn.disabled=false;btn.textContent='Continue →';}
 }
 function doLogout(){sessionStorage.removeItem('vd_auth');mcWsDisconnect();document.getElementById('app').style.display='none';document.getElementById('screen-password').classList.remove('hidden');document.getElementById('pw-input').value='';}
-function clearAll(){if(!confirm('ลบข้อมูลทั้งหมดใน localStorage?'))return;['vd_webhook','bio_status_v2','mc_bridge_url','mc_bridge_token','mc_ws_url','cf_token','cf_zone_id','cf_account_id'].forEach(k=>localStorage.removeItem(k));doLogout();}
+function clearAll(){if(!confirm('ลบข้อมูลทั้งหมดใน localStorage?'))return;['vd_webhook','bio_status_v2','mc_bridge_url','mc_bridge_token','mc_ws_url','wa_token'].forEach(k=>localStorage.removeItem(k));doLogout();}
 
 /* ── App Init ── */
 async function showApp(){
   document.getElementById('app').style.display='block';
   sendAlert('👁️ Dashboard Opened','มีการเปิดหน้า Dashboard',0x38bdf8);
   loadStatusHistory();fetchStatus();fetchCfStatus();
-  waToken=localStorage.getItem('wa_token')||'';
-  const waEl=document.getElementById('wa-token');if(waEl)waEl.value=waToken;
+  umLoad();umRenderAll();umCheckAll();
   mcBridgeUrl=localStorage.getItem('mc_bridge_url')||'';
   mcBridgeToken=localStorage.getItem('mc_bridge_token')||'';
   mcWsUrl=localStorage.getItem('mc_ws_url')||'';
@@ -844,7 +791,7 @@ async function showApp(){
   loadCfOverview();
 }
 
-function refreshAll(){setRefreshSpin(true);fetchStatus();fetchCfStatus();if(mcBridgeUrl&&mcBridgeToken)mcFetchStatus();setTimeout(()=>setRefreshSpin(false),1500);}
+function refreshAll(){setRefreshSpin(true);fetchStatus();fetchCfStatus();umCheckAll();if(mcBridgeUrl&&mcBridgeToken)mcFetchStatus();setTimeout(()=>setRefreshSpin(false),1500);}
 function setRefreshSpin(on){document.getElementById('refresh-btn').classList.toggle('refresh-spin',on);}
 
 /* ══════════════════════════════════
@@ -889,21 +836,165 @@ function setAnalyticsRange(el,minutes){
   if(cfToken&&cfZoneId)loadCfAnalytics();
 }
 
-/* ── Web Analytics Token ── */
-function saveWaToken(){
-  const tok=document.getElementById('wa-token').value.trim();
-  if(!tok){setMsg('wa-msg','⚠️ กรอก token ก่อน','var(--red)');return;}
-  localStorage.setItem('wa_token',tok);
-  setMsg('wa-msg','✅ Saved!','var(--green)');
-  setTimeout(()=>setMsg('wa-msg','',''),3000);
+/* ══════════════════════════════════
+   UPTIME MONITOR
+══════════════════════════════════ */
+const UM_KEY='uptime_monitors_v1';
+const UM_HIST='uptime_history_v1';
+const UM_GOOD=800,UM_SLOW=2000,UM_SEGS=30;
+let umMonitors=[]; // [{id,name,url}]
+let umHistory={};  // {id:[{t,up,ms},...]}
+let umChecking={};
+
+function umLoad(){
+  try{umMonitors=JSON.parse(localStorage.getItem(UM_KEY)||'[]');}catch{umMonitors=[];}
+  try{umHistory=JSON.parse(localStorage.getItem(UM_HIST)||'{}');}catch{umHistory={};}
 }
-function copyWaScript(){
-  const tok=document.getElementById('wa-token').value.trim()||'YOUR_TOKEN';
-  const script=`<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "${tok}"}'><\/script>`;
-  navigator.clipboard.writeText(script).then(()=>{setMsg('wa-msg','✅ Copied!','var(--green)');}).catch(()=>{setMsg('wa-msg','❌ Copy failed','var(--red)');});
-  setTimeout(()=>setMsg('wa-msg','',''),3000);
+function umSave(){
+  localStorage.setItem(UM_KEY,JSON.stringify(umMonitors));
+  localStorage.setItem(UM_HIST,JSON.stringify(umHistory));
 }
-async function loadCfOverview(){fetchCfStatus();}
+function umPushHist(id,up,ms){
+  if(!umHistory[id])umHistory[id]=[];
+  umHistory[id].push({t:Date.now(),up,ms});
+  umHistory[id]=umHistory[id].slice(-UM_SEGS*3);
+  umSave();
+}
+
+async function umPing(url){
+  const t0=Date.now();
+  try{
+    const r=await fetch(url+'?_nc='+t0,{method:'HEAD',cache:'no-store',signal:AbortSignal.timeout(8000)});
+    return{up:r.ok||r.status<500,ms:Date.now()-t0};
+  }catch{return{up:false,ms:0};}
+}
+
+async function umCheckOne(id){
+  const m=umMonitors.find(x=>x.id===id);if(!m||umChecking[id])return;
+  umChecking[id]=true;
+  const card=document.getElementById('um-card-'+id);
+  if(card){const pill=card.querySelector('.um-pill');if(pill){pill.textContent='Checking...';pill.className='pill pill-grey um-pill';}}
+  const res=await umPing(m.url);
+  umPushHist(id,res.up,res.ms);
+  umChecking[id]=false;
+  umRenderCard(id);
+  umUpdateBadge();
+}
+
+async function umCheckAll(){
+  umLoad();
+  await Promise.all(umMonitors.map(m=>umCheckOne(m.id)));
+}
+
+function umAdd(){
+  const name=document.getElementById('um-name').value.trim();
+  const url=document.getElementById('um-url').value.trim();
+  if(!name||!url){setMsg('um-add-msg','⚠️ กรอก Name และ URL','var(--red)');return;}
+  let u=url;if(!/^https?:\/\//i.test(u))u='https://'+u;
+  const id='um_'+Date.now();
+  umMonitors.push({id,name,url:u});
+  umHistory[id]=[];
+  umSave();
+  document.getElementById('um-name').value='';
+  document.getElementById('um-url').value='';
+  setMsg('um-add-msg','✅ Added!','var(--green)');
+  setTimeout(()=>setMsg('um-add-msg','',''),2000);
+  umRenderAll();
+  umCheckOne(id);
+}
+
+function umRemove(id){
+  if(!confirm('ลบ monitor นี้?'))return;
+  umMonitors=umMonitors.filter(m=>m.id!==id);
+  delete umHistory[id];
+  umSave();
+  umRenderAll();
+  umUpdateBadge();
+}
+
+function umStats(id){
+  const hist=(umHistory[id]||[]).slice(-UM_SEGS);
+  const up=hist.filter(h=>h.up).length;
+  const pct=hist.length?Math.round(up/hist.length*100):null;
+  const times=hist.filter(h=>h.up&&h.ms>0).map(h=>h.ms);
+  const avg=times.length?Math.round(times.reduce((a,b)=>a+b,0)/times.length):null;
+  const last=hist.length?hist[hist.length-1]:null;
+  return{pct,avg,last,hist};
+}
+
+function umRenderSegs(id){
+  const{hist}=umStats(id);
+  const pad=UM_SEGS-Math.min(hist.length,UM_SEGS);
+  let html='';
+  for(let i=0;i<pad;i++)html+=`<div class="seg empty" style="height:18px;"><div class="seg-tooltip">No data</div></div>`;
+  hist.slice(-UM_SEGS).forEach(h=>{
+    const good=h.up&&h.ms<UM_SLOW;const partial=h.up&&h.ms>=UM_SLOW;
+    const cls=good?'up':partial?'partial':'down';
+    const ago=Math.round((Date.now()-h.t)/60000);
+    const label=good?'Up':partial?'Slow':'Down';
+    html+=`<div class="seg ${cls}" style="height:18px;"><div class="seg-tooltip">${label} · ${h.up?h.ms+'ms':'Timeout'} · ${ago<2?'Just now':ago+'m ago'}</div></div>`;
+  });
+  return html;
+}
+
+function umRenderCard(id){
+  const m=umMonitors.find(x=>x.id===id);if(!m)return;
+  const{pct,avg,last}=umStats(id);
+  const up=last?last.up:null;
+  const pillCls=up===null?'pill-grey':up?'pill-green':'pill-red';
+  const pillTxt=up===null?'Pending':up?(last.ms<UM_SLOW?'Up · '+last.ms+'ms':'Slow · '+last.ms+'ms'):'Down';
+  const pctCls=pct===null?'c-sub':pct>=99?'c-green':pct>=90?'c-yellow':'c-red';
+  const card=document.getElementById('um-card-'+id);
+  if(!card)return;
+  card.innerHTML=`
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap;">
+      <div style="flex:1;min-width:0;">
+        <div style="font-size:13px;font-weight:700;">${m.name}</div>
+        <div style="font-size:10px;color:var(--sub);font-family:'JetBrains Mono',monospace;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${m.url}</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;">
+        <span class="pill ${pillCls} um-pill">${pillTxt}</span>
+        <button class="test-btn" style="padding:3px 10px;font-size:10px;" onclick="umCheckOne('${id}')">↻</button>
+        <button class="test-btn" style="padding:3px 8px;font-size:10px;color:var(--red);border-color:rgba(248,113,113,.2);" onclick="umRemove('${id}')">✕</button>
+      </div>
+    </div>
+    <div style="display:flex;gap:2px;margin-bottom:4px;">${umRenderSegs(id)}</div>
+    <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+      <span style="font-size:10px;color:var(--sub);">30 checks ago</span>
+      <span style="font-size:10px;color:var(--sub);">Now</span>
+    </div>
+    <div style="display:flex;gap:16px;padding-top:8px;border-top:1px solid var(--border);">
+      <div><div style="font-size:14px;font-weight:700;" class="${pctCls}">${pct!==null?pct+'%':'—'}</div><div style="font-size:10px;color:var(--sub);">Uptime</div></div>
+      <div><div style="font-size:14px;font-weight:700;" class="${avg&&avg<UM_GOOD?'c-green':avg&&avg<UM_SLOW?'c-yellow':'c-red'}">${avg?avg+'ms':'—'}</div><div style="font-size:10px;color:var(--sub);">Avg Response</div></div>
+      <div><div style="font-size:14px;font-weight:700;">${last?new Date(last.t).toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'}):'—'}</div><div style="font-size:10px;color:var(--sub);">Last Check</div></div>
+    </div>
+  `;
+}
+
+function umRenderAll(){
+  const el=document.getElementById('um-list');if(!el)return;
+  if(!umMonitors.length){
+    el.innerHTML=`<div class="empty-state"><div class="empty-icon">📡</div><div class="empty-text">ยังไม่มี monitor — กรอก URL ด้านบนแล้วกด Add</div></div>`;
+    return;
+  }
+  el.innerHTML=umMonitors.map(m=>`<div class="list-card" style="padding:16px;margin-bottom:10px;" id="um-card-${m.id}"><div class="loading-wrap" style="padding:20px;"><div class="loading-spinner"></div></div></div>`).join('');
+  umMonitors.forEach(m=>umRenderCard(m.id));
+  umUpdateBadge();
+}
+
+function umUpdateBadge(){
+  const total=umMonitors.length;
+  const down=umMonitors.filter(m=>{const h=umHistory[m.id]||[];const last=h[h.length-1];return last&&!last.up;}).length;
+  const badge=document.getElementById('badge-uptime');
+  if(badge){badge.textContent=down>0?`${down} down`:total?'All up':'—';badge.style.color=down>0?'var(--red)':total?'var(--green)':'var(--sub)';}
+  const sum=document.getElementById('um-summary');
+  if(sum){sum.textContent=`${total} monitor${total!==1?'s':''}${down>0?' · '+down+' down':''}`; sum.className='pill '+(down>0?'pill-red':total?'pill-green':'pill-grey');}
+  // overview card
+  const ovCf=document.getElementById('ov-cf-status');
+  if(ovCf&&total>0){ovCf.textContent=down>0?down+' down':'All up';ovCf.className='stat-value '+(down>0?'c-red':'c-green');}
+  const ovSub=document.getElementById('ov-cf-sub');
+  if(ovSub&&total>0)ovSub.textContent=`${total} monitor${total!==1?'s':''} tracked`;
+}
 
 /* ── Cloudflare Status API ── */
 async function fetchCfStatus(){
@@ -1282,14 +1373,13 @@ async function saveProperties(){
 }
 
 /* ── Tabs ── */
-function switchTab(el,isStatus=false,isMc=false,isCf=false){
+function switchTab(el,isStatus=false,isMc=false){
   document.querySelectorAll('.tab').forEach(t=>{t.classList.remove('active');t.classList.remove('active-mc');});
   document.querySelectorAll('.pane').forEach(p=>p.classList.remove('active'));
   el.classList.add(isMc?'active-mc':'active');
   document.getElementById(el.dataset.pane).classList.add('active');
   if(isStatus)setTimeout(()=>renderStatusChart(),50);
   if(isMc){mcFetchStatus();const active=document.querySelector('.mc-subtab.active');if(active){const m=active.getAttribute('onclick').match(/'([^']+)'/);if(m)onMcTabOpen(m[1]);}}
-  if(isCf&&cfToken&&cfZoneId)loadCfAnalytics();
 }
 function switchTabById(id){const t=document.querySelector(`[data-pane="${id}"]`);if(t)t.click();}
 function switchMcTab(el,subId){
@@ -1334,6 +1424,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 
 /* ── Auto-refresh ── */
 setInterval(()=>{fetchStatus();fetchCfStatus();},60000);
+setInterval(()=>{umLoad();umCheckAll();},60000);
 setInterval(()=>{if(mcBridgeUrl&&mcBridgeToken)mcFetchStatus();},30000);
 setInterval(()=>{if(mcBridgeUrl&&mcBridgeToken&&!mcWsConnected)mcWsConnect();},15000);
 
