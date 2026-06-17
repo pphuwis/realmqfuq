@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Vercel + MC Dashboard</title>
+<title>Dashboard</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -11,21 +11,22 @@
   --bg:#080a0f;--surface:#0d1117;--card:#111820;
   --border:rgba(255,255,255,.07);--border2:rgba(255,255,255,.12);
   --text:#e2e8f0;--sub:#64748b;--muted:rgba(255,255,255,.18);
-  --accent:#5c6bc0;--accent2:#7986cb;
+  --accent:#f6821f;--accent2:#f99549;
   --green:#22d3a0;--red:#f87171;--yellow:#fbbf24;
   --blue:#38bdf8;--purple:#a78bfa;--orange:#fb923c;
   --mc:#4ade80;--mc2:#86efac;
+  --cf:#f6821f;
 }
 html,body{min-height:100%;font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);}
 ::-webkit-scrollbar{width:4px;height:4px;}
 ::-webkit-scrollbar-track{background:transparent;}
 ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:4px;}
-body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(ellipse 80% 50% at 50% -10%,rgba(92,107,192,.15),transparent);pointer-events:none;z-index:0;}
+body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(ellipse 80% 50% at 50% -10%,rgba(246,130,31,.1),transparent);pointer-events:none;z-index:0;}
 .screen{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:var(--bg);z-index:200;padding:20px;}
 .screen.hidden{display:none;}
 .auth-box{width:min(400px,100%);background:var(--card);border:1px solid var(--border2);border-radius:24px;padding:40px 32px;display:flex;flex-direction:column;gap:20px;}
 .auth-logo{font-size:22px;font-weight:700;letter-spacing:-.02em;display:flex;align-items:center;gap:10px;}
-.auth-step{font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--sub);}
+.auth-logo svg{flex-shrink:0;}
 .auth-title{font-size:18px;font-weight:700;line-height:1.3;}
 .auth-desc{font-size:12px;color:var(--sub);line-height:1.6;margin-top:4px;}
 .auth-field{display:flex;flex-direction:column;gap:6px;}
@@ -33,21 +34,16 @@ body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(
 .auth-field input{background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;padding:11px 14px;color:var(--text);font-family:'Inter',sans-serif;font-size:13px;outline:none;transition:border .2s,background .2s;}
 .auth-field input:focus{border-color:var(--accent2);background:rgba(255,255,255,.07);}
 .auth-field input::placeholder{color:var(--sub);}
-.auth-hint{font-size:11px;color:var(--sub);line-height:1.5;}
-.auth-hint a{color:var(--accent2);text-decoration:none;}
 .auth-btn{padding:13px;border-radius:11px;border:none;background:var(--accent);color:#fff;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:background .2s,transform .1s,opacity .2s;}
 .auth-btn:hover{background:var(--accent2);}
 .auth-btn:active{transform:scale(.97);}
 .auth-btn:disabled{opacity:.45;cursor:not-allowed;}
 .auth-err{font-size:12px;color:var(--red);min-height:16px;text-align:center;}
-.auth-link{text-align:center;font-size:12px;color:var(--sub);}
-.auth-link span{color:var(--accent2);cursor:pointer;}
 #app{display:none;position:relative;z-index:1;min-height:100vh;}
 .topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;border-bottom:1px solid var(--border);position:sticky;top:0;background:rgba(8,10,15,.88);backdrop-filter:blur(16px);z-index:50;}
 .topbar-left{display:flex;align-items:center;gap:12px;}
 .topbar-logo{font-size:14px;font-weight:700;letter-spacing:-.01em;display:flex;align-items:center;gap:8px;}
-.topbar-logo-icon{width:26px;height:26px;background:var(--accent);border-radius:7px;display:flex;align-items:center;justify-content:center;}
-.topbar-account{font-size:11px;color:var(--sub);padding:3px 10px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:20px;}
+.topbar-logo-icon{width:26px;height:26px;background:var(--cf);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px;}
 .topbar-right{display:flex;align-items:center;gap:6px;}
 .icon-btn{display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--sub);cursor:pointer;transition:background .15s,color .15s;font-size:14px;}
 .icon-btn:hover{background:rgba(255,255,255,.09);color:var(--text);}
@@ -56,11 +52,11 @@ body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(
 .nav-tabs{display:flex;align-items:center;gap:2px;padding:10px 24px;border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none;}
 .nav-tabs::-webkit-scrollbar{display:none;}
 .tab{display:flex;align-items:center;gap:5px;padding:6px 12px;border-radius:8px;font-size:12px;font-weight:500;color:var(--sub);cursor:pointer;white-space:nowrap;transition:background .15s,color .15s;border:1px solid transparent;}
-.tab.active{background:rgba(92,107,192,.15);border-color:rgba(92,107,192,.25);color:var(--accent2);}
+.tab.active{background:rgba(246,130,31,.15);border-color:rgba(246,130,31,.25);color:var(--accent2);}
 .tab.active-mc{background:rgba(74,222,128,.1);border-color:rgba(74,222,128,.2);color:var(--mc);}
 .tab:hover:not(.active):not(.active-mc){background:rgba(255,255,255,.05);color:var(--text);}
 .tab-badge{font-size:10px;padding:1px 6px;border-radius:20px;background:rgba(255,255,255,.08);color:var(--sub);}
-.tab.active .tab-badge{background:rgba(92,107,192,.2);color:var(--accent2);}
+.tab.active .tab-badge{background:rgba(246,130,31,.2);color:var(--accent2);}
 .tab.active-mc .tab-badge{background:rgba(74,222,128,.15);color:var(--mc);}
 .content{padding:20px;max-width:1200px;margin:0 auto;}
 .pane{display:none;}
@@ -72,7 +68,7 @@ body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(
 .stat-sub{font-size:11px;color:var(--sub);margin-top:5px;}
 .stat-icon{font-size:18px;margin-bottom:6px;}
 .c-green{color:var(--green);}.c-red{color:var(--red);}.c-yellow{color:var(--yellow);}
-.c-blue{color:var(--blue);}.c-purple{color:var(--purple);}.c-sub{color:var(--sub);}.c-mc{color:var(--mc);}
+.c-blue{color:var(--blue);}.c-purple{color:var(--purple);}.c-sub{color:var(--sub);}.c-mc{color:var(--mc);}.c-cf{color:var(--cf);}
 .sec-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
 .sec-title{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--sub);}
 .sec-count{font-size:11px;color:var(--sub);padding:2px 9px;background:rgba(255,255,255,.05);border-radius:20px;}
@@ -95,6 +91,7 @@ body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(
 .pill-grey{background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--sub);}
 .pill-orange{background:rgba(251,146,60,.1);border:1px solid rgba(251,146,60,.22);color:var(--orange);}
 .pill-mc{background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.22);color:var(--mc);}
+.pill-cf{background:rgba(246,130,31,.1);border:1px solid rgba(246,130,31,.22);color:var(--cf);}
 .settings-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:14px;}
 .settings-title{font-size:12px;font-weight:600;margin-bottom:14px;color:var(--text);}
 .settings-field{margin-bottom:10px;}
@@ -122,6 +119,8 @@ body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(
 .alert-success{background:rgba(34,211,160,.08);border:1px solid rgba(34,211,160,.2);color:var(--green);}
 .alert-error{background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.2);color:var(--red);}
 .alert-mc{background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.2);color:var(--mc);}
+.alert-cf{background:rgba(246,130,31,.08);border:1px solid rgba(246,130,31,.2);color:var(--cf);}
+/* Status */
 .status-hero{display:flex;align-items:center;gap:12px;padding:16px 20px;background:var(--card);border:1px solid var(--border);border-radius:14px;margin-bottom:14px;}
 .status-hero-badge{display:inline-flex;align-items:center;gap:7px;padding:6px 14px;border-radius:30px;font-size:12px;font-weight:500;flex-shrink:0;}
 .badge-green{background:rgba(34,211,160,.1);border:1px solid rgba(34,211,160,.22);color:var(--green);}
@@ -174,9 +173,25 @@ canvas{width:100%;height:100%;display:block;}
 .inc-title{font-size:11px;font-weight:500;}
 .inc-time{font-size:10px;color:var(--sub);margin-top:2px;}
 .no-incidents{padding:12px 0;font-size:11px;color:var(--sub);}
-
-/* ═══ MC PANEL STYLES ═══ */
-.mc-control-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
+/* Analytics */
+.analytics-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:16px;}
+.an-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;}
+.an-label{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--sub);margin-bottom:4px;}
+.an-value{font-size:22px;font-weight:700;letter-spacing:-.02em;}
+.an-sub{font-size:10px;color:var(--sub);margin-top:3px;}
+.an-icon{font-size:16px;margin-bottom:4px;}
+.cf-bar-chart{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:14px;}
+.cf-bar-label{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--sub);margin-bottom:12px;}
+.cf-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.cf-bar-name{font-size:11px;color:var(--sub);width:80px;flex-shrink:0;text-align:right;font-family:'JetBrains Mono',monospace;}
+.cf-bar-track{flex:1;height:8px;background:rgba(255,255,255,.06);border-radius:4px;overflow:hidden;}
+.cf-bar-fill{height:100%;border-radius:4px;transition:width .6s ease;}
+.cf-bar-val{font-size:10px;color:var(--sub);width:50px;text-align:right;font-family:'JetBrains Mono',monospace;}
+.range-tabs{display:flex;gap:4px;margin-bottom:14px;}
+.range-tab{padding:5px 12px;border-radius:7px;font-size:11px;font-weight:500;color:var(--sub);cursor:pointer;border:1px solid transparent;transition:all .15s;}
+.range-tab.active{background:rgba(246,130,31,.12);border-color:rgba(246,130,31,.22);color:var(--cf);}
+.range-tab:hover:not(.active){background:rgba(255,255,255,.05);color:var(--text);}
+/* MC */
 .mc-status-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;grid-column:1/-1;}
 .mc-status-inner{display:flex;align-items:center;gap:16px;}
 .mc-status-dot-wrap{position:relative;width:54px;height:54px;flex-shrink:0;}
@@ -274,12 +289,10 @@ canvas{width:100%;height:100%;display:block;}
 @media(max-width:600px){
   .topbar{padding:10px 14px;}.nav-tabs{padding:8px 14px;}.content{padding:14px;}
   .stats-grid{grid-template-columns:1fr 1fr;}.seg-stats{grid-template-columns:repeat(2,1fr);}
-  .settings-row{flex-direction:column;}.mc-control-grid{grid-template-columns:1fr;}
-  .prop-row{flex-direction:column;align-items:flex-start;}.prop-key{min-width:unset;}
+  .settings-row{flex-direction:column;}.prop-row{flex-direction:column;align-items:flex-start;}.prop-key{min-width:unset;}
   .mc-subtabs{flex-wrap:wrap;}.mc-subtab{flex:unset;}
+  .analytics-grid{grid-template-columns:1fr 1fr;}
 }
-</style>
-
 </style>
 </head>
 <body>
@@ -287,24 +300,15 @@ canvas{width:100%;height:100%;display:block;}
 <!-- PASSWORD SCREEN -->
 <div class="screen" id="screen-password">
   <div class="auth-box">
-    <div class="auth-logo"><svg width="22" height="22" viewBox="0 0 76 65" fill="none"><path d="M37.5274 0L75.0548 65H0L37.5274 0Z" fill="white"/></svg>Vercel Dashboard</div>
-    <div><div class="auth-step">Step 1 of 2</div><div class="auth-title">Enter password</div><div class="auth-desc">Protected dashboard — enter your admin password to continue.</div></div>
+    <div class="auth-logo">
+      <!-- Cloudflare logo -->
+      <svg width="26" height="16" viewBox="0 0 109 41" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M80.4 16.3c-.3-1-.9-1.8-1.8-2.4l-.2-.1-.1-.1c-2.2-1.4-5-1.5-7.4-.3l-.3.2c-.5-1.6-1.5-2.9-2.8-3.8-1.8-1.2-4-1.6-6.1-1.1-2.1.5-3.9 1.8-5 3.7l-.1.3-.3-.2c-1.1-.6-2.3-.8-3.6-.8-4.1 0-7.5 3.4-7.5 7.5 0 .3 0 .7.1 1h-.1c-2.8 0-5.1 2.3-5.1 5.1 0 2.8 2.3 5.1 5.1 5.1h33.4c2.5 0 4.5-2 4.5-4.5 0-1.8-1-3.3-2.7-4.2l.1-.4c.2-1.7-.1-3.3-.8-4.9z" fill="#F6821F"/><path d="M87.5 22.8h-.1c.1-.4.1-.7.1-1.1 0-4.7-3.8-8.5-8.5-8.5-1.3 0-2.5.3-3.6.8l-.3.2-.1-.3c-1.1-1.9-2.9-3.2-5-3.7-2.1-.5-4.3-.1-6.1 1.1-1.3.9-2.3 2.2-2.8 3.8l-.3-.2c-2.4-1.2-5.2-1.1-7.4.3l-.1.1-.2.1c-.9.6-1.5 1.4-1.8 2.4-.7 1.6-1 3.2-.8 4.8l.1.4c-1.7.9-2.7 2.4-2.7 4.2 0 2.5 2 4.5 4.5 4.5h33.4c2.8 0 5.1-2.3 5.1-5.1 0-2.8-2.3-5-5.4-5z" fill="#FBAD41"/></svg>
+      Dashboard
+    </div>
+    <div><div class="auth-title">Admin Login</div><div class="auth-desc">Protected dashboard — กรอกรหัสผ่านเพื่อเข้าใช้งาน</div></div>
     <div class="auth-field"><label>Password</label><input type="password" id="pw-input" placeholder="••••••••" autocomplete="current-password"></div>
     <button class="auth-btn" id="pw-btn">Continue →</button>
     <div class="auth-err" id="pw-err"></div>
-  </div>
-</div>
-
-<!-- TOKEN SCREEN -->
-<div class="screen hidden" id="screen-token">
-  <div class="auth-box">
-    <div class="auth-logo"><svg width="22" height="22" viewBox="0 0 76 65" fill="none"><path d="M37.5274 0L75.0548 65H0L37.5274 0Z" fill="white"/></svg>Connect Vercel</div>
-    <div><div class="auth-step">Step 2 of 2</div><div class="auth-title">Enter your Vercel Token</div><div class="auth-desc">Token จะถูกเก็บใน localStorage ของเครื่องคุณ ไม่ได้ส่งไปไหน</div></div>
-    <div class="auth-field"><label>Vercel API Token</label><input type="password" id="token-input" placeholder="Enter Vercel token..."></div>
-    <div class="auth-hint">สร้าง token ได้ที่ <a href="https://vercel.com/account/tokens" target="_blank">vercel.com/account/tokens</a> — scope: <strong>Full Account</strong></div>
-    <button class="auth-btn" id="token-btn">Connect & Load Data →</button>
-    <div class="auth-err" id="token-err"></div>
-    <div class="auth-link"><span onclick="doLogout()">← ออกจากระบบ</span></div>
   </div>
 </div>
 
@@ -332,8 +336,10 @@ canvas{width:100%;height:100%;display:block;}
 <div id="app">
   <div class="topbar">
     <div class="topbar-left">
-      <div class="topbar-logo"><div class="topbar-logo-icon"><svg width="12" height="12" viewBox="0 0 76 65" fill="none"><path d="M37.5274 0L75.0548 65H0L37.5274 0Z" fill="white"/></svg></div>Vercel</div>
-      <div class="topbar-account" id="topbar-account">Loading...</div>
+      <div class="topbar-logo">
+        <div class="topbar-logo-icon">☁️</div>
+        Dashboard
+      </div>
     </div>
     <div class="topbar-right">
       <div class="icon-btn" id="mc-topbar-btn" title="MC Server" style="width:auto;padding:0 10px;gap:5px;" onclick="switchTabById('pane-mc')">
@@ -347,45 +353,61 @@ canvas{width:100%;height:100%;display:block;}
 
   <div class="nav-tabs">
     <div class="tab active" data-pane="pane-overview" onclick="switchTab(this)">📊 Overview</div>
-    <div class="tab" data-pane="pane-deployments" onclick="switchTab(this)">🚀 Deployments <span class="tab-badge" id="badge-deploys">—</span></div>
-    <div class="tab" data-pane="pane-projects" onclick="switchTab(this)">📁 Projects <span class="tab-badge" id="badge-projects">—</span></div>
+    <div class="tab" data-pane="pane-analytics" onclick="switchTab(this,false,false,true)">☁️ Analytics <span class="tab-badge" id="badge-cf">CF</span></div>
     <div class="tab" data-pane="pane-status" onclick="switchTab(this,true)">📡 Status</div>
     <div class="tab" id="mc-tab" data-pane="pane-mc" onclick="switchTab(this,false,true)">🎮 Minecraft <span class="tab-badge" id="badge-mc-players">—</span></div>
     <div class="tab" data-pane="pane-settings" onclick="switchTab(this)">⚙️ Settings</div>
   </div>
 
   <div class="content">
+
     <!-- OVERVIEW -->
     <div class="pane active" id="pane-overview">
       <div class="stats-grid">
-        <div class="stat-card"><div class="stat-icon">🚀</div><div class="stat-label">Deployments</div><div class="stat-value c-blue" id="ov-deploys">—</div><div class="stat-sub" id="ov-deploys-sub">Loading...</div></div>
-        <div class="stat-card"><div class="stat-icon">📁</div><div class="stat-label">Projects</div><div class="stat-value c-purple" id="ov-projects">—</div><div class="stat-sub" id="ov-projects-sub">Loading...</div></div>
-        <div class="stat-card"><div class="stat-icon">✅</div><div class="stat-label">Success Rate</div><div class="stat-value c-green" id="ov-success">—</div><div class="stat-sub" id="ov-success-sub">Loading...</div></div>
-        <div class="stat-card"><div class="stat-icon">❌</div><div class="stat-label">Failed</div><div class="stat-value c-red" id="ov-errors">—</div><div class="stat-sub" id="ov-errors-sub">Loading...</div></div>
-        <div class="stat-card"><div class="stat-icon">🔨</div><div class="stat-label">Building</div><div class="stat-value c-yellow" id="ov-building">—</div><div class="stat-sub">Active builds</div></div>
+        <div class="stat-card"><div class="stat-icon">🌐</div><div class="stat-label">Total Requests</div><div class="stat-value c-cf" id="ov-requests">—</div><div class="stat-sub" id="ov-requests-sub">Last 24h</div></div>
+        <div class="stat-card"><div class="stat-icon">👁️</div><div class="stat-label">Unique Visitors</div><div class="stat-value c-blue" id="ov-visitors">—</div><div class="stat-sub" id="ov-visitors-sub">Last 24h</div></div>
+        <div class="stat-card"><div class="stat-icon">📦</div><div class="stat-label">Bandwidth</div><div class="stat-value c-purple" id="ov-bandwidth">—</div><div class="stat-sub">Last 24h</div></div>
+        <div class="stat-card"><div class="stat-icon">🛡️</div><div class="stat-label">Threats Blocked</div><div class="stat-value c-red" id="ov-threats">—</div><div class="stat-sub">Last 24h</div></div>
+        <div class="stat-card"><div class="stat-icon">⚡</div><div class="stat-label">Cache Rate</div><div class="stat-value c-green" id="ov-cache">—</div><div class="stat-sub">Cache hit ratio</div></div>
         <div class="stat-card"><div class="stat-icon">🎮</div><div class="stat-label">MC Players</div><div class="stat-value c-mc" id="ov-mc-players">—</div><div class="stat-sub" id="ov-mc-sub">Not connected</div></div>
       </div>
-      <div class="sec-header"><div class="sec-title">🕐 Recent Deployments</div></div>
-      <div class="list-card" id="overview-activity"><div class="loading-wrap"><div class="loading-spinner"></div><div class="loading-text">Loading...</div></div></div>
-    </div>
-
-    <!-- DEPLOYMENTS -->
-    <div class="pane" id="pane-deployments">
-      <div class="sec-header"><div class="sec-title">All Deployments</div><div class="sec-count" id="deploys-count">—</div></div>
-      <div id="deploy-filter" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;">
-        <button class="test-btn" onclick="filterDeploys('')" id="df-all" style="background:rgba(92,107,192,.15);color:var(--accent2);">All</button>
-        <button class="test-btn" onclick="filterDeploys('READY')" id="df-ready">Ready</button>
-        <button class="test-btn" onclick="filterDeploys('ERROR')" id="df-error">Error</button>
-        <button class="test-btn" onclick="filterDeploys('BUILDING')" id="df-building">Building</button>
-        <button class="test-btn" onclick="filterDeploys('CANCELED')" id="df-canceled">Canceled</button>
+      <div class="sec-header"><div class="sec-title">☁️ Cloudflare Status</div></div>
+      <div id="overview-cf-status" class="list-card">
+        <div class="loading-wrap"><div class="loading-spinner"></div><div class="loading-text">Loading...</div></div>
       </div>
-      <div class="list-card" id="deployments-list"><div class="loading-wrap"><div class="loading-spinner"></div><div class="loading-text">Loading deployments...</div></div></div>
     </div>
 
-    <!-- PROJECTS -->
-    <div class="pane" id="pane-projects">
-      <div class="sec-header"><div class="sec-title">Projects</div><div class="sec-count" id="projects-count">—</div></div>
-      <div id="projects-list"><div class="loading-wrap"><div class="loading-spinner"></div><div class="loading-text">Loading projects...</div></div></div>
+    <!-- ANALYTICS -->
+    <div class="pane" id="pane-analytics">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px;">
+        <div class="sec-title">☁️ Cloudflare Web Analytics</div>
+        <div class="range-tabs">
+          <div class="range-tab active" onclick="setAnalyticsRange(this,'1440')">24h</div>
+          <div class="range-tab" onclick="setAnalyticsRange(this,'10080')">7d</div>
+          <div class="range-tab" onclick="setAnalyticsRange(this,'43200')">30d</div>
+        </div>
+      </div>
+      <div id="an-no-token" style="display:none;">
+        <div class="alert-banner alert-cf"><span>☁️</span> กรอก Cloudflare API Token และ Zone ID ใน Settings ก่อนครับ</div>
+      </div>
+      <div id="an-loading" style="display:none;">
+        <div class="loading-wrap"><div class="loading-spinner"></div><div class="loading-text">Loading analytics...</div></div>
+      </div>
+      <div id="an-content" style="display:none;">
+        <div class="analytics-grid" id="an-stats-grid"></div>
+        <div class="cf-bar-chart">
+          <div class="cf-bar-label">🌍 Top Countries</div>
+          <div id="an-countries"></div>
+        </div>
+        <div class="cf-bar-chart">
+          <div class="cf-bar-label">📄 Top Pages</div>
+          <div id="an-pages"></div>
+        </div>
+        <div class="resp-chart-card" style="margin:0;">
+          <div class="resp-chart-header"><div class="resp-chart-label">📈 Requests Over Time</div><span class="pill pill-cf" id="an-req-pill">—</span></div>
+          <div class="chart-canvas-wrap"><canvas id="an-req-chart"></canvas></div>
+        </div>
+      </div>
     </div>
 
     <!-- STATUS -->
@@ -419,14 +441,19 @@ canvas{width:100%;height:100%;display:block;}
       <div class="list-card" style="padding:16px;margin-bottom:14px;">
         <div class="sec-header" style="margin-bottom:10px;"><div class="sec-title">🔍 System Status</div><span class="pill pill-grey" id="st-sys-pill">Checking</span></div>
         <div class="sys-items">
-          <div class="sys-item"><div class="sys-item-left"><div class="sys-item-name">Bio Website</div><div class="sys-item-desc">Main page response</div></div><span class="pill pill-grey" id="st-sys-site">Checking</span></div>
-          <div class="sys-item"><div class="sys-item-left"><div class="sys-item-name">Vercel Edge Network</div><div class="sys-item-desc">CDN / Static assets</div></div><span class="pill pill-grey" id="st-sys-edge">Checking</span></div>
-          <div class="sys-item"><div class="sys-item-left"><div class="sys-item-name">Vercel Platform</div><div class="sys-item-desc">Deployment infrastructure</div></div><span class="pill pill-grey" id="st-sys-vc">Checking</span></div>
+          <div class="sys-item"><div class="sys-item-left"><div class="sys-item-name">My Website</div><div class="sys-item-desc">Main page response time</div></div><span class="pill pill-grey" id="st-sys-site">Checking</span></div>
+          <div class="sys-item"><div class="sys-item-left"><div class="sys-item-name">Cloudflare Network</div><div class="sys-item-desc">CDN / Edge Network</div></div><span class="pill pill-grey" id="st-sys-edge">Checking</span></div>
+          <div class="sys-item"><div class="sys-item-left"><div class="sys-item-name">Cloudflare Platform</div><div class="sys-item-desc">Workers / Pages infrastructure</div></div><span class="pill pill-grey" id="st-sys-vc">Checking</span></div>
+          <div class="sys-item"><div class="sys-item-left"><div class="sys-item-name">Cloudflare DNS</div><div class="sys-item-desc">1.1.1.1 DNS resolver</div></div><span class="pill pill-grey" id="st-sys-dns">Checking</span></div>
         </div>
       </div>
       <div class="list-card" style="padding:16px;margin-bottom:14px;">
         <div class="sec-header" style="margin-bottom:10px;"><div class="sec-title">📋 Incident Log</div><span class="pill pill-grey" id="st-inc-pill">—</span></div>
         <div id="st-inc-list" class="inc-items"><div class="no-incidents">กำลังโหลด...</div></div>
+      </div>
+      <div class="list-card" style="padding:16px;margin-bottom:14px;">
+        <div class="sec-header" style="margin-bottom:10px;"><div class="sec-title">🌐 Cloudflare Incidents</div><span class="pill pill-grey" id="cf-inc-pill">Checking</span></div>
+        <div id="cf-inc-list"><div class="no-incidents">Fetching from cloudflarestatus.com...</div></div>
       </div>
       <button class="save-btn" style="width:100%;background:rgba(255,255,255,.06);border:1px solid var(--border);color:var(--sub);font-family:Inter,sans-serif;" id="st-refresh-btn" onclick="fetchStatus()">↻ Refresh Status</button>
     </div>
@@ -510,11 +537,10 @@ canvas{width:100%;height:100%;display:block;}
               <button class="test-btn" onclick="mcQuickCmd('gamerule doDaylightCycle false')">⏸️ Stop Time</button>
               <button class="test-btn" onclick="mcQuickCmd('gamerule doMobSpawning false')">🚫 No Mob Spawn</button>
               <button class="test-btn" onclick="mcQuickCmd('whitelist reload')">🔄 Reload Whitelist</button>
-              <button class="test-btn" onclick="mcBroadcast()">📢 Broadcast</button>
             </div>
             <div style="display:flex;gap:8px;margin-top:10px;">
               <input type="text" id="broadcast-msg" placeholder="Broadcast message..." style="flex:1;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:9px;padding:8px 12px;color:var(--text);font-size:12px;outline:none;">
-              <button class="save-btn" onclick="mcBroadcast()" style="padding:8px 14px;">Send</button>
+              <button class="save-btn" onclick="mcBroadcast()" style="padding:8px 14px;">📢 Send</button>
             </div>
             <div class="settings-msg" id="mc-quick-msg" style="margin-top:6px;"></div>
           </div>
@@ -622,7 +648,7 @@ canvas{width:100%;height:100%;display:block;}
 
         <!-- Server Settings Tab -->
         <div class="mc-subpane" id="mc-sub-settings">
-          <div class="alert-banner alert-mc" style="margin-bottom:14px;"><span>⚠️</span> การเปลี่ยนแปลงจะมีผลหลัง restart server เท่านั้น</div>
+          <div class="alert-banner alert-mc"><span>⚠️</span> การเปลี่ยนแปลงจะมีผลหลัง restart server เท่านั้น</div>
           <div class="prop-group">
             <div class="prop-group-title">🌍 General</div>
             <div class="prop-row"><span class="prop-key">server-port</span><div class="prop-val"><input type="text" id="prop-server-port" placeholder="25565"></div></div>
@@ -668,21 +694,29 @@ canvas{width:100%;height:100%;display:block;}
     <!-- SETTINGS -->
     <div class="pane" id="pane-settings">
       <div class="settings-card">
+        <div class="settings-title">☁️ Cloudflare API</div>
+        <div class="alert-banner alert-cf"><span>☁️</span> ใช้สำหรับดึง Analytics และ Zone stats</div>
+        <div class="settings-field"><label>API Token</label><input type="password" id="cf-api-token" placeholder="Cloudflare API Token (Zone.Analytics:Read)"></div>
+        <div class="settings-field"><label>Zone ID</label><input type="text" id="cf-zone-id" placeholder="Zone ID จาก Cloudflare Dashboard"></div>
+        <div class="settings-field"><label>Account ID</label><input type="text" id="cf-account-id" placeholder="Account ID (optional — for account-level analytics)"></div>
+        <div style="display:flex;gap:8px;">
+          <button class="save-btn" onclick="saveCfSettings()">💾 Save</button>
+          <button class="test-btn" onclick="testCfToken()">🧪 Test</button>
+        </div>
+        <div class="settings-msg" id="cf-settings-msg"></div>
+        <div class="auth-hint" style="margin-top:8px;font-size:11px;color:var(--sub);line-height:1.6;">
+          สร้าง token ได้ที่ <a href="https://dash.cloudflare.com/profile/api-tokens" target="_blank" style="color:var(--accent2);">dash.cloudflare.com/profile/api-tokens</a><br>
+          Permission ที่ต้องการ: <strong style="color:var(--text);">Zone → Analytics → Read</strong>
+        </div>
+      </div>
+      <div class="settings-card">
         <div class="settings-title">🔔 Discord Webhook</div>
-        <div class="alert-banner alert-info"><span>ℹ️</span> แจ้งเมื่อ: Login, New deploy, Page visit</div>
         <div class="settings-field"><label>Discord Webhook URL</label><input type="text" id="webhook-url" placeholder="https://discord.com/api/webhooks/..."></div>
         <div style="display:flex;gap:8px;">
           <button class="save-btn" onclick="saveWebhookToSupabase()">Save to Supabase</button>
           <button class="test-btn" onclick="testWebhook()">🧪 Test</button>
         </div>
         <div class="settings-msg" id="webhook-msg"></div>
-      </div>
-      <div class="settings-card">
-        <div class="settings-title">🔑 Vercel API Token</div>
-        <div class="settings-field"><label>Replace Token</label>
-          <div class="settings-row"><div class="settings-field"><input type="password" id="new-token" placeholder="Enter new Vercel token..."></div><button class="save-btn" onclick="changeToken()">Update</button></div>
-        </div>
-        <div class="settings-msg" id="token-change-msg"></div>
       </div>
       <div class="settings-card">
         <div class="settings-title">🎮 MC Bridge Settings</div>
@@ -700,20 +734,19 @@ canvas{width:100%;height:100%;display:block;}
         </div>
       </div>
     </div>
+
   </div>
 </div>
 
 <script>
 const SB_URL='https://qzjlbyjlkeqnknkeqdom.supabase.co';
 const SB_KEY='sb_publishable_wLXHjAzQjH5h-yK0gpzmyA_0GC5Sdwi';
-const VERCEL_API='https://api.vercel.com';
-const LS_TOKEN='vd_token';
 const HIST_KEY='bio_status_v2';
 const GOOD_MS=500,SLOW_MS=1500,SEGS=24;
 
-/* ── Supabase ── */
-async function sbGet(t,q=''){const r=await fetch(`${SB_URL}/rest/v1/${t}${q}`,{headers:{apikey:SB_KEY,Authorization:`Bearer ${SB_KEY}`}});return r.ok?r.json():null;}
-async function sbPatch(t,q,d){const r=await fetch(`${SB_URL}/rest/v1/${t}${q}`,{method:'PATCH',headers:{apikey:SB_KEY,Authorization:`Bearer ${SB_KEY}`,'Content-Type':'application/json'},body:JSON.stringify(d)});return r.ok;}
+/* ── Cloudflare state ── */
+let cfToken='',cfZoneId='',cfAccountId='';
+let cfAnalyticsRange=1440; // minutes
 
 /* ── MC Bridge State ── */
 let mcBridgeUrl='',mcBridgeToken='',mcWsUrl='';
@@ -721,30 +754,31 @@ let mcWs=null,mcWsConnected=false,mcServerStatus='unknown';
 let mcConsoleHistory=[],mcHistIdx=-1,mcAutoScroll=true;
 let mcCurrentAction=null,modalPlayerName='';
 
-/* ── Vercel State ── */
-let vcToken='',vercelWebhook='';
-let cachedData={deployments:[],projects:[],account:null};
+/* ── Other State ── */
+let vercelWebhook='';
 let statusHistory=[],statusFetching=false;
 
 /* ── Helpers ── */
-function timeAgo(ts){if(!ts)return'—';const s=Math.floor((Date.now()-new Date(ts))/1000);if(s<60)return`${s}s ago`;if(s<3600)return`${Math.floor(s/60)}m ago`;if(s<86400)return`${Math.floor(s/3600)}h ago`;return`${Math.floor(s/86400)}d ago`;}
-function deployStatePill(state){const m={READY:['pill pill-green','Ready'],ERROR:['pill pill-red','Error'],BUILDING:['pill pill-yellow','Building'],QUEUED:['pill pill-grey','Queued'],CANCELED:['pill pill-grey','Canceled'],INITIALIZING:['pill pill-blue','Init']};return m[state]||['pill pill-grey',state||'—'];}
+function fmtNum(n){if(!n&&n!==0)return'—';if(n>=1e9)return(n/1e9).toFixed(1)+'B';if(n>=1e6)return(n/1e6).toFixed(1)+'M';if(n>=1e3)return(n/1e3).toFixed(1)+'K';return n.toString();}
+function fmtBytes(b){if(!b&&b!==0)return'—';if(b>=1e12)return(b/1e12).toFixed(1)+' TB';if(b>=1e9)return(b/1e9).toFixed(1)+' GB';if(b>=1e6)return(b/1e6).toFixed(1)+' MB';if(b>=1e3)return(b/1e3).toFixed(1)+' KB';return b+' B';}
 function fmtUptime(s){if(!s&&s!==0)return'—';const h=Math.floor(s/3600),m=Math.floor((s%3600)/60),sec=Math.floor(s%60);return h>0?`${h}h ${m}m`:m>0?`${m}m ${sec}s`:`${sec}s`;}
 function setMsg(id,text,color){const el=document.getElementById(id);if(el){el.textContent=text;el.style.color=color||'var(--sub)';}}
 
-/* ── IP / Discord ── */
+/* ── Supabase ── */
+async function sbGet(t,q=''){const r=await fetch(`${SB_URL}/rest/v1/${t}${q}`,{headers:{apikey:SB_KEY,Authorization:`Bearer ${SB_KEY}`}});return r.ok?r.json():null;}
+async function sbPatch(t,q,d){const r=await fetch(`${SB_URL}/rest/v1/${t}${q}`,{method:'PATCH',headers:{apikey:SB_KEY,Authorization:`Bearer ${SB_KEY}`,'Content-Type':'application/json'},body:JSON.stringify(d)});return r.ok;}
+
+/* ── Discord ── */
 async function getIP(){try{return(await(await fetch('https://api.ipify.org?format=json')).json()).ip||'unknown';}catch{return'unknown';}}
-async function sendAlert(title,desc,color=0x5c6bc0,extra=[]){
+async function sendAlert(title,desc,color=0xf6821f,extra=[]){
   const wh=vercelWebhook||localStorage.getItem('vd_webhook')||'';if(!wh)return;
   const ip=await getIP();
-  try{await fetch(wh,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:'🛡️ Vercel Guard',embeds:[{title,description:desc,color,fields:[{name:'🌐 IP',value:`\`${ip}\``,inline:true},{name:'📅 Time',value:`\`${new Date().toLocaleString('th-TH')}\``,inline:true},{name:'📄 Page',value:'`Vercel Dashboard`',inline:true},...extra],footer:{text:'Vercel Dashboard Guard'},timestamp:new Date().toISOString()}]})});}catch{}
+  try{await fetch(wh,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:'☁️ Dashboard Guard',embeds:[{title,description:desc,color,fields:[{name:'🌐 IP',value:`\`${ip}\``,inline:true},{name:'📅 Time',value:`\`${new Date().toLocaleString('th-TH')}\``,inline:true},...extra],footer:{text:'Cloudflare Dashboard'},timestamp:new Date().toISOString()}]})});}catch{}
 }
 
 /* ── Auth ── */
 document.getElementById('pw-input').addEventListener('keydown',e=>{if(e.key==='Enter')doPasswordLogin();});
-document.getElementById('token-input').addEventListener('keydown',e=>{if(e.key==='Enter')doTokenLogin();});
 document.getElementById('pw-btn').addEventListener('click',doPasswordLogin);
-document.getElementById('token-btn').addEventListener('click',doTokenLogin);
 
 async function doPasswordLogin(){
   const pw=document.getElementById('pw-input').value.trim(),btn=document.getElementById('pw-btn'),err=document.getElementById('pw-err');
@@ -754,34 +788,30 @@ async function doPasswordLogin(){
     const data=await sbGet('bio_config','?id=eq.main&select=admin_password,vercel_webhook&limit=1');
     if(!data||!data[0])throw new Error('Cannot connect to Supabase');
     const cfg=data[0];vercelWebhook=cfg.vercel_webhook||'';
-    localStorage.setItem('vd_webhook',vercelWebhook);document.getElementById('webhook-url').value=vercelWebhook;
+    localStorage.setItem('vd_webhook',vercelWebhook);
+    const el=document.getElementById('webhook-url');if(el)el.value=vercelWebhook;
     if(pw!==cfg.admin_password){err.textContent='รหัสผ่านไม่ถูกต้อง';sendAlert('🚨 Failed Login','มีการพยายาม login ที่ล้มเหลว',0xf87171);btn.disabled=false;btn.textContent='Continue →';return;}
     sessionStorage.setItem('vd_auth','1');
-    sendAlert('🔐 Admin Login','เข้าสู่ระบบ Vercel Dashboard สำเร็จ',0x22d3a0);
-    const tok=localStorage.getItem(LS_TOKEN);btn.disabled=false;btn.textContent='Continue →';
+    sendAlert('🔐 Admin Login','เข้าสู่ระบบ Dashboard สำเร็จ',0x22d3a0);
+    btn.disabled=false;btn.textContent='Continue →';
     document.getElementById('screen-password').classList.add('hidden');
-    if(tok){vcToken=tok;showApp();}else{document.getElementById('screen-token').classList.remove('hidden');}
+    showApp();
   }catch(e){err.textContent='ไม่สามารถเชื่อมต่อ Supabase: '+e.message;btn.disabled=false;btn.textContent='Continue →';}
 }
-async function doTokenLogin(){
-  const tok=document.getElementById('token-input').value.trim(),btn=document.getElementById('token-btn'),err=document.getElementById('token-err');
-  err.textContent='';if(!tok){err.textContent='กรุณากรอก token';return;}
-  btn.disabled=true;btn.textContent='Verifying...';
-  try{
-    const r=await fetch(`${VERCEL_API}/v2/user`,{headers:{Authorization:`Bearer ${tok}`}});
-    if(!r.ok)throw new Error('invalid');
-    localStorage.setItem(LS_TOKEN,tok);vcToken=tok;btn.disabled=false;btn.textContent='Connect & Load Data →';
-    document.getElementById('screen-token').classList.add('hidden');showApp();
-  }catch{err.textContent='Token ไม่ถูกต้อง';btn.disabled=false;btn.textContent='Connect & Load Data →';}
-}
-function doLogout(){sessionStorage.removeItem('vd_auth');mcWsDisconnect();document.getElementById('app').style.display='none';document.getElementById('screen-password').classList.remove('hidden');document.getElementById('screen-token').classList.add('hidden');document.getElementById('pw-input').value='';}
-function clearAll(){if(!confirm('ลบข้อมูลทั้งหมดใน localStorage?'))return;['vd_token','vd_webhook','bio_status_v2','mc_bridge_url','mc_bridge_token','mc_ws_url'].forEach(k=>localStorage.removeItem(k));doLogout();}
+function doLogout(){sessionStorage.removeItem('vd_auth');mcWsDisconnect();document.getElementById('app').style.display='none';document.getElementById('screen-password').classList.remove('hidden');document.getElementById('pw-input').value='';}
+function clearAll(){if(!confirm('ลบข้อมูลทั้งหมดใน localStorage?'))return;['vd_webhook','bio_status_v2','mc_bridge_url','mc_bridge_token','mc_ws_url','cf_token','cf_zone_id','cf_account_id'].forEach(k=>localStorage.removeItem(k));doLogout();}
 
 /* ── App Init ── */
 async function showApp(){
   document.getElementById('app').style.display='block';
-  sendAlert('👁️ Vercel Dashboard Opened','มีการเปิดหน้า Vercel Dashboard',0x38bdf8);
-  await loadAllData();loadStatusHistory();fetchStatus();
+  sendAlert('👁️ Dashboard Opened','มีการเปิดหน้า Dashboard',0x38bdf8);
+  loadStatusHistory();fetchStatus();fetchCfStatus();
+  cfToken=localStorage.getItem('cf_token')||'';
+  cfZoneId=localStorage.getItem('cf_zone_id')||'';
+  cfAccountId=localStorage.getItem('cf_account_id')||'';
+  const tEl=document.getElementById('cf-api-token');if(tEl)tEl.value=cfToken;
+  const zEl=document.getElementById('cf-zone-id');if(zEl)zEl.value=cfZoneId;
+  const aEl=document.getElementById('cf-account-id');if(aEl)aEl.value=cfAccountId;
   mcBridgeUrl=localStorage.getItem('mc_bridge_url')||'';
   mcBridgeToken=localStorage.getItem('mc_bridge_token')||'';
   mcWsUrl=localStorage.getItem('mc_ws_url')||'';
@@ -789,70 +819,193 @@ async function showApp(){
   ['mc-bridge-token','settings-mc-token'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=mcBridgeToken;});
   ['mc-ws-url','settings-mc-ws'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=mcWsUrl;});
   if(mcBridgeUrl&&mcBridgeToken){showMcConnected();mcFetchStatus();mcWsConnect();}else{showMcSetup();}
+  if(cfToken&&cfZoneId)loadCfAnalytics();
+  loadCfOverview();
 }
 
-/* ── Vercel API ── */
-async function vc(path){const r=await fetch(`${VERCEL_API}${path}`,{headers:{Authorization:`Bearer ${vcToken}`}});if(!r.ok)throw new Error(`${r.status}`);return r.json();}
-async function loadAllData(){
-  setRefreshSpin(true);
-  try{
-    const res=await Promise.allSettled([vc('/v2/user'),vc('/v9/projects?limit=100'),vc('/v6/deployments?limit=100')]);
-    if(res[0].status==='fulfilled')cachedData.account=res[0].value.user;
-    if(res[1].status==='fulfilled')cachedData.projects=res[1].value.projects||[];
-    if(res[2].status==='fulfilled')cachedData.deployments=res[2].value.deployments||[];
-    renderAll();
-  }catch(e){console.error(e);}
-  setRefreshSpin(false);
-}
+function refreshAll(){setRefreshSpin(true);fetchStatus();fetchCfStatus();if(cfToken&&cfZoneId)loadCfAnalytics();loadCfOverview();if(mcBridgeUrl&&mcBridgeToken)mcFetchStatus();setTimeout(()=>setRefreshSpin(false),1500);}
 function setRefreshSpin(on){document.getElementById('refresh-btn').classList.toggle('refresh-spin',on);}
-let lastDeployIds=new Set();
-async function refreshAll(){
-  await loadAllData();
-  const cur=new Set(cachedData.deployments.map(d=>d.uid));
-  if(lastDeployIds.size>0){for(const id of cur){if(!lastDeployIds.has(id)){const dep=cachedData.deployments.find(d=>d.uid===id);if(dep)sendAlert('🚀 New Deployment',`**${dep.name||'—'}** · \`${dep.state||'—'}\``,0x5c6bc0);}}}
-  lastDeployIds=cur;
-}
-function renderAll(){renderOverview();renderDeployments();renderProjects();updateBadges();if(cachedData.account)document.getElementById('topbar-account').textContent=cachedData.account.username||cachedData.account.name||'User';}
 
-function renderOverview(){
-  const deps=cachedData.deployments,projs=cachedData.projects;
-  const ok=deps.filter(d=>d.state==='READY').length,err=deps.filter(d=>d.state==='ERROR').length;
-  const build=deps.filter(d=>['BUILDING','INITIALIZING'].includes(d.state)).length;
-  const pct=deps.length?Math.round(ok/deps.length*100):100;
-  document.getElementById('ov-deploys').textContent=deps.length;
-  document.getElementById('ov-deploys-sub').textContent=`${ok} ready · ${err} error`;
-  document.getElementById('ov-projects').textContent=projs.length;
-  document.getElementById('ov-projects-sub').textContent=`${projs.filter(p=>p.latestDeployments?.length).length} active`;
-  document.getElementById('ov-success').textContent=pct+'%';
-  document.getElementById('ov-success').className='stat-value '+(pct===100?'c-green':pct>=80?'c-yellow':'c-red');
-  document.getElementById('ov-success-sub').textContent=`${ok}/${deps.length} successful`;
-  document.getElementById('ov-errors').textContent=err;
-  document.getElementById('ov-errors-sub').textContent=err>0?'needs attention':'all clear';
-  document.getElementById('ov-building').textContent=build;
-  const recent=[...deps].sort((a,b)=>(b.createdAt||0)-(a.createdAt||0)).slice(0,15);
-  const act=document.getElementById('overview-activity');
-  if(!recent.length){act.innerHTML='<div class="empty-state"><div class="empty-icon">🚀</div><div class="empty-text">No deployments found</div></div>';return;}
-  act.innerHTML=recent.map(d=>{const[cls,lbl]=deployStatePill(d.state);return`<div class="list-item"><div class="list-icon" style="font-size:12px;">${d.state==='READY'?'✅':d.state==='ERROR'?'❌':d.state==='BUILDING'?'🔨':'⏸️'}</div><div class="list-main"><div class="list-name">${d.name||'—'}</div><div class="list-desc">${d.url?`https://${d.url}`:'—'} · ${d.meta?.githubCommitMessage?.slice(0,50)||'Manual'}</div></div><div class="list-right"><div class="list-time">${timeAgo(d.createdAt)}</div><span class="${cls}">${lbl}</span></div></div>`;}).join('');
+/* ══════════════════════════════════
+   CLOUDFLARE ANALYTICS
+══════════════════════════════════ */
+function saveCfSettings(){
+  cfToken=document.getElementById('cf-api-token').value.trim();
+  cfZoneId=document.getElementById('cf-zone-id').value.trim();
+  cfAccountId=document.getElementById('cf-account-id').value.trim();
+  localStorage.setItem('cf_token',cfToken);
+  localStorage.setItem('cf_zone_id',cfZoneId);
+  localStorage.setItem('cf_account_id',cfAccountId);
+  setMsg('cf-settings-msg','✅ Saved!','var(--green)');
+  if(cfToken&&cfZoneId){loadCfAnalytics();loadCfOverview();}
+  setTimeout(()=>setMsg('cf-settings-msg','',''),3000);
 }
-function renderDeployments(filter=''){
-  let deps=[...cachedData.deployments].sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
-  if(filter)deps=deps.filter(d=>d.state===filter);
-  document.getElementById('deploys-count').textContent=deps.length+' deployments';
-  const el=document.getElementById('deployments-list');
-  if(!deps.length){el.innerHTML='<div class="empty-state"><div class="empty-icon">🚀</div><div class="empty-text">No deployments</div></div>';return;}
-  el.innerHTML=deps.map(d=>{const[cls,lbl]=deployStatePill(d.state);const branch=d.meta?.githubCommitRef||'main';const sha=(d.meta?.githubCommitSha||'').slice(0,7);const commit=d.meta?.githubCommitMessage||'';return`<div class="list-item"><div class="list-icon" style="font-size:12px;">${d.state==='READY'?'✅':d.state==='ERROR'?'❌':d.state==='BUILDING'?'🔨':'⏸️'}</div><div class="list-main"><div class="list-name">${d.name||'—'} ${sha?`<span style="font-size:10px;color:var(--sub);font-family:'JetBrains Mono',monospace;">#${sha}</span>`:''}</div><div class="list-desc">${d.url?`https://${d.url}`:'—'}${branch?` · ${branch}`:''}</div>${commit?`<div class="list-desc" style="opacity:.55;">${commit.slice(0,60)}</div>`:''}</div><div class="list-right"><div class="list-time">${timeAgo(d.createdAt)}</div><span class="${cls}">${lbl}</span></div></div>`;}).join('');
+async function testCfToken(){
+  const tok=document.getElementById('cf-api-token').value.trim();
+  const zid=document.getElementById('cf-zone-id').value.trim();
+  if(!tok||!zid){setMsg('cf-settings-msg','⚠️ กรอก Token และ Zone ID','var(--red)');return;}
+  setMsg('cf-settings-msg','Testing...','var(--sub)');
+  try{
+    const r=await fetch(`https://api.cloudflare.com/client/v4/zones/${zid}`,{headers:{Authorization:`Bearer ${tok}`}});
+    const d=await r.json();
+    if(d.success)setMsg('cf-settings-msg','✅ Zone: '+d.result.name,'var(--green)');
+    else setMsg('cf-settings-msg','❌ '+(d.errors?.[0]?.message||'Invalid'),'var(--red)');
+  }catch(e){setMsg('cf-settings-msg','❌ '+e.message,'var(--red)');}
 }
-function filterDeploys(state){document.querySelectorAll('#deploy-filter button').forEach(b=>{b.style.background='';b.style.color='';});const a=document.getElementById(`df-${state||'all'}`);if(a){a.style.background='rgba(92,107,192,.15)';a.style.color='var(--accent2)';}renderDeployments(state);}
-function renderProjects(){
-  const projs=[...cachedData.projects].sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0));
-  document.getElementById('projects-count').textContent=projs.length+' projects';
-  const el=document.getElementById('projects-list');
-  if(!projs.length){el.innerHTML='<div class="list-card"><div class="empty-state"><div class="empty-icon">📁</div><div class="empty-text">No projects</div></div></div>';return;}
-  el.innerHTML=projs.map(p=>{const latest=p.latestDeployments?.[0];const[cls,lbl]=latest?deployStatePill(latest.state):['pill pill-grey','No deploy'];const url=latest?.url||p.alias?.[0]||'—';return`<div class="list-card" style="margin-bottom:10px;"><div class="list-item"><div class="list-icon">📁</div><div class="list-main"><div class="list-name">${p.name||'—'}</div><div class="list-desc">${url!=='—'?`https://${url}`:'—'} · ${p.framework||'—'}</div></div><div class="list-right"><div class="list-time">${timeAgo(p.updatedAt)}</div><span class="${cls}">${lbl}</span></div></div><div style="padding:0 16px 12px;display:flex;gap:6px;flex-wrap:wrap;">${p.framework?`<span class="pill pill-blue">${p.framework}</span>`:''}${p.gitRepository?.repo?`<span class="pill pill-grey">🐙 ${p.gitRepository.repo}</span>`:''}${p.nodeVersion?`<span class="pill pill-grey">Node ${p.nodeVersion}</span>`:''}<span class="pill pill-grey">🆔 ${(p.id||'').slice(0,8)||'—'}</span></div></div>`;}).join('');
-}
-function updateBadges(){document.getElementById('badge-deploys').textContent=cachedData.deployments.length;document.getElementById('badge-projects').textContent=cachedData.projects.length;}
 
-/* ── Status Page ── */
+async function cfGraphQL(query,variables={}){
+  if(!cfToken)throw new Error('No token');
+  const r=await fetch('https://api.cloudflare.com/client/v4/graphql',{method:'POST',headers:{Authorization:`Bearer ${cfToken}`,'Content-Type':'application/json'},body:JSON.stringify({query,variables})});
+  const d=await r.json();
+  if(d.errors)throw new Error(d.errors[0].message);
+  return d.data;
+}
+
+function setAnalyticsRange(el,minutes){
+  document.querySelectorAll('.range-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  cfAnalyticsRange=parseInt(minutes);
+  if(cfToken&&cfZoneId)loadCfAnalytics();
+}
+
+async function loadCfAnalytics(){
+  if(!cfToken||!cfZoneId){
+    document.getElementById('an-no-token').style.display='block';
+    document.getElementById('an-content').style.display='none';
+    return;
+  }
+  document.getElementById('an-no-token').style.display='none';
+  document.getElementById('an-loading').style.display='block';
+  document.getElementById('an-content').style.display='none';
+  const now=new Date();
+  const since=new Date(now-cfAnalyticsRange*60000).toISOString();
+  const until=now.toISOString();
+  try{
+    const data=await cfGraphQL(`
+      query($zoneTag:String!,$since:String!,$until:String!){
+        viewer{
+          zones(filter:{zoneTag:$zoneTag}){
+            httpRequests1hGroups(limit:168,filter:{datetime_geq:$since,datetime_leq:$until},orderBy:[datetime_ASC]){
+              dimensions{datetime}
+              sum{requests cachedRequests bytes cachedBytes threats pageViews}
+              uniq{uniques}
+            }
+            httpRequests1dGroups(limit:30,filter:{date_geq:${JSON.stringify(since.slice(0,10))},date_leq:${JSON.stringify(until.slice(0,10))}}){
+              dimensions{date}
+              sum{requests bytes threats pageViews}
+              uniq{uniques}
+            }
+            topCountries:httpRequests1hGroups(limit:1,filter:{datetime_geq:$since,datetime_leq:$until}){
+              sum{countryMap{clientCountryName requests}}
+            }
+          }
+        }
+      }
+    `,{zoneTag:cfZoneId,since,until});
+    const zones=data?.viewer?.zones?.[0];
+    const hourly=zones?.httpRequests1hGroups||[];
+    const totReq=hourly.reduce((a,h)=>a+(h.sum?.requests||0),0);
+    const totBytes=hourly.reduce((a,h)=>a+(h.sum?.bytes||0),0);
+    const totCached=hourly.reduce((a,h)=>a+(h.sum?.cachedRequests||0),0);
+    const totThreats=hourly.reduce((a,h)=>a+(h.sum?.threats||0),0);
+    const totVisitors=hourly.reduce((a,h)=>a+(h.uniq?.uniques||0),0);
+    const totPageviews=hourly.reduce((a,h)=>a+(h.sum?.pageViews||0),0);
+    const cacheRate=totReq>0?Math.round(totCached/totReq*100):0;
+    // update overview stats too
+    ['ov-requests'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=fmtNum(totReq);});
+    ['ov-visitors'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=fmtNum(totVisitors);});
+    ['ov-bandwidth'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=fmtBytes(totBytes);});
+    ['ov-threats'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=fmtNum(totThreats);});
+    ['ov-cache'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=cacheRate+'%';});
+    // analytics grid
+    document.getElementById('an-stats-grid').innerHTML=[
+      {icon:'🌐',label:'Total Requests',value:fmtNum(totReq),sub:'All HTTP requests',cls:'c-cf'},
+      {icon:'👁️',label:'Unique Visitors',value:fmtNum(totVisitors),sub:'Unique IPs',cls:'c-blue'},
+      {icon:'📄',label:'Page Views',value:fmtNum(totPageviews),sub:'Page loads',cls:'c-purple'},
+      {icon:'📦',label:'Bandwidth',value:fmtBytes(totBytes),sub:'Total transferred',cls:'c-green'},
+      {icon:'⚡',label:'Cache Rate',value:cacheRate+'%',sub:`${fmtNum(totCached)} cached`,cls:cacheRate>80?'c-green':cacheRate>50?'c-yellow':'c-red'},
+      {icon:'🛡️',label:'Threats',value:fmtNum(totThreats),sub:'Blocked by CF',cls:totThreats>0?'c-red':'c-green'},
+    ].map(c=>`<div class="an-card"><div class="an-icon">${c.icon}</div><div class="an-label">${c.label}</div><div class="an-value ${c.cls}">${c.value}</div><div class="an-sub">${c.sub}</div></div>`).join('');
+    // countries
+    const countries=zones?.topCountries?.[0]?.sum?.countryMap||[];
+    const sortedC=[...countries].sort((a,b)=>b.requests-a.requests).slice(0,8);
+    const maxC=sortedC[0]?.requests||1;
+    document.getElementById('an-countries').innerHTML=sortedC.length?sortedC.map(c=>`<div class="cf-bar-row"><div class="cf-bar-name">${c.clientCountryName||'Unknown'}</div><div class="cf-bar-track"><div class="cf-bar-fill" style="width:${Math.round(c.requests/maxC*100)}%;background:var(--cf);"></div></div><div class="cf-bar-val">${fmtNum(c.requests)}</div></div>`).join(''):'<div style="font-size:11px;color:var(--sub);padding:8px 0;">No data available</div>';
+    // request time chart
+    renderCfReqChart(hourly);
+    document.getElementById('an-loading').style.display='none';
+    document.getElementById('an-content').style.display='block';
+    const pill=document.getElementById('an-req-pill');if(pill){pill.textContent=fmtNum(totReq)+' total';pill.className='pill pill-cf';}
+  }catch(e){
+    document.getElementById('an-loading').style.display='none';
+    document.getElementById('an-no-token').style.display='block';
+    document.getElementById('an-no-token').innerHTML=`<div class="alert-banner alert-error"><span>❌</span> Error: ${e.message}</div>`;
+  }
+}
+
+function renderCfReqChart(hourly){
+  const cv=document.getElementById('an-req-chart');if(!cv)return;
+  const ctx=cv.getContext('2d');const dpr=window.devicePixelRatio||1;
+  const W=cv.offsetWidth||300,H=cv.offsetHeight||72;
+  cv.width=W*dpr;cv.height=H*dpr;ctx.scale(dpr,dpr);
+  const data=hourly.map(h=>h.sum?.requests||0);
+  if(!data.length){ctx.fillStyle='rgba(255,255,255,.2)';ctx.font='11px Inter,sans-serif';ctx.textAlign='center';ctx.fillText('No data',W/2,H/2);return;}
+  const maxV=Math.max(...data,1);const pad={t:6,b:6,l:6,r:6};const cW=W-pad.l-pad.r,cH=H-pad.t-pad.b;
+  const grad=ctx.createLinearGradient(0,pad.t,0,H-pad.b);grad.addColorStop(0,'rgba(246,130,31,.25)');grad.addColorStop(1,'rgba(246,130,31,.01)');
+  const xStep=cW/Math.max(data.length-1,1);
+  const pts=data.map((v,i)=>({x:pad.l+i*xStep,y:pad.t+cH-(v/maxV)*cH}));
+  ctx.beginPath();ctx.moveTo(pts[0].x,H-pad.b);pts.forEach(p=>ctx.lineTo(p.x,p.y));ctx.lineTo(pts[pts.length-1].x,H-pad.b);ctx.closePath();ctx.fillStyle=grad;ctx.fill();
+  ctx.beginPath();pts.forEach((p,i)=>i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y));ctx.strokeStyle='var(--cf)';ctx.lineWidth=1.5;ctx.lineJoin='round';ctx.stroke();
+}
+
+async function loadCfOverview(){
+  // Always fetch CF status regardless of token
+  fetchCfStatus();
+  if(cfToken&&cfZoneId){
+    // update overview stats
+    loadCfAnalytics();
+  }
+}
+
+/* ── Cloudflare Status API ── */
+async function fetchCfStatus(){
+  const el=document.getElementById('overview-cf-status');
+  const incEl=document.getElementById('cf-inc-list');
+  const pill=document.getElementById('cf-inc-pill');
+  try{
+    const d=await(await fetch('https://www.cloudflarestatus.com/api/v2/summary.json')).json();
+    const status=d.status?.indicator||'none';
+    const ok=status==='none';
+    const statusText=ok?'All Systems Operational':d.status?.description||'Incident';
+    // overview card
+    if(el){
+      const comps=(d.components||[]).filter(c=>!c.group&&c.status);
+      el.innerHTML=comps.slice(0,6).map(c=>{
+        const s=c.status;
+        const cls=s==='operational'?'pill-green':s==='degraded_performance'||s==='partial_outage'?'pill-yellow':'pill-red';
+        const lbl=s==='operational'?'Operational':s==='degraded_performance'?'Degraded':s==='partial_outage'?'Partial Outage':'Outage';
+        return`<div class="list-item"><div class="list-icon">☁️</div><div class="list-main"><div class="list-name">${c.name}</div><div class="list-desc">Cloudflare Component</div></div><div class="list-right"><span class="pill ${cls}">${lbl}</span></div></div>`;
+      }).join('')||'<div class="empty-state"><div class="empty-text">No component data</div></div>';
+    }
+    // incidents
+    const incidents=d.incidents||[];
+    if(incEl){
+      if(!incidents.length){incEl.innerHTML='<div class="no-incidents">✓ ไม่มี incident ที่ active</div>';}
+      else{incEl.innerHTML=incidents.map(i=>`<div class="inc-item"><div style="margin-top:3px;flex-shrink:0;"><div style="width:7px;height:7px;border-radius:50%;background:var(--red);"></div></div><div class="inc-content"><div class="inc-title">${i.name}</div><div class="inc-time">${i.status} · ${new Date(i.updated_at).toLocaleString('th-TH')}</div></div></div>`).join('');}
+    }
+    if(pill){pill.textContent=incidents.length?incidents.length+' active':'Clear';pill.className='pill '+(incidents.length?'pill-red':'pill-green');}
+    // sys status
+    const edgeEl=document.getElementById('st-sys-edge');if(edgeEl){edgeEl.textContent=ok?'Operational':'Incident';edgeEl.className='pill '+(ok?'pill-green':'pill-red');}
+    const vcEl=document.getElementById('st-sys-vc');if(vcEl){vcEl.textContent=ok?'Operational':'Incident';vcEl.className='pill '+(ok?'pill-green':'pill-red');}
+    const dnsComp=comps?.find?.(c=>c.name?.toLowerCase().includes('dns'));
+    const dnsEl=document.getElementById('st-sys-dns');if(dnsEl){dnsEl.textContent=dnsComp?.status==='operational'?'Operational':'Checking';dnsEl.className='pill '+(dnsComp?.status==='operational'?'pill-green':'pill-grey');}
+  }catch{
+    if(el)el.innerHTML='<div class="empty-state"><div class="empty-icon">⚠️</div><div class="empty-text">Cannot fetch Cloudflare status</div></div>';
+    if(incEl)incEl.innerHTML='<div class="no-incidents">ไม่สามารถดึงข้อมูลได้</div>';
+  }
+}
+
+/* ── Status Page (self-ping) ── */
 function loadStatusHistory(){try{statusHistory=JSON.parse(localStorage.getItem(HIST_KEY)||'[]');}catch{statusHistory=[];}if(!Array.isArray(statusHistory))statusHistory=[];}
 function saveStatusHistory(){statusHistory=statusHistory.slice(-SEGS*4);localStorage.setItem(HIST_KEY,JSON.stringify(statusHistory));}
 function pushStatusHist(up,ms){statusHistory.push({t:Date.now(),up,ms});saveStatusHistory();}
@@ -862,6 +1015,7 @@ async function fetchStatus(){
   const btn=document.getElementById('st-refresh-btn');if(btn){btn.disabled=true;btn.textContent='↻ Checking...';}
   const result=await pingSite();pushStatusHist(result.up,result.ms);
   renderStatusSegs();renderStatusChart();updateSystemStatus(result);renderStatusIncidents();updateStatusHero();
+  fetchCfStatus();
   if(btn){btn.disabled=false;btn.textContent='↻ Refresh Status';}
   statusFetching=false;
 }
@@ -901,7 +1055,7 @@ function renderStatusChart(){
 function updateSystemStatus(sr){
   const se=document.getElementById('st-sys-site');
   if(!sr.up){se.textContent='Outage';se.className='pill pill-red';}else if(sr.ms>SLOW_MS){se.textContent='Degraded';se.className='pill pill-yellow';}else{se.textContent='Operational';se.className='pill pill-green';}
-  fetch('https://www.vercel-status.com/api/v2/status.json').then(r=>r.json()).then(j=>{const ok=(j.status?.indicator||'none')==='none';['edge','vc'].forEach(id=>{document.getElementById(`st-sys-${id}`).textContent=ok?'Operational':'Incident';document.getElementById(`st-sys-${id}`).className=ok?'pill pill-green':'pill pill-red';});document.getElementById('st-sys-pill').textContent=ok&&sr.up?'All Operational':'Issue Detected';document.getElementById('st-sys-pill').className=ok&&sr.up?'pill pill-green':'pill pill-red';}).catch(()=>{['edge','vc'].forEach(id=>{document.getElementById(`st-sys-${id}`).textContent='Unknown';document.getElementById(`st-sys-${id}`).className='pill pill-grey';});});
+  const pill=document.getElementById('st-sys-pill');if(pill){pill.textContent=sr.up?'Operational':'Outage';pill.className='pill '+(sr.up?'pill-green':'pill-red');}
 }
 function renderStatusIncidents(){
   const el=document.getElementById('st-inc-list'),pill=document.getElementById('st-inc-pill');
@@ -919,7 +1073,9 @@ function updateStatusHero(){
   time.textContent=`อัปเดต: ${new Date().toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit',second:'2-digit'})}`;
 }
 
-/* ═══ MC BRIDGE FUNCTIONS ═══ */
+/* ══════════════════════════════════
+   MC BRIDGE
+══════════════════════════════════ */
 async function mcApi(path,method='GET',body=null){
   if(!mcBridgeUrl||!mcBridgeToken)throw new Error('Not configured');
   const opts={method,headers:{Authorization:`Bearer ${mcBridgeToken}`,'Content-Type':'application/json'}};
@@ -932,7 +1088,6 @@ async function mcConnect(){
   const token=document.getElementById('mc-bridge-token').value.trim();
   const wsInput=document.getElementById('mc-ws-url').value.trim();
   const wsUrl=wsInput||(url.replace(/^http/,'ws')+'/ws');
-  const msg=document.getElementById('mc-connect-msg');
   if(!url||!token){setMsg('mc-connect-msg','⚠️ กรอก URL และ Token','var(--red)');return;}
   setMsg('mc-connect-msg','Connecting...','var(--sub)');
   mcBridgeUrl=url;mcBridgeToken=token;mcWsUrl=wsUrl;
@@ -959,7 +1114,7 @@ async function saveMcSettings(){
   const ws=document.getElementById('settings-mc-ws').value.trim()||(url.replace(/^http/,'ws')+'/ws');
   mcBridgeUrl=url;mcBridgeToken=token;mcWsUrl=ws;
   localStorage.setItem('mc_bridge_url',url);localStorage.setItem('mc_bridge_token',token);localStorage.setItem('mc_ws_url',ws);
-  setMsg('mc-settings-msg','💾 Saving...','var(--sub)');
+  setMsg('mc-settings-msg','Reconnecting...','var(--sub)');
   mcWsDisconnect();
   try{await mcApi('/api/ping');showMcConnected();mcFetchStatus();mcWsConnect();setMsg('mc-settings-msg','✅ Reconnected!','var(--mc)');}
   catch(e){setMsg('mc-settings-msg','❌ '+e.message,'var(--red)');}
@@ -1018,7 +1173,7 @@ async function mcQuickCmd(cmd){
   setTimeout(()=>setMsg('mc-quick-msg','',''),5000);
 }
 async function mcRconQuick(cmd){try{await mcApi('/api/rcon','POST',{cmd});}catch{}}
-async function mcBroadcast(){const msg=document.getElementById('broadcast-msg');const txt=msg?.value?.trim()||'Hello from Dashboard!';await mcQuickCmd(`say ${txt}`);if(msg)msg.value='';}
+async function mcBroadcast(){const msg=document.getElementById('broadcast-msg');const txt=msg?.value?.trim()||'Hello!';await mcQuickCmd(`say ${txt}`);if(msg)msg.value='';}
 
 /* ── WebSocket Console ── */
 function mcWsConnect(){
@@ -1068,7 +1223,7 @@ async function mcRefreshPlayers(){
     const d=await mcApi('/api/rcon','POST',{cmd:'list'});updateMcPlayerCount(d.output);
     const m=(d.output||'').match(/There are \d+.*?: (.+)/i);const names=m?m[1].split(',').map(n=>n.trim()).filter(Boolean):[];
     if(!names.length){el.innerHTML='<div class="empty-state"><div class="empty-icon">👥</div><div class="empty-text">No players online</div></div>';return;}
-    el.innerHTML=names.map(name=>`<div class="player-item"><div class="player-avatar">👤</div><div class="player-info"><div class="player-name">${name}</div><div class="player-meta">Online · Java/Bedrock</div></div><div class="player-actions"><button class="pa-btn pa-kick" onclick="quickKick('${name}')">Kick</button><button class="pa-btn pa-ban" onclick="quickBan('${name}')">Ban</button><button class="pa-btn pa-op" onclick="quickOp('${name}')">OP</button><button class="pa-btn pa-more" onclick="openPlayerModal('${name}')">⋯</button></div></div>`).join('');
+    el.innerHTML=names.map(name=>`<div class="player-item"><div class="player-avatar">👤</div><div class="player-info"><div class="player-name">${name}</div><div class="player-meta">Online</div></div><div class="player-actions"><button class="pa-btn pa-kick" onclick="quickKick('${name}')">Kick</button><button class="pa-btn pa-ban" onclick="quickBan('${name}')">Ban</button><button class="pa-btn pa-op" onclick="quickOp('${name}')">OP</button><button class="pa-btn pa-more" onclick="openPlayerModal('${name}')">⋯</button></div></div>`).join('');
   }catch(e){el.innerHTML=`<div class="empty-state"><div class="empty-icon">❌</div><div class="empty-text">RCON Error: ${e.message}</div></div>`;}
 }
 async function mcRefreshOps(){
@@ -1093,7 +1248,6 @@ async function doPlayerAction(){
   catch(e){setMsg('pa-msg','❌ '+e.message,'var(--red)');}
   setTimeout(()=>setMsg('pa-msg','',''),5000);
 }
-/* Modal */
 function openPlayerModal(name){
   modalPlayerName=name;mcCurrentAction=null;
   document.getElementById('modal-player-title').textContent='Player: '+name;
@@ -1106,7 +1260,7 @@ function openPlayerModal(name){
     ['👑 Give OP','op','mc-btn-start'],['❌ Remove OP','deop','mc-btn-stop'],
     ['📋 Whitelist +','wl-add','mc-btn-start'],['🚫 Whitelist −','wl-remove','mc-btn-stop'],
     ['🎮 Gamemode','gamemode','mc-btn-restart'],['🎁 Give Item','give','mc-btn-restart'],
-    ['💊 Heal','heal','mc-btn-start'],['🏠 TP Spawn','spawn','mc-btn-restart'],['🔇 Mute','mute','mc-btn-stop'],
+    ['💊 Heal','heal','mc-btn-start'],['🏠 TP Spawn','spawn','mc-btn-restart'],
   ].map(([lbl,act,cls])=>`<button class="mc-btn ${cls}" style="font-size:11px;padding:8px;" onclick="modalAction('${act}')">${lbl}</button>`).join('');
   document.getElementById('modal-player').classList.remove('hidden');
 }
@@ -1118,7 +1272,7 @@ async function modalAction(action){
   if(['kick','ban'].includes(action)){document.getElementById('modal-reason-wrap').style.display='block';document.getElementById('modal-confirm-btn').style.display='block';return;}
   if(action==='gamemode'){document.getElementById('modal-gamemode-wrap').style.display='block';document.getElementById('modal-confirm-btn').style.display='block';return;}
   if(action==='give'){document.getElementById('modal-item-wrap').style.display='block';document.getElementById('modal-confirm-btn').style.display='block';return;}
-  const directCmds={pardon:`pardon ${modalPlayerName}`,op:`op ${modalPlayerName}`,deop:`deop ${modalPlayerName}`,'wl-add':`whitelist add ${modalPlayerName}`,'wl-remove':`whitelist remove ${modalPlayerName}`,heal:`effect give ${modalPlayerName} minecraft:regeneration 30 10`,spawn:`spawnpoint ${modalPlayerName}`,mute:`mute ${modalPlayerName}`};
+  const directCmds={pardon:`pardon ${modalPlayerName}`,op:`op ${modalPlayerName}`,deop:`deop ${modalPlayerName}`,'wl-add':`whitelist add ${modalPlayerName}`,'wl-remove':`whitelist remove ${modalPlayerName}`,heal:`effect give ${modalPlayerName} minecraft:regeneration 30 10`,spawn:`spawnpoint ${modalPlayerName}`};
   const cmd=directCmds[action];if(!cmd)return;
   try{const d=await mcApi('/api/rcon','POST',{cmd});setMsg('modal-msg','✅ '+(d.output||'Done'),'var(--mc)');}
   catch(e){setMsg('modal-msg','❌ '+e.message,'var(--red)');}
@@ -1132,8 +1286,6 @@ async function confirmPlayerAction(){
   try{const d=await mcApi('/api/rcon','POST',{cmd});setMsg('modal-msg','✅ '+(d.output||'Done'),'var(--mc)');}
   catch(e){setMsg('modal-msg','❌ '+e.message,'var(--red)');}
 }
-
-/* ── Whitelist ── */
 async function mcRefreshWhitelist(){
   const el=document.getElementById('whitelist-list');el.innerHTML='<div class="loading-wrap"><div class="loading-spinner"></div></div>';
   try{const d=await mcApi('/api/whitelist');const list=d.list||[];const pill=document.getElementById('wl-count-pill');if(pill)pill.textContent=list.length+' entries';
@@ -1149,8 +1301,6 @@ async function wlAdd(){
   setTimeout(()=>setMsg('wl-add-msg','',''),3000);
 }
 async function wlRemove(name){if(!confirm(`Remove ${name} from whitelist?`))return;try{await mcApi('/api/rcon','POST',{cmd:`whitelist remove ${name}`});mcRefreshWhitelist();}catch(e){alert('Error: '+e.message);}}
-
-/* ── Bans ── */
 async function mcRefreshBans(){
   const el=document.getElementById('bans-list');el.innerHTML='<div class="loading-wrap"><div class="loading-spinner"></div></div>';
   try{const d=await mcApi('/api/banned-players');const list=d.list||[];
@@ -1171,15 +1321,12 @@ async function doBanPlayer(){
   catch(e){setMsg('ban-msg','❌ '+e.message,'var(--red)');}
   setTimeout(()=>setMsg('ban-msg','',''),3000);
 }
-
-/* ── Properties ── */
 const PROP_MAP={'server-port':'prop-server-port','motd':'prop-motd','max-players':'prop-max-players','online-mode':'prop-online-mode','white-list':'prop-white-list','server-ip':'prop-server-ip','gamemode':'prop-gamemode','difficulty':'prop-difficulty','pvp':'prop-pvp','allow-flight':'prop-allow-flight','view-distance':'prop-view-distance','spawn-protection':'prop-spawn-protection','level-name':'prop-level-name','level-seed':'prop-level-seed','level-type':'prop-level-type','enable-rcon':'prop-enable-rcon','rcon.port':'prop-rcon-port','enable-query':'prop-enable-query','max-tick-time':'prop-max-tick-time'};
 async function loadProperties(){
   setMsg('props-msg','Loading...','var(--sub)');
   try{const d=await mcApi('/api/properties');const props=d.props||{};
   for(const[k,id] of Object.entries(PROP_MAP)){const el=document.getElementById(id);if(!el||props[k]===undefined)continue;el.tagName==='SELECT'?el.value=props[k]:el.value=props[k];}
-  const ver=props['spigot-version']||props['version']||'Spigot';const vel=document.getElementById('mc-stat-ver');if(vel)vel.textContent=ver;
-  setMsg('props-msg','✅ Loaded from server!','var(--mc)');}
+  setMsg('props-msg','✅ Loaded!','var(--mc)');}
   catch(e){setMsg('props-msg','❌ '+e.message,'var(--red)');}
   setTimeout(()=>setMsg('props-msg','',''),3000);
 }
@@ -1187,19 +1334,20 @@ async function saveProperties(){
   const props={};for(const[k,id] of Object.entries(PROP_MAP)){const el=document.getElementById(id);if(el&&el.value!=='')props[k]=el.value;}
   const pw=document.getElementById('prop-rcon-password').value;if(pw)props['rcon.password']=pw;
   setMsg('props-msg','Saving...','var(--sub)');
-  try{await mcApi('/api/properties','POST',{props});setMsg('props-msg','✅ Saved! Restart server to apply','var(--mc)');}
+  try{await mcApi('/api/properties','POST',{props});setMsg('props-msg','✅ Saved! Restart to apply','var(--mc)');}
   catch(e){setMsg('props-msg','❌ '+e.message,'var(--red)');}
   setTimeout(()=>setMsg('props-msg','',''),5000);
 }
 
 /* ── Tabs ── */
-function switchTab(el,isStatus=false,isMc=false){
+function switchTab(el,isStatus=false,isMc=false,isCf=false){
   document.querySelectorAll('.tab').forEach(t=>{t.classList.remove('active');t.classList.remove('active-mc');});
   document.querySelectorAll('.pane').forEach(p=>p.classList.remove('active'));
   el.classList.add(isMc?'active-mc':'active');
   document.getElementById(el.dataset.pane).classList.add('active');
   if(isStatus)setTimeout(()=>renderStatusChart(),50);
   if(isMc){mcFetchStatus();const active=document.querySelector('.mc-subtab.active');if(active){const m=active.getAttribute('onclick').match(/'([^']+)'/);if(m)onMcTabOpen(m[1]);}}
+  if(isCf&&cfToken&&cfZoneId)loadCfAnalytics();
 }
 function switchTabById(id){const t=document.querySelector(`[data-pane="${id}"]`);if(t)t.click();}
 function switchMcTab(el,subId){
@@ -1229,15 +1377,8 @@ async function testWebhook(){
   await sendAlert('🧪 Test Alert','Webhook test — working!',0x22d3a0);
   setMsg('webhook-msg','✅ Check Discord!','var(--green)');setTimeout(()=>setMsg('webhook-msg','',''),4000);
 }
-async function changeToken(){
-  const tok=document.getElementById('new-token').value.trim();if(!tok){setMsg('token-change-msg','⚠️ Enter a token','var(--red)');return;}
-  setMsg('token-change-msg','Verifying...','var(--sub)');
-  try{const r=await fetch(`${VERCEL_API}/v2/user`,{headers:{Authorization:`Bearer ${tok}`}});if(!r.ok)throw new Error();localStorage.setItem(LS_TOKEN,tok);vcToken=tok;setMsg('token-change-msg','✅ Updated!','var(--green)');document.getElementById('new-token').value='';await loadAllData();}
-  catch{setMsg('token-change-msg','❌ Invalid token','var(--red)');}
-  setTimeout(()=>setMsg('token-change-msg','',''),4000);
-}
 
-/* ── Console Input Events ── */
+/* ── Console keyboard ── */
 document.addEventListener('DOMContentLoaded',()=>{
   const inp=document.getElementById('console-input');if(!inp)return;
   inp.addEventListener('keydown',e=>{
@@ -1250,16 +1391,15 @@ document.addEventListener('DOMContentLoaded',()=>{
 });
 
 /* ── Auto-refresh ── */
-setInterval(()=>{if(vcToken)refreshAll();},60000);
-setInterval(()=>{if(vcToken)fetchStatus();},60000);
+setInterval(()=>{fetchStatus();fetchCfStatus();},60000);
+setInterval(()=>{if(cfToken&&cfZoneId)loadCfAnalytics();},300000); // every 5min
 setInterval(()=>{if(mcBridgeUrl&&mcBridgeToken)mcFetchStatus();},30000);
 setInterval(()=>{if(mcBridgeUrl&&mcBridgeToken&&!mcWsConnected)mcWsConnect();},15000);
 
 /* ── Init ── */
 (async()=>{
-  const tok=localStorage.getItem(LS_TOKEN);if(tok)vcToken=tok;
   const wh=localStorage.getItem('vd_webhook');if(wh){vercelWebhook=wh;const el=document.getElementById('webhook-url');if(el)el.value=wh;}
-  if(sessionStorage.getItem('vd_auth')==='1'&&tok){
+  if(sessionStorage.getItem('vd_auth')==='1'){
     try{const cfg=await sbGet('bio_config','?id=eq.main&select=vercel_webhook&limit=1');if(cfg?.[0]?.vercel_webhook){vercelWebhook=cfg[0].vercel_webhook;const el=document.getElementById('webhook-url');if(el)el.value=vercelWebhook;}}catch{}
     document.getElementById('screen-password').classList.add('hidden');showApp();
   }
